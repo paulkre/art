@@ -12,6 +12,10 @@ const routes = [
     component: () => import("./pages/Index.vue"),
   },
   {
+    path: "/archive",
+    component: () => import("./pages/Archive.vue"),
+  },
+  {
     path: "/test",
     component: () => import("./pages/Test.vue"),
   },
