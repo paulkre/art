@@ -21,12 +21,15 @@ const pageStyle = (page) =>
 </script>
 <template>
   <div>
-    <RouterLink
+    <component
+      :is="page.event?.redirect ? 'a' : 'RouterLink'"
       v-for="(page, i) in pagesWithEvents"
       :key="i"
       :to="
         page.event?.eventid ? '/' + page.event?.eventid : '/page/' + page.pageid
       "
+      :href="page.event?.redirect"
+      :target="page.event?.redirect ? '_blank' : ''"
     >
       <Disc
         :key="i"
@@ -46,6 +49,7 @@ const pageStyle = (page) =>
           width: page.radius * 2 + 'px',
           height: page.radius * 2 + 'px',
           padding: '32px',
+          cursor: 'pointer',
         }"
       >
         <h2>{{ page.title }}</h2>
@@ -53,7 +57,7 @@ const pageStyle = (page) =>
           {{ page.about }}
         </p>
       </Disc>
-    </RouterLink>
+    </component>
     <div
       style="
         position: fixed;
