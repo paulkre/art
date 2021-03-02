@@ -75,6 +75,9 @@ const page = computed(() => {
 .wrapper a {
   text-decoration: underline;
 }
+.wrapper hr {
+  display: none;
+}
 .wrapper img {
   width: 100%;
   display: block;
