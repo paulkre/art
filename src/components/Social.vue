@@ -34,8 +34,9 @@ import { theme, config } from "../lib";
   width: 48px;
   height: 48px;
   border-radius: 10000px;
+  margin-right: 4px;
 }
 .Social > a > svg {
-  transform: scale(1.4);
+  transform: scale(1.3);
 }
 </style>
