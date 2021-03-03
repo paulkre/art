@@ -18,12 +18,17 @@ const channel = computed(() => params.value.link);
 </script>
 
 <template>
-  <div class="Event">
-    <div>
-      <video-stream :src="src" />
-      <EventDetails v-if="event" :event="event" />
+  <div>
+    <div class="Event">
+      <div>
+        <video-stream :src="src" />
+        <EventDetails v-if="event" :event="event" />
+      </div>
+      <chat :channel="channel" />
     </div>
-    <chat :channel="channel" />
+    <div style="position: fixed; left: 16px; top: 16px">
+      <RouterLink to="/"><Button>← elektron.art</Button></RouterLink>
+    </div>
   </div>
 </template>
 
