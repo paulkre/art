@@ -30,13 +30,7 @@ const muted = ref(true);
       </slot>
       <transition name="fade">
         <div
-          style="
-            position: absolute;
-            right: 16px;
-            bottom: 16px;
-            color: white;
-            z-index: 1;
-          "
+          style="position: absolute; right: 16px; bottom: 16px; color: white"
         >
           <IconUnmute v-if="muted" @click="muted = !muted" />
           <IconMute v-if="!muted" @click="muted = !muted" />
