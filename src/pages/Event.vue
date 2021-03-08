@@ -17,12 +17,6 @@ const src = computed(() => {
 const channel = computed(() => params.value.link);
 </script>
 
-<!--template>
-  <div>
-    <video-stream :src="src" />
-  </div>
-</template-->
-
 <template>
   <div>
     <div class="Event">
@@ -32,7 +26,7 @@ const channel = computed(() => params.value.link);
       </div>
     </div>
     <Chat class="EventChat" :channel="channel" />
-    <!-- <EventOverlay v-if="event && event.tickets" :event="event" /> -->
+    <EventOverlay v-if="event && event.tickets" :event="event" />
     <ButtonBack />
   </div>
 </template>
