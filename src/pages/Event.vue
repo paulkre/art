@@ -19,6 +19,12 @@ const channel = computed(() => params.value.link);
 
 <template>
   <div>
+    <video-stream :src="src" />
+  </div>
+</template>
+
+<!--template2>
+  <div>
     <div class="Event">
       <div>
         <video-stream :src="src" />
@@ -45,7 +51,7 @@ const channel = computed(() => params.value.link);
       <RouterLink to="/"><Button>← elektron.art</Button></RouterLink>
     </div>
   </div>
-</template>
+</template2-->
 
 <style>
 .Event {
