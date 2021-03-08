@@ -28,7 +28,10 @@ const { userName, onUserNameChange } = useUser();
       </Transition>
     </RouterView>
 
-    <div style="position: fixed; right: 16px; top: 16px; display: flex">
+    <div
+      v-if="config.newFeatures"
+      style="position: fixed; right: 16px; top: 16px; display: flex"
+    >
       <Button @click="toggleTheme">Theme</Button>
     </div>
     <Transition name="fade">
