@@ -44,6 +44,5 @@ const { userName, onUserNameChange } = useUser();
 <style>
 .App {
   min-height: 100vh;
-  transition: background 1s;
 }
 </style>
