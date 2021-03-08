@@ -17,13 +17,13 @@ const src = computed(() => {
 const channel = computed(() => params.value.link);
 </script>
 
-<template>
+<!--template>
   <div>
     <video-stream :src="src" />
   </div>
-</template>
+</template-->
 
-<!--template2>
+<template>
   <div>
     <div class="Event">
       <div>
@@ -51,7 +51,7 @@ const channel = computed(() => params.value.link);
       <RouterLink to="/"><Button>← elektron.art</Button></RouterLink>
     </div>
   </div>
-</template2-->
+</template>
 
 <style>
 .Event {

@@ -15,35 +15,50 @@ export const useVideoStream = (src) => {
   const height = ref(360);
 
   onMounted(() => {
-    // videoRef.value.addEventListener("loadeddata", (e) => {
-    //   status.value = "loading";
-    //   width.value =
-    //     videoRef.value?.videoWidth > 0 ? videoRef.value?.videoWidth : -1;
-    //   height.value =
-    //     videoRef.value?.videoHeight > 0 ? videoRef.value?.videoHeight : -1;
-    // });
+    videoRef.value.addEventListener("loadedmetadata", (e, e2) => {});
 
-    // videoRef.value.addEventListener("playing", (e) => {
-    //   status.value = "playing";
-    //   width.value =
-    //     videoRef.value?.videoWidth > 0 ? videoRef.value?.videoWidth : -1;
-    //   height.value =
-    //     videoRef.value?.videoHeight > 0 ? videoRef.value?.videoHeight : -1;
-    // });
+    videoRef.value.addEventListener("loadeddata", (e) => {
+      status.value = "loading";
+      width.value =
+        videoRef.value?.videoWidth > 0 ? videoRef.value?.videoWidth : -1;
+      height.value =
+        videoRef.value?.videoHeight > 0 ? videoRef.value?.videoHeight : -1;
+      //     ? videoRef.value.videoWidth
+      //     : -1;
+      // if (
+      //   videoRef.value &&
+      //   videoRef.value.videoWidth &&
+      //   videoRef.value.videoHeight
+      // ) {
+      //   width.value = videoRef.value.videoWidth
+      //     ? videoRef.value.videoWidth
+      //     : -1;
+      //   height.value = videoRef.value.videoHeight
+      //     ? videoRef.value.videoHeight
+      //     : -1;
+      // }
+    });
+
+    videoRef.value.addEventListener("playing", (e) => {
+      status.value = "playing";
+      width.value =
+        videoRef.value?.videoWidth > 0 ? videoRef.value?.videoWidth : -1;
+      height.value =
+        videoRef.value?.videoHeight > 0 ? videoRef.value?.videoHeight : -1;
+    });
 
     videoRef.value.addEventListener("emptied", (e) => {
       status.value = "nodata";
     });
 
+    videoRef.value.addEventListener("stalled", (e) => {});
+
+    videoRef.value.addEventListener("suspensed", (e) => {});
+
     videoRef.value.addEventListener("ended", (e) => {
       status.value = "nodata";
     });
 
-    /*
-    videoRef.value.addEventListener("loadedmetadata", (e) => {});
-    videoRef.value.addEventListener("stalled", (e) => {});
-    videoRef.value.addEventListener("suspensed", (e) => {});
-    */
     if (videoRef.value.canPlayType("application/vnd.apple.mpegURL")) {
       videoRef.value.src = src;
 
@@ -84,7 +99,6 @@ export const useVideoStream = (src) => {
           hls.startLoad();
         });
         hls.on(Hls.Events.ERROR, function (e, data) {
-          console.log(data);
           hls.recoverMediaError();
           if (data.type !== Hls.ErrorTypes.MEDIA_ERROR) {
             hls.startLoad();
