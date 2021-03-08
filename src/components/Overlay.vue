@@ -16,7 +16,8 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: var(--bg);
+  background: var(--bgdark);
+  opacity: 0.8;
   padding: 24px;
 }
 .Overlay > * {
