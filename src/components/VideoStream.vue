@@ -23,26 +23,20 @@ const muted = ref(true);
       />
       <slot :status="status">
         <transition name="fade" appear>
-          <div
-            style="
-              position: absolute;
-              display: inline-flex;
-              top: 0;
-              left: 0;
-              bottom: 0;
-              right: 0;
-              background: rgba(0, 0, 0, 0.5);
-              color: white;
-              padding: 24px;
-            "
-          >
+          <Overlay>
             {{ status }}
-          </div>
+          </Overlay>
         </transition>
       </slot>
       <transition name="fade">
         <div
-          style="position: absolute; right: 16px; bottom: 16px; color: white"
+          style="
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            color: white;
+            z-index: 1;
+          "
         >
           <IconUnmute v-if="muted" @click="muted = !muted" />
           <IconMute v-if="!muted" @click="muted = !muted" />
