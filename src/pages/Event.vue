@@ -32,21 +32,7 @@ const channel = computed(() => params.value.link);
       </div>
       <chat :channel="channel" />
     </div>
-    <Overlay v-if="event && event.tickets" style="position: fixed">
-      <div>
-        <h1>{{ event.title }}</h1>
-        <div>This event has not yet started.</div>
-        <div>
-          <a v-if="event.moreinfo" :href="event.moreinfo">
-            <Button>More info →</Button>
-          </a>
-          &ensp;
-          <a :href="event.tickets">
-            <Button>Get tickets →</Button>
-          </a>
-        </div>
-      </div>
-    </Overlay>
+    <!-- <EventOverlay v-if="event && event.tickets" :event="event" /> -->
     <ButtonBack />
   </div>
 </template>
@@ -57,5 +43,6 @@ const channel = computed(() => params.value.link);
   display: grid;
   gap: 24px;
   grid-template-columns: 2fr 1fr;
+  min-height: 100vh;
 }
 </style>

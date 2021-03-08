@@ -10,7 +10,7 @@ const { chats, newMessage, onNewMessage, scrollRef, textareaRef } = useChat(
 </script>
 
 <template>
-  <div>
+  <div class="debug">
     <h2>{{ channel }}</h2>
     <div class="Chat">
       <div class="ChatCards" ref="scrollRef">
