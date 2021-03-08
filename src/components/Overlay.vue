@@ -16,8 +16,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
+  background: var(--bg);
   padding: 24px;
 }
 .Overlay > * {
