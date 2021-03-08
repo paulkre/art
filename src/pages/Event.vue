@@ -43,6 +43,11 @@ const channel = computed(() => params.value.link);
   grid-template-columns: 1fr 300px;
   min-height: 100vh;
 }
+@media (max-width: 800px) {
+  .Event {
+    grid-template-columns: 1fr;
+  }
+}
 .EventVideo {
   padding: 64px 32px 32px 32px;
   display: grid;
@@ -56,5 +61,11 @@ const channel = computed(() => params.value.link);
   width: 300px;
   padding: 64px 32px 32px 32px;
   background: var(--bglight);
+}
+@media (max-width: 800px) {
+  .EventChat {
+    position: static;
+    width: inherit;
+  }
 }
 </style>
