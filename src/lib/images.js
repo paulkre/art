@@ -40,7 +40,7 @@ export const useImages = (channel) => {
   const startVideo = () => {
     if (navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
-        .getUserMedia({ video: { frameRate: 10 } })
+        .getUserMedia({ video: { frameRate: 1000 / imageUpdateFrequency } })
         .then((stream) => (videoRef.value.srcObject = stream))
         .catch((e) => console.log(e));
     }
@@ -82,8 +82,8 @@ export const useImages = (channel) => {
 
     const outgoingMessage = createMessage({
       channel,
-      type: "IMAGE",
-      value: canvasRef.value.toDataURL("image/jpeg", imageQuality),
+      type: "USER",
+      value: { image: canvasRef.value.toDataURL("image/jpeg", imageQuality) },
     });
     if (buffer.some((color) => color !== 0)) {
       ws.send(outgoingMessage);
