@@ -20,12 +20,9 @@ const updatedUsers = computed(() =>
         new Date(),
         new Date(user.datetime)
       );
-      user.opacity = scale(
-        user.updatedSince,
-        0,
-        config.userUpdatedSinceLimit,
-        1,
-        0.1
+      user.opacity = Math.min(
+        0.8,
+        scale(user.updatedSince, 0, config.userUpdatedSinceLimit, 1, 0.1)
       );
       return user;
     })
@@ -76,6 +73,6 @@ const otherUserStyle = (otherUser) =>
     />
   </div>
   <draggable x="100" y="100" @drag="onUserDrag"
-    ><Dot color="red" opacity="0.9"
+    ><Dot color="red" opacity="0.8"
   /></draggable>
 </template>
