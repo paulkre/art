@@ -127,3 +127,24 @@ export const wsToUrl = (ws) =>
 export const scale = (value, start1, stop1, start2, stop2) => {
   return ((value - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
 };
+
+// https://github.com/fregante/intrinsic-scale/blob/master/index.js
+export const fit = (parentWidth, parentHeight, childWidth, childHeight) => {
+  const doRatio = childWidth / childHeight;
+  const cRatio = parentWidth / parentHeight;
+  let width = parentWidth;
+  let height = parentHeight;
+
+  if (doRatio < cRatio) {
+    height = width / doRatio;
+  } else {
+    width = height * doRatio;
+  }
+
+  return {
+    x: (parentWidth - width) / 2,
+    y: (parentHeight - height) / 2,
+    width,
+    height,
+  };
+};
