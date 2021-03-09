@@ -9,6 +9,7 @@ import {
   fit,
   safeJsonParse,
   userId,
+  useSetInterval,
   ws,
 } from './';
 
@@ -68,7 +69,6 @@ export const useImages = (channel) => {
       videoRef.value.videoWidth,
       videoRef.value.videoHeight
     );
-    console.log(x, y, width, height);
     context.value.drawImage(videoRef.value, x, y, width, height);
 
     const buffer = new Uint32Array(
@@ -90,48 +90,28 @@ export const useImages = (channel) => {
     }
   };
 
-  // const sendStartMessage = () => {
-  //   const outgoingMessage = createMessage({
-  //     channel: channel,
-  //     type: "IMAGE_JOIN",
-  //     userId: userId.value,
-  //     userName: userName.value,
-  //   });
-  //   ws.send(outgoingMessage);
-  // };
+  const images2 = computed(() =>
+    Object.values(images.value).sort((a, b) => a.userId > b.userId)
+  );
 
-  // const sendStopMessage = () => {
-  //   const outgoingMessage = createMessage({
-  //     channel: channel,
-  //     type: "IMAGE_LEAVE",
-  //     userId: userId.value,
-  //     userName: userName.value,
-  //   });
-  //   ws.send(outgoingMessage);
-  // };
-
-  const sendImageMessages = () =>
-    setInterval(sendImageMessage, imageUpdateFrequency);
+  const sendImageMessages = () => {
+    // @TODO images2.count
+    useSetInterval(sendImageMessage, imageUpdateFrequency);
+  };
 
   const onStart = () => {
     startVideo();
     sendImageMessages();
-    //sendStartMessage();
     videoStarted.value = true;
   };
 
   const onStop = () => {
     stopVideo();
-    //sendStopMessage();
     videoStarted.value = false;
     window.removeEventListener("beforeunload", onStop);
   };
 
   window.addEventListener("beforeunload", onStop);
-
-  const images2 = computed(() =>
-    Object.values(images.value).sort((a, b) => a.userId > b.userId)
-  );
 
   return {
     videoRef,

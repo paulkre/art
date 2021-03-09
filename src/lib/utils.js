@@ -1,6 +1,7 @@
 //@ts-check
 import {
   computed,
+  isRef,
   onMounted,
   onUnmounted,
   ref,
@@ -147,4 +148,28 @@ export const fit = (parentWidth, parentHeight, childWidth, childHeight) => {
     width,
     height,
   };
+};
+
+export const useSetInterval = (
+  callback,
+  timeout,
+  every = 1,
+  condition = true
+) => {
+  let a = 0;
+  const interval = ref(null);
+  interval.value = setInterval(() => {
+    const n = isRef(every) ? every.value : every;
+    a = a >= n - 1 ? 0 : a + 1;
+    const cond = isRef(condition) ? condition.value : condition;
+    if (a === 0 && cond) {
+      callback();
+    }
+  }, timeout);
+  onUnmounted(() => {
+    if (interval.value) {
+      clearInterval(interval.value);
+    }
+  });
+  return interval;
 };
