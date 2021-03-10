@@ -24,16 +24,30 @@ const page = computed(() => {
 </script>
 
 <template>
-  <Transition name="fade">
-    <div>
-      <div v-if="page" v-html="page.content" class="wrapper" />
-      <!-- <EventCard v-for="(event, i) in page.events" :key="i" :event="event" /> -->
-      <ButtonBack />
+  <div>
+    <div class="Page">
+      <div v-html="page.content" class="wrapper" />
+      <div>
+        <EventCard v-for="(event, i) in page.events" :key="i" :event="event" />
+      </div>
     </div>
-  </Transition>
+    <ButtonBack />
+  </div>
 </template>
 
 <style>
+.Page {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  padding-top: clamp(5rem, 10vw, 10rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 5vw, 64px);
+}
+@media (max-width: 800px) {
+  .Page {
+    grid-template-columns: 1fr;
+  }
+}
 .title {
   margin: 0 0 32px 9;
   font-family: "font-medium", sans-serif;
@@ -54,18 +68,14 @@ const page = computed(() => {
 }
 
 .wrapper {
-  padding: clamp(1.5rem, 3vw, 2rem);
+  /* padding: clamp(1.5rem, 3vw, 2rem);
   padding-top: clamp(5rem, 10vw, 10rem);
   display: grid;
-  gap: clamp(8px, 3vw, 16px) 0;
-  grid-template-columns:
-    1fr
-    min(65ch, 100%)
-    1fr;
+  /* gap: clamp(8px, 3vw, 16px) 0; */
 }
 
 .wrapper > * {
-  grid-column: 2;
+  grid-column: 1;
 }
 .wrapper p {
   margin: 0;
@@ -79,6 +89,7 @@ const page = computed(() => {
 .wrapper img {
   width: 100%;
   display: block;
+  grid-column: ;
 }
 .full-bleed {
   width: 100%;
