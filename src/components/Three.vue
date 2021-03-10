@@ -6,16 +6,20 @@ import {
   Scene,
   PerspectiveCamera,
   WebGLRenderer,
-  BoxGeometry,
+  CircleGeometry,
   MeshNormalMaterial,
   Mesh,
-  BackSide,
+  Group,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { deg2rad } from "../lib";
+import { range } from "../lib";
 
 const el = ref(null);
 const width = 640;
 const height = 300;
+
+const interacting = ref(false);
 
 const scene = new Scene();
 provide("scene", scene);
@@ -26,14 +30,13 @@ camera.position.z = 0.000001;
 const renderer = new WebGLRenderer();
 renderer.setSize(width, height);
 
-// const geometry = new BoxGeometry(1000, 1000, 1000);
-// const material = new MeshNormalMaterial({ side: BackSide });
-// const cube = new Mesh(geometry, material);
-// scene.add(cube);
-
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.02;
+controls.dampingFactor = 0.1;
+
+controls.addEventListener("start", () => (interacting.value = true));
+controls.addEventListener("end", () => (interacting.value = false));
+
 const update = () => {
   controls.update();
   renderer.render(scene, camera);
@@ -51,7 +54,11 @@ useRafFn(update);
 </script>
 
 <template>
-  <div ref="el" class="debug">
+  <div
+    ref="el"
+    class="debug"
+    :style="{ cursor: interacting ? 'grabbing' : 'grab' }"
+  >
     <slot />
   </div>
 </template>

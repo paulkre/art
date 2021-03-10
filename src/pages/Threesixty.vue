@@ -16,6 +16,7 @@ const muted = ref(true);
   <div style="padding: 32px">
     <Three>
       <ThreeVideoStream />
+      <ThreeDots />
     </Three>
     <!-- <video ref="videoRef" autoplay :muted="muted" style="opacity: 0.5" />
     <IconUnmute v-if="muted" @click="muted = !muted" />

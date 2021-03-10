@@ -2,6 +2,7 @@
 import { inject, defineProps } from "vue";
 import { SphereGeometry, MeshBasicMaterial, Mesh, VideoTexture } from "three";
 import Hls from "hls.js";
+import { deg2rad } from "../lib";
 
 const props = defineProps({ src: String });
 const scene = inject("scene");
@@ -31,6 +32,7 @@ const material = new MeshBasicMaterial({
 });
 
 const mesh = new Mesh(geometry, material);
+mesh.rotation.y = deg2rad(-90);
 scene.add(mesh);
 </script>
 
