@@ -25,12 +25,29 @@ const page = computed(() => {
 
 <template>
   <div>
+    <Disc
+      :style="{
+        position: 'absolute',
+        top: '-150px',
+        left: '100px',
+        backgroundColor: page.color,
+        backgroundImage: page.image ? 'url(' + page.image + ')' : '',
+        backgroundSize: 'cover',
+        color: 'white',
+        textAlign: 'center',
+        width: '600px',
+        height: '600px',
+        pointerEvents: 'none',
+        zIndex: -1000,
+      }"
+    />
     <div class="Page">
       <div v-html="page.content" class="wrapper" />
       <div>
         <EventCard v-for="(event, i) in page.events" :key="i" :event="event" />
       </div>
     </div>
+
     <ButtonBack />
   </div>
 </template>
