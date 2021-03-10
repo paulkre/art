@@ -11,7 +11,8 @@ import Hls from "hls.js";
 
 const scene = inject("scene");
 
-const geometry = new SphereGeometry(100, 16, 16);
+const geometry = new SphereGeometry(100, 60, 40);
+geometry.scale(-1, 1, 1);
 
 var hls = new Hls();
 var video = document.createElement("video");
@@ -30,7 +31,6 @@ hls.on(Hls.Events.MANIFEST_PARSED, function () {
 const texture = new VideoTexture(video);
 const material = new MeshBasicMaterial({
   map: texture,
-  side: BackSide,
 });
 
 const mesh = new Mesh(geometry, material);
