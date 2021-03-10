@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUpdate, provide } from "vue";
+import { useRafFn } from "@vueuse/core";
 
 import {
   Scene,
@@ -25,24 +26,27 @@ camera.position.z = 0.000001;
 const renderer = new WebGLRenderer();
 renderer.setSize(width, height);
 
-const update = () => renderer.render(scene, camera);
-
 // const geometry = new BoxGeometry(1000, 1000, 1000);
 // const material = new MeshNormalMaterial({ side: BackSide });
 // const cube = new Mesh(geometry, material);
 // scene.add(cube);
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.addEventListener("change", update);
+
+const update = () => {
+  controls.update();
+  renderer.render(scene, camera);
+};
 
 onMounted(() => {
   el.value.append(renderer.domElement);
-  update();
+  //update();
 });
 
-onBeforeUpdate(() => {
-  update();
-});
+useRafFn(update);
+// onBeforeUpdate(() => {
+//   update();
+// });
 </script>
 
 <template>
