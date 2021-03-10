@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 import { useVideoStream, config, replace } from "../lib";
 
@@ -21,7 +21,7 @@ const muted = ref(true);
       style="opacity: 0.5; width: 640px"
     />
     <Three>
-      <ThreeVideoStream :r="videoRef" />
+      <ThreeVideoStream :video="videoRef" />
       <ThreeDots />
     </Three>
     <IconUnmute v-if="muted" @click="muted = !muted" />
