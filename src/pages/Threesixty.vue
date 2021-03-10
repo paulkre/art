@@ -18,14 +18,13 @@ const muted = ref(true);
       ref="videoRef"
       autoplay
       :muted="muted"
-      style="opacity: 0.5; width: 50vw"
+      style="opacity: 0.5; width: 640px"
     />
-    <Three class="debug">
+    <Three>
       <ThreeVideoStream :r="videoRef" />
       <ThreeDots />
     </Three>
-    <!-- <video ref="videoRef" autoplay :muted="muted" style="opacity: 0.5" />
     <IconUnmute v-if="muted" @click="muted = !muted" />
-    <IconMute v-if="!muted" @click="muted = !muted" /> -->
+    <IconMute v-if="!muted" @click="muted = !muted" />
   </div>
 </template>
