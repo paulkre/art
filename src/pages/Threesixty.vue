@@ -19,6 +19,8 @@ const muted = ref(true);
       autoplay
       :muted="muted"
       style="opacity: 0.5; width: 640px"
+      crossorigin="anonymous"
+      playsinline
     />
     <Three>
       <ThreeVideoStream :video="videoRef" />
