@@ -3,9 +3,9 @@ import { ref, onMounted } from "vue";
 
 import { useVideoStream, config, replace } from "../lib";
 
-const src = replace(config.streamUrl, { streamkey: "360" });
-// const src =
-//   "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8";
+//const src = replace(config.streamUrl, { streamkey: "360" });
+const src =
+  "https://bitmovin-a.akamaihd.net/content/playhouse-vr/m3u8s/105560.m3u8";
 
 //const { videoRef, status, width, height } = useVideoStream(src);
 

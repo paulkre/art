@@ -44,21 +44,13 @@ const update = () => {
 
 onMounted(() => {
   el.value.append(renderer.domElement);
-  //update();
 });
 
 useRafFn(update);
-// onBeforeUpdate(() => {
-//   update();
-// });
 </script>
 
 <template>
-  <div
-    ref="el"
-    class="debug"
-    :style="{ cursor: interacting ? 'grabbing' : 'grab' }"
-  >
+  <div ref="el" :style="{ cursor: interacting ? 'grabbing' : 'grab' }">
     <slot />
   </div>
 </template>
