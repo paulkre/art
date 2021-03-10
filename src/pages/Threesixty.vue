@@ -7,15 +7,21 @@ import { useVideoStream, config, replace } from "../lib";
 const src =
   "https://bitmovin-a.akamaihd.net/content/playhouse-vr/m3u8s/105560.m3u8";
 
-//const { videoRef, status, width, height } = useVideoStream(src);
+const { videoRef, status, width, height } = useVideoStream(src);
 
 const muted = ref(true);
 </script>
 
 <template>
   <div style="padding: 32px">
-    <Three>
-      <ThreeVideoStream />
+    <video
+      ref="videoRef"
+      autoplay
+      :muted="muted"
+      style="opacity: 0.5; width: 50vw"
+    />
+    <Three class="debug">
+      <ThreeVideoStream :r="videoRef" />
       <ThreeDots />
     </Three>
     <!-- <video ref="videoRef" autoplay :muted="muted" style="opacity: 0.5" />

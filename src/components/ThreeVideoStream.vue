@@ -1,32 +1,30 @@
 <script setup>
-import { inject, defineProps } from "vue";
+import { watchEffect, inject, defineProps, useContext, watch } from "vue";
 import { SphereGeometry, MeshBasicMaterial, Mesh, VideoTexture } from "three";
-import Hls from "hls.js";
 import { deg2rad } from "../lib";
 
-const props = defineProps({ src: String });
+const props = defineProps(["r"]);
+const { slots } = useContext();
+
 const scene = inject("scene");
+
+watchEffect(() => console.log(props));
+
+// if (slots?.default?.().length) {
+// watch(
+//   () => slots.default(),
+//   (slot) => {
+//     console.log(slot[0]);
+//   },
+//   { immediate: true }
+// );
 
 const geometry = new SphereGeometry(100, 60, 40);
 // invert the geometry on the x-axis so that all of the faces point inward
 // to avoid x-flipping of the video texture
 geometry.scale(-1, 1, 1);
 
-var hls = new Hls();
-var video = document.createElement("video");
-video.muted = true;
-//const src = "https://le25.babahhcdn.com/bb1150-le/360/index.m3u8";
-const src =
-  "https://bitmovin-a.akamaihd.net/content/playhouse-vr/m3u8s/105560.m3u8";
-
-hls.loadSource(src);
-hls.attachMedia(video);
-
-hls.on(Hls.Events.MANIFEST_PARSED, function () {
-  video.play();
-});
-
-const texture = new VideoTexture(video);
+const texture = new VideoTexture(props.r);
 const material = new MeshBasicMaterial({
   map: texture,
 });
@@ -34,7 +32,7 @@ const material = new MeshBasicMaterial({
 const mesh = new Mesh(geometry, material);
 mesh.rotation.y = deg2rad(-90);
 scene.add(mesh);
+//}
 </script>
 
-<!-- eslint-disable-next-line vue/valid-template-root -->
-<template></template>
+<template><slot /></template>
