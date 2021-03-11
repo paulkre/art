@@ -33,9 +33,12 @@ const channel = computed(() => params.value.link);
   <div>
     <div class="Event">
       <div class="EventContent">
-        <div v-for="(src, i) in srcs" :key="i">
+        <!-- @TODO Make VideoStream reactive -->
+        <div v-if="event" v-for="(src, i) in srcs" :key="i">
           <VideoStream :src="src" />
-          <pre style="overflow: auto">{{ src }}</pre>
+        </div>
+        <div v-else>
+          <VideoStream :src="srcs[0]" />
         </div>
         <pre style="overflow: auto">{{ event }}</pre>
         <EventDetails v-if="event" :event="event" />
