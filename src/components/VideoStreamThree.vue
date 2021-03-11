@@ -15,7 +15,14 @@ const muted = ref(true);
       autoplay
       loop
       :muted="muted"
-      style="width: 640px"
+      style="
+        opacity: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -100000;
+        pointer-events: none;
+      "
       crossorigin="anonymous"
       playsinline
     />

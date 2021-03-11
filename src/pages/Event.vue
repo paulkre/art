@@ -49,7 +49,6 @@ const channel = computed(() => params.value.link);
         <div v-else>
           <VideoStream :src="srcs[0]" />
         </div>
-        <pre style="overflow: auto">{{ event }}</pre>
         <EventDetails v-if="event" :event="event" />
       </div>
     </div>
