@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useLocalstorage, fienta, unique } from "../lib";
+import { useLocalstorage, fienta, uniqueCollection } from "../lib";
 
 const router = useRouter();
 const { query } = useRoute();
@@ -11,7 +11,9 @@ const status = ref("");
 
 const codes = useLocalstorage("elektron_codes", []);
 
-const isLocalCode = computed(() => codes.value.includes(code.value));
+const isLocalCode = computed(() =>
+  codes.value.map(({ code }) => code).includes(code.value)
+);
 
 const onCheck = async () => {
   if (code.value) {
@@ -20,9 +22,14 @@ const onCheck = async () => {
       .json()
       .then((res) => {
         status.value = res?.ticket?.status;
+        console.log(res);
+
+        codes.value = uniqueCollection(
+          [...codes.value, { code: code.value, fientaid: res.ticket.event_id }],
+          "code"
+        );
       })
       .catch((e) => (status.value = "DOES NOT EXIST"));
-    codes.value = unique([...codes.value, code.value]);
   }
   router.push({ path: "/fienta" });
 };
