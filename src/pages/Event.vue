@@ -34,8 +34,17 @@ const channel = computed(() => params.value.link);
     <div class="Event">
       <div class="EventContent">
         <!-- @TODO Make VideoStream reactive -->
-        <div v-if="event" v-for="(src, i) in srcs" :key="i">
-          <VideoStream :src="src" />
+        <div v-if="event">
+          <component
+            v-for="(src, i) in srcs"
+            :key="i"
+            :is="
+              event && event.is360 === 'TRUE'
+                ? 'video-stream-three'
+                : 'video-stream'
+            "
+            :src="src"
+          />
         </div>
         <div v-else>
           <VideoStream :src="srcs[0]" />
