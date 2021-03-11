@@ -26,11 +26,32 @@ const muted = ref(true);
       crossorigin="anonymous"
       playsinline
     />
-    <Three>
-      <ThreeVideoStream :video="videoRef" />
-      <ThreeDots />
-    </Three>
-    <IconUnmute v-if="muted" @click="muted = !muted" />
-    <IconMute v-if="!muted" @click="muted = !muted" />
+    <div class="VideoStreamThree">
+      <Three>
+        <ThreeVideoStream :video="videoRef" />
+        <ThreeDots />
+      </Three>
+      <div class="mute">
+        <IconUnmute v-if="muted" @click="muted = !muted" />
+        <IconMute v-if="!muted" @click="muted = !muted" />
+      </div>
+    </div>
   </div>
 </template>
+
+<style>
+.VideoStreamThree {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+.VideoStreamThree canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+.VideoStreamThree .mute {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  color: white;
+}
+</style>
