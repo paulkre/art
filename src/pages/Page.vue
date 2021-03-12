@@ -108,7 +108,8 @@ const page = computed(() => {
 }
 .EventCards {
   display: grid;
+  grid-auto-rows: max-content;
   gap: 32px;
-  padding-top: clamp(0.5rem, 1vw, 2rem);
+  padding-top: clamp(0.5rem, 1.2vw, 2rem);
 }
 </style>
