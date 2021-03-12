@@ -17,7 +17,6 @@ const muted = ref(true);
         loop
         :muted="muted"
         crossorigin="anonymous"
-        playsinline
         :style="{
           opacity: status === 'nodata' ? 0 : 1,
           display: 'block',
