@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { pages, events } from "../lib";
+import { useRoute, onBeforeRouteLeave } from "vue-router";
+import { pages, events, activeTheme } from "../lib";
 
 const { params } = useRoute();
 
@@ -18,8 +18,15 @@ const page = computed(() => {
     if (events.value) {
       p.events = events.value.filter((event) => event.pageid == params.pageid);
     }
+    if (p.theme === "light") {
+      activeTheme.value = 1;
+    }
   }
   return p;
+});
+
+onBeforeRouteLeave(() => {
+  activeTheme.value = 0;
 });
 </script>
 

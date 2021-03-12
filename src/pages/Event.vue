@@ -34,6 +34,7 @@ const channel = computed(() => params.value.link);
     <div class="Event">
       <div class="EventContent">
         <!-- @TODO Make VideoStream reactive -->
+        <pre>{{ event }}</pre>
         <div v-if="event">
           <component
             v-for="(src, i) in srcs"
