@@ -104,14 +104,9 @@ watch(
         "
         class="EventAudience"
       >
-        <div v-if="audienceColumns.images" style="display: grid; padding: 32px">
-          Images
-        </div>
+        <div v-if="audienceColumns.images" style="display: grid">Images</div>
         <Chat v-if="audienceColumns.chat" :channel="channel" />
-        <div
-          v-if="audienceColumns.snapshot"
-          style="display: grid; border: 2px solid red"
-        >
+        <div v-if="audienceColumns.snapshot" style="display: grid">
           Snapshot
         </div>
       </div>
@@ -127,9 +122,6 @@ watch(
   grid-template-columns: 1fr var(--event-audience-width);
   min-height: 100vh;
   transition: 200ms;
-}
-.Event > * {
-  border: 2px solid blue;
 }
 @media (max-width: 800px) {
   .Event {
