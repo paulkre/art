@@ -37,10 +37,13 @@ const srcs = computed(() => {
 const channel = computed(() => params.value.link);
 
 const eventAudienceWidth = useCssVar("--event-audience-width");
+const eventAudienceColumns = useCssVar("--event-audience-columns");
+
 const audienceColumns = computed(
   () => {
     let images = false;
     let chat = true;
+    let snapshot = true;
     if (event.value) {
       if (event.value.chat === "FALSE") {
         chat = false;
@@ -48,8 +51,11 @@ const audienceColumns = computed(
       if (event.value.images === "TRUE") {
         images = true;
       }
+      if (event.value.images === "TRUE") {
+        snapshot = true;
+      }
     }
-    return { images, chat };
+    return { images, chat, snapshot };
   },
   { immediate: true }
 );
@@ -57,29 +63,13 @@ const audienceColumns = computed(
 watch(
   audienceColumns,
   () => {
-    const columns = Object.values(audienceColumns.value).filter((col) => col)
-      .length;
-    eventAudienceWidth.value = `${columns * 200}px`;
+    const columns = Object.values(audienceColumns.value).filter((col) => col);
+
+    eventAudienceWidth.value = `${columns.length * 300}px`;
+    eventAudienceColumns.value = columns.map((_) => "1fr").join(" ");
   },
   { immediate: true }
 );
-// watch(
-//   event,
-//   () => {
-//     let columns = 1;
-//     if (event.value) {
-//       if (!event.value.chat || event.value.chat !== "FALSE") {
-//         columns--;
-//       }
-//       if (event.value.audience) {
-//         columns++;
-//       }
-//     }
-//     console.log(columns, `${columns * 200}px`);
-//     eventAudienceWidth.value = `${columns * 200}px`;
-//   },
-//   { immediate: true }
-// );
 </script>
 
 <template>
@@ -105,13 +95,27 @@ watch(
         <EventDetails v-if="event" :event="event" />
       </div>
     </div>
-    <div class="EventAudience">
+    <Transition name="fade">
       <div
-        v-if="audienceColumns.images"
-        style="display: grid; background: red"
-      />
-      <Chat v-if="audienceColumns.chat" :channel="channel" />
-    </div>
+        v-if="
+          audienceColumns.images ||
+          audienceColumns.chat ||
+          audienceColumns.snapshot
+        "
+        class="EventAudience"
+      >
+        <div v-if="audienceColumns.images" style="display: grid; padding: 32px">
+          Images
+        </div>
+        <Chat v-if="audienceColumns.chat" :channel="channel" />
+        <div
+          v-if="audienceColumns.snapshot"
+          style="display: grid; border: 2px solid red"
+        >
+          Snapshot
+        </div>
+      </div>
+    </Transition>
     <EventOverlay v-if="event && event.tickets" :event="event" />
     <ButtonBack />
   </div>
@@ -142,15 +146,15 @@ watch(
   overflow: auto;
 }
 .EventAudience {
+  padding: 64px 32px 32px 32px;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   width: var(--event-audience-width);
-  padding: 64px 32px 32px 32px;
-  background: orangered; /*var(--bglight); */
+  background: var(--bglight);
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: var(--event-audience-columns);
   gap: 16px;
   transition: 200ms;
 }
