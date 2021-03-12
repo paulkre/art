@@ -10,14 +10,13 @@ const updatedUsers = computed(() =>
     .sort((a, b) => a.userId.localeCompare(b.userId))
 );
 
-const {
-  onStart,
-  onStop,
-  images,
-  videoRef,
-  canvasRef,
-  sendImageMessages,
-} = useImages("images");
+const { onStart, onStop, videoRef, canvasRef, sendImageMessages } = useImages(
+  "images"
+);
+
+const usersWithImages = computed(() =>
+  updatedUsers.value.filter((user) => user.value.image)
+);
 </script>
 
 <template>
@@ -34,9 +33,14 @@ const {
       />
       <canvas class="debug" ref="canvasRef" style="display: block" />
     </div>
-    <h1>Images</h1>
-    <pre>{{ images }}</pre>
     <h1>Users</h1>
+    <ImageGrid>
+      <img
+        v-for="(user, i) in usersWithImages"
+        :src="user.value.image"
+        :key="i"
+      />
+    </ImageGrid>
     <pre>{{ updatedUsers }}</pre>
   </div>
 </template>
