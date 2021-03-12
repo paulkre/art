@@ -43,7 +43,7 @@ const page = computed(() => {
     />
     <div class="Page">
       <div v-html="page.content" class="PageContent" />
-      <div>
+      <div class="EventCards">
         <EventCard v-for="(event, i) in page.events" :key="i" :event="event" />
       </div>
     </div>
@@ -86,8 +86,8 @@ const page = computed(() => {
 
 .PageContent {
   display: grid;
+  gap: 12px;
 }
-
 .PageContent > * {
   grid-column: 1;
 }
@@ -104,5 +104,9 @@ const page = computed(() => {
   width: 100%;
   display: block;
   grid-column: ;
+}
+.EventCards {
+  display: grid;
+  gap: 32px;
 }
 </style>
