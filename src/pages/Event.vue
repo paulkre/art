@@ -9,11 +9,8 @@ const event = computed(() => {
   const e = events.value.find(
     (event) => event.eventid === params.value.eventid
   );
-  if (e?.pageid && pages.value) {
-    e.page = pages.value.find((page) => page.pageid === event.pageid);
-    // if (event.page.theme === "light") {
-    //   activeTheme.value = 1;
-    // }
+  if (e && e.pageid && pages.value) {
+    e.page = pages.value.find((page) => page.pageid === e.pageid);
   }
   return e;
 });
@@ -36,10 +33,6 @@ const srcs = computed(() => {
   }
 });
 const channel = computed(() => params.value.link);
-
-// onBeforeRouteLeave(() => {
-//   activeTheme.value = 0;
-// });
 </script>
 
 <template>
@@ -47,8 +40,7 @@ const channel = computed(() => params.value.link);
     <div class="Event">
       <div class="EventContent">
         <!-- @TODO Make VideoStream reactive -->
-        <pre>{{ event }}</pre>
-        <!-- <div v-if="event">
+        <div v-if="event">
           <component
             v-for="(src, i) in srcs"
             :key="i"
@@ -62,7 +54,7 @@ const channel = computed(() => params.value.link);
         </div>
         <div v-else>
           <VideoStream :src="srcs[0]" />
-        </div> -->
+        </div>
         <EventDetails v-if="event" :event="event" />
       </div>
     </div>
