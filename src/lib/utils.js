@@ -173,3 +173,14 @@ export const useSetInterval = (
   });
   return interval;
 };
+export const deg2rad = (deg) => (deg * Math.PI) / 180;
+
+export const rad2deg = (rad) => (rad * 180) / Math.PI;
+
+export const range = (from, to, step = 1) => {
+  const length = Math.floor((to - from) / step) + 1;
+  return Array.from({ length }).map((_, i) => from + i * step);
+};
+
+// @ts-ignore
+export const unique = (arr) => [...new Set(arr)];

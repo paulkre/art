@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { pages, events } from "../lib";
+import { useRoute, onBeforeRouteLeave } from "vue-router";
+import { pages, events, activeTheme } from "../lib";
 
 const { params } = useRoute();
 
@@ -21,19 +21,57 @@ const page = computed(() => {
   }
   return p;
 });
+
+onBeforeRouteLeave(() => {
+  console.log(page.value);
+  if (page.value && page.value.theme === "light") {
+    activeTheme.value = 0;
+  }
+});
 </script>
 
 <template>
-  <Transition name="fade">
-    <div>
-      <div v-if="page" v-html="page.content" class="wrapper" />
-      <!-- <EventCard v-for="(event, i) in page.events" :key="i" :event="event" /> -->
-      <ButtonBack />
+  <div>
+    <Disc
+      :style="{
+        position: 'absolute',
+        top: '-150px',
+        left: '100px',
+        backgroundColor: page.background,
+        backgroundImage: page.image ? 'url(' + page.image + ')' : '',
+        backgroundSize: 'cover',
+        color: 'white',
+        textAlign: 'center',
+        width: '400px',
+        height: '400px',
+        pointerEvents: 'none',
+        zIndex: -1000,
+      }"
+    />
+    <div class="Page">
+      <div v-html="page.content" class="PageContent" />
+      <div class="EventCards">
+        <EventCard v-for="(event, i) in page.events" :key="i" :event="event" />
+      </div>
     </div>
-  </Transition>
+
+    <ButtonBack />
+  </div>
 </template>
 
 <style>
+.Page {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  padding-top: clamp(5rem, 10vw, 10rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 5vw, 64px);
+}
+@media (max-width: 800px) {
+  .Page {
+    grid-template-columns: 1fr;
+  }
+}
 .title {
   margin: 0 0 32px 9;
   font-family: "font-medium", sans-serif;
@@ -53,35 +91,32 @@ const page = computed(() => {
   font-weight: bold;
 }
 
-.wrapper {
-  padding: clamp(1.5rem, 3vw, 2rem);
-  padding-top: clamp(5rem, 10vw, 10rem);
+.PageContent {
   display: grid;
-  gap: clamp(8px, 3vw, 16px) 0;
-  grid-template-columns:
-    1fr
-    min(65ch, 100%)
-    1fr;
+  grid-auto-rows: max-content;
+  gap: clamp(8px, 1vw, 16px);
 }
-
-.wrapper > * {
-  grid-column: 2;
+.PageContent > * {
+  grid-column: 1;
 }
-.wrapper p {
+.PageContent p {
   margin: 0;
 }
-.wrapper a {
+.PageContent a {
   text-decoration: underline;
 }
-.wrapper hr {
+.PageContent hr {
   display: none;
 }
-.wrapper img {
+.PageContent img {
   width: 100%;
   display: block;
+  grid-column: ;
 }
-.full-bleed {
-  width: 100%;
-  grid-column: 1 / 4;
+.EventCards {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: 32px;
+  padding-top: clamp(0.5rem, 1.2vw, 2rem);
 }
 </style>

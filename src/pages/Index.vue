@@ -1,6 +1,14 @@
 <script setup>
 import { computed } from "vue";
-import { config, pages, events, useCountdown, useWindow } from "../lib";
+import { onBeforeRouteLeave } from "vue-router";
+import {
+  config,
+  pages,
+  events,
+  useCountdown,
+  useWindow,
+  activeTheme,
+} from "../lib";
 
 const pagesWithEvents = computed(() =>
   pages.value.map((page) => {
@@ -18,6 +26,16 @@ const pageStyle = (page) =>
     left: `${parseFloat(page.x) + centerX.value}px`,
     top: `${parseFloat(page.y) + centerY.value}px`,
   }));
+
+onBeforeRouteLeave((to) => {
+  const pageid = to.params?.pageid;
+  if (pageid && pages.value) {
+    const toPage = pages.value.find((page) => page.pageid === pageid);
+    if (toPage.theme === "light") {
+      activeTheme.value = 1;
+    }
+  }
+});
 </script>
 <template>
   <div>
@@ -34,14 +52,14 @@ const pageStyle = (page) =>
           ...pageStyle(page).value,
           transform: 'translate(-50%, -50%)',
           position: 'fixed',
-          backgroundColor: page.color,
+          color: page.color !== '' ? page.color : 'white',
+          backgroundColor: page.background,
           backgroundImage: page.image
             ? 'url(' + page.image + ')'
             : page.event?.image
             ? 'url(' + page.event.image + ')'
             : '',
           backgroundSize: 'cover',
-          color: 'white',
           textAlign: 'center',
           width: page.radius * 2 + 'px',
           height: page.radius * 2 + 'px',
