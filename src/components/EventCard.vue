@@ -3,7 +3,7 @@ defineProps({ event: { type: Object } });
 </script>
 <template>
   <div class="EventCard">
-    <IconYoutube />
+    <IconStage />
     <RouterLink :to="'/' + event.eventid">
       <h3>{{ event.title }}</h3>
       <p class="date" v-if="event.from">
@@ -21,7 +21,7 @@ defineProps({ event: { type: Object } });
   gap: 16px;
 }
 .EventCard .Icon {
-  transform: scale(1.4) translateY(0.3ch);
+  transform: scale(1.4) translateY(0.4ch);
   opacity: 0.5;
 }
 .date {

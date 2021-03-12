@@ -42,7 +42,7 @@ const page = computed(() => {
       }"
     />
     <div class="Page">
-      <div v-html="page.content" class="wrapper" />
+      <div v-html="page.content" class="PageContent" />
       <div>
         <EventCard v-for="(event, i) in page.events" :key="i" :event="event" />
       </div>
@@ -84,32 +84,25 @@ const page = computed(() => {
   font-weight: bold;
 }
 
-.wrapper {
-  /* padding: clamp(1.5rem, 3vw, 2rem);
-  padding-top: clamp(5rem, 10vw, 10rem);
+.PageContent {
   display: grid;
-  /* gap: clamp(8px, 3vw, 16px) 0; */
 }
 
-.wrapper > * {
+.PageContent > * {
   grid-column: 1;
 }
-.wrapper p {
+.PageContent p {
   margin: 0;
 }
-.wrapper a {
+.PageContent a {
   text-decoration: underline;
 }
-.wrapper hr {
+.PageContent hr {
   display: none;
 }
-.wrapper img {
+.PageContent img {
   width: 100%;
   display: block;
   grid-column: ;
-}
-.full-bleed {
-  width: 100%;
-  grid-column: 1 / 4;
 }
 </style>
