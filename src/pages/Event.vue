@@ -1,13 +1,22 @@
 <script setup>
-import { toRefs, computed, watchEffect } from "vue";
-import { useRoute } from "vue-router";
-import { replace, config, events } from "../lib/index.js";
+import { toRefs, computed } from "vue";
+import { useRoute, onBeforeRouteLeave } from "vue-router";
+import { replace, config, events, pages, activeTheme } from "../lib/index.js";
 
 const { params } = toRefs(useRoute());
 
-const event = computed(() =>
-  events.value.find((event) => event.eventid === params.value.eventid)
-);
+const event = computed(() => {
+  const e = events.value.find(
+    (event) => event.eventid === params.value.eventid
+  );
+  if (e?.pageid && pages.value) {
+    e.page = pages.value.find((page) => page.pageid === event.pageid);
+    // if (event.page.theme === "light") {
+    //   activeTheme.value = 1;
+    // }
+  }
+  return e;
+});
 
 const formatStreamUrl = (streamkey) => {
   if (streamkey.endsWith("m3u8")) {
@@ -27,6 +36,10 @@ const srcs = computed(() => {
   }
 });
 const channel = computed(() => params.value.link);
+
+// onBeforeRouteLeave(() => {
+//   activeTheme.value = 0;
+// });
 </script>
 
 <template>
@@ -35,7 +48,7 @@ const channel = computed(() => params.value.link);
       <div class="EventContent">
         <!-- @TODO Make VideoStream reactive -->
         <pre>{{ event }}</pre>
-        <div v-if="event">
+        <!-- <div v-if="event">
           <component
             v-for="(src, i) in srcs"
             :key="i"
@@ -49,7 +62,7 @@ const channel = computed(() => params.value.link);
         </div>
         <div v-else>
           <VideoStream :src="srcs[0]" />
-        </div>
+        </div> -->
         <EventDetails v-if="event" :event="event" />
       </div>
     </div>
