@@ -86,7 +86,8 @@ const page = computed(() => {
 
 .PageContent {
   display: grid;
-  gap: 12px;
+  grid-auto-rows: max-content;
+  gap: clamp(8px, 1vw, 16px);
 }
 .PageContent > * {
   grid-column: 1;
@@ -108,5 +109,6 @@ const page = computed(() => {
 .EventCards {
   display: grid;
   gap: 32px;
+  padding-top: clamp(0.5rem, 1vw, 2rem);
 }
 </style>
