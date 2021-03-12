@@ -64,7 +64,7 @@ const channel = computed(() => params.value.link);
   </div>
 </template>
 
-<style>
+<style scoped>
 .Event {
   display: grid;
   grid-template-columns: 1fr 300px;
