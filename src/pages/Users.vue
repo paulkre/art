@@ -34,13 +34,16 @@ const usersWithImages = computed(() =>
       <canvas class="debug" ref="canvasRef" style="display: block" />
     </div>
     <h1>Users</h1>
-    <ImageGrid>
-      <img
-        v-for="(user, i) in usersWithImages"
-        :src="user.value.image"
-        :key="i"
-      />
-    </ImageGrid>
+    <div style="width: 200px">
+      <ImageGrid>
+        <img
+          v-for="(user, i) in usersWithImages"
+          :src="user.value.image"
+          :key="i"
+          style="display: block; width: 100%; height: auto"
+        />
+      </ImageGrid>
+    </div>
     <pre>{{ updatedUsers }}</pre>
   </div>
 </template>

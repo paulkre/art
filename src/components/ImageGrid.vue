@@ -13,7 +13,10 @@ const count = ref(1);
 
 watch(
   () => slots.default(),
-  (slots) => (count.value = slots[0].children ? slots[0].children.length : 0)
+  (slots) => {
+    count.value = slots[0].children ? slots[0].children.length : 0;
+  },
+  { immediate: true }
 );
 // https://stackoverflow.com/a/51956837
 const columns = computed(() => {
@@ -26,6 +29,7 @@ const columns = computed(() => {
 </script>
 
 <template>
+  {{ columns }} / {{ count }}
   <div
     class="grid"
     style="
