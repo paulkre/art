@@ -43,7 +43,7 @@ const audienceColumns = computed(
   () => {
     let images = false;
     let chat = true;
-    let snapshot = true;
+    let snapshot = false;
     if (event.value) {
       if (event.value.chat === "FALSE") {
         chat = false;
@@ -51,7 +51,7 @@ const audienceColumns = computed(
       if (event.value.images === "TRUE") {
         images = true;
       }
-      if (event.value.images === "TRUE") {
+      if (event.value.snapshot === "TRUE") {
         snapshot = true;
       }
     }
