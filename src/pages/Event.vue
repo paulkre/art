@@ -104,7 +104,7 @@ watch(
         "
         class="EventAudience"
       >
-        <div v-if="audienceColumns.images" style="display: grid">Images</div>
+        <Images v-if="audienceColumns.images" class="debug" />
         <Chat v-if="audienceColumns.chat" :channel="channel" />
         <div v-if="audienceColumns.snapshot" style="display: grid">
           Snapshot
