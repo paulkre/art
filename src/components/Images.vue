@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps } from "vue";
+import { ref, computed, defineProps } from "vue";
 import { useImages, users } from "../lib";
 
 const props = defineProps({ channel: String });
@@ -19,12 +19,37 @@ const { onStart, onStop, videoRef, canvasRef, sendImageMessages } = useImages(
 const usersWithImages = computed(() =>
   updatedUsers.value.filter((user) => user.value.image)
 );
+
+const started = ref(false);
 </script>
 
 <template>
   <div>
-    <Button @click="onStart">Start</Button>
-    <Button @click="onStop">Stop</Button>
+    <div style="display: grid; gap: 16px; grid-rows-auto: auto">
+      <h3>Live audience</h3>
+      Please allow access to your camera to be a public audience member in our
+      venue
+      <Button
+        v-show="!started"
+        @click="
+          () => {
+            onStart();
+            started = !started;
+          }
+        "
+        >Start</Button
+      >
+      <Button
+        v-show="started"
+        @click="
+          () => {
+            onStop();
+            started = !started;
+          }
+        "
+        >Stop</Button
+      >
+    </div>
     <div>
       <video
         ref="videoRef"
@@ -40,12 +65,12 @@ const usersWithImages = computed(() =>
       />
       <canvas ref="canvasRef" style="display: none" />
     </div>
-    <ImageGrid>
+    <ImageGrid class="grid-gap: 2px;">
       <img
         v-for="(user, i) in usersWithImages"
         :src="user.value.image"
         :key="i"
-        style="display: block; width: 100%; height: auto"
+        style="display: block; width: 100%; height: auto; border-radius: 4px"
       />
     </ImageGrid>
   </div>
