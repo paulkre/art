@@ -4,13 +4,12 @@ import {
   ref,
 } from 'vue';
 
-import { useIntervalFn } from '@vueuse/core';
-
 import {
   createMessage,
   fit,
   safeJsonParse,
   userId,
+  useSetInterval,
   ws,
 } from './';
 
@@ -97,8 +96,8 @@ export const useImages = (channel) => {
 
   const sendImageMessages = () => {
     // @TODO images2.count
-    //useSetInterval(sendImageMessage, imageUpdateFrequency);
-    useIntervalFn(sendImageMessage, imageUpdateFrequency);
+    useSetInterval(sendImageMessage, imageUpdateFrequency);
+    //useIntervalFn(sendImageMessage, imageUpdateFrequency);
   };
 
   const onStart = () => {
