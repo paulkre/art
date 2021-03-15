@@ -9,13 +9,26 @@ import { useCssVar } from '@vueuse/core';
 const themeVars = {
   bg: useCssVar("--bg"),
   bglight: useCssVar("--bglight"),
+  bglighter: useCssVar("--bglighter"),
   bgdark: useCssVar("--bgdark"),
   fg: useCssVar("--fg"),
 };
 
 const themeValues = [
-  { bg: "#111", bglight: "#222", bgdark: "#000", fg: "#fff" },
-  { bg: "#fff", bglight: "#eee", bgdark: "#ddd", fg: "#000" },
+  {
+    bgdark: "#000",
+    bg: "#111",
+    bglight: "#222",
+    bglighter: "#333",
+    fg: "#fff",
+  },
+  {
+    bgdark: "#ddd",
+    bg: "#fff",
+    bglight: "#eee",
+    bglighter: "#eaeaea",
+    fg: "#000",
+  },
 ];
 
 export const activeTheme = ref(0);
