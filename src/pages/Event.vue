@@ -95,7 +95,6 @@ watch(
         <EventDetails v-if="event" :event="event" />
       </div>
     </div>
-    <!-- <Transition name="fade"> -->
     <div
       v-if="
         audienceColumns.images ||
@@ -104,11 +103,14 @@ watch(
       "
       class="EventAudience"
     >
-      <Images v-if="audienceColumns.images" />
-      <Chat v-if="audienceColumns.chat" :channel="channel" />
+      <EventPanel v-if="audienceColumns.images" title="Images">
+        <Images />
+      </EventPanel>
+      <EventPanel v-if="audienceColumns.chat" title="Chat">
+        <Chat :channel="channel"
+      /></EventPanel>
       <div v-if="audienceColumns.snapshot" style="display: grid">Snapshot</div>
     </div>
-    <!-- </Transition> -->
     <EventOverlay v-if="event && event.tickets" :event="event" />
     <ButtonBack />
   </div>
@@ -137,7 +139,6 @@ watch(
   overflow: auto;
 }
 .EventAudience {
-  padding: 64px 32px 32px 32px;
   position: fixed;
   top: 0;
   right: 0;
@@ -152,7 +153,6 @@ watch(
   .EventAudience {
     position: static;
     width: inherit;
-    padding-top: 32px;
     grid-template-columns: 1fr;
   }
   .Event .EventDetails {
