@@ -12,7 +12,7 @@ defineProps({
       <h3 name="title">{{ title }}</h3>
       <div name="subtitle">{{ subtitle }}</div>
     </div>
-    <div class="debug">
+    <div>
       <slot />
     </div>
   </div>

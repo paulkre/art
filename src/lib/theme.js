@@ -7,10 +7,10 @@ import {
 import { useCssVar } from '@vueuse/core';
 
 const themeVars = {
+  bgdark: useCssVar("--bgdark"),
   bg: useCssVar("--bg"),
   bglight: useCssVar("--bglight"),
   bglighter: useCssVar("--bglighter"),
-  bgdark: useCssVar("--bgdark"),
   fg: useCssVar("--fg"),
 };
 
@@ -26,7 +26,7 @@ const themeValues = [
     bgdark: "#ddd",
     bg: "#fff",
     bglight: "#eee",
-    bglighter: "#eaeaea",
+    bglighter: "#ddd",
     fg: "#000",
   },
 ];

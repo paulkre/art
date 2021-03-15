@@ -101,11 +101,11 @@ watch(
         audienceColumns.chat ||
         audienceColumns.snapshot
       "
-      class="EventAudience"
+      class="EventPanels"
     >
       <EventPanel
         v-if="audienceColumns.images"
-        title="Images"
+        title="Audience"
         style="background: var(--bglight)"
       >
         <Images />
@@ -146,7 +146,7 @@ watch(
   height: calc(100vh - 64px - 64px);
   overflow: auto;
 }
-.EventAudience {
+.EventPanels {
   position: fixed;
   top: 0;
   right: 0;
@@ -157,7 +157,7 @@ watch(
   transition: 200ms;
 }
 @media (max-width: 800px) {
-  .EventAudience {
+  .EventPanels {
     position: static;
     width: inherit;
     grid-template-columns: 1fr;

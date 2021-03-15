@@ -36,7 +36,7 @@ const started = ref(false);
             started = !started;
           }
         "
-        >Start</Button
+        >Start my camera</Button
       >
       <Button
         v-show="started"
@@ -46,7 +46,7 @@ const started = ref(false);
             started = !started;
           }
         "
-        >Stop</Button
+        >Stop my camera</Button
       >
     </div>
     <div>
