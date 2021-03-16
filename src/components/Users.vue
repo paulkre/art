@@ -80,13 +80,13 @@ const showMessages = ref(false);
       "
       :style="{ opacity: showMessages ? 0.9 : 0 }"
     />
-    <div style="position: fixed; left: 10px; bottom: 10px">
+    <div style="position: fixed; left: 12px; bottom: 12px">
       <IconMessage @click="showMessages = !showMessages" />
     </div>
     <transition name="fade">
       <div
         v-if="showMessages"
-        style="position: fixed; left: 10px; bottom: 48px"
+        style="position: fixed; left: 12px; bottom: 48px"
       >
         <div style="display: flex; font-size: 0.7em">
           <div style="opacity: 0.5">
