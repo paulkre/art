@@ -34,7 +34,7 @@ const eventsVisible = ref(false);
 
     <div
       v-if="config.newFeatures"
-      style="position: fixed; right: 16px; top: 16px; display: flex"
+      style="position: fixed; right: 10px; top: 10px; display: flex"
     >
       <Button @click="toggleTheme">Theme</Button>
     </div>

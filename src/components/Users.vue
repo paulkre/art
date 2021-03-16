@@ -50,6 +50,8 @@ const onUserDrag = debounce(({ x, y }) => {
     value: {
       userX: x - centerX.value,
       userY: y - centerY.value,
+      userName: userName.value,
+      userAbout: userAbout.value,
     },
   });
   ws.send(outgoingMessage);
@@ -66,30 +68,41 @@ const showMessages = ref(false);
 
 <template>
   <div>
-    <transition name="fade">
-      <Overlay
-        v-if="showMessages"
-        style="height: 100vh; opacity: 0.8; pointer-events: none"
-      />
-    </transition>
-    <div style="position: fixed; left: 16px; bottom: 16px">
+    <Overlay
+      style="
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        transition: opacity 600ms;
+      "
+      :style="{ opacity: showMessages ? 0.9 : 0 }"
+    />
+    <div style="position: fixed; left: 10px; bottom: 10px">
       <IconMessage @click="showMessages = !showMessages" />
     </div>
-    <div v-if="showMessages" style="position: fixed; left: 16px; bottom: 48px">
-      <div style="display: flex; font-size: 0.7em">
-        <div style="opacity: 0.5">
-          <span style="color: red; transform: translateY(-20px)">⬤</span> My
-          name is {{ userName }}
+    <transition name="fade">
+      <div
+        v-if="showMessages"
+        style="position: fixed; left: 10px; bottom: 48px"
+      >
+        <div style="display: flex; font-size: 0.7em">
+          <div style="opacity: 0.5">
+            <span style="color: red; transform: translateY(-20px)">⬤</span> My
+            name is {{ userName }}
+          </div>
+          &ensp;
+          <div @click="onUserNameChange" style="cursor: pointer">Change</div>
         </div>
-        &ensp;
-        <div @click="onUserNameChange" style="cursor: pointer">Change</div>
+        <textarea
+          v-model="userAbout"
+          style="width: 300px"
+          placeholder="Write here a message"
+        />
       </div>
-      <textarea
-        v-model="userAbout"
-        style="width: 300px"
-        placeholder="Write here a message"
-      />
-    </div>
+    </transition>
     <div
       v-for="(otherUser, i) in otherUsers"
       :key="i"
