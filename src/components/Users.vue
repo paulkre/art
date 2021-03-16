@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { differenceInMilliseconds } from "date-fns";
 
 import {
@@ -34,7 +34,10 @@ const updatedUsers = computed(() =>
 
 const otherUsers = computed(() =>
   updatedUsers.value
-    .filter((user) => user.userId !== userId.value)
+    .filter(
+      (user) =>
+        user.userId !== userId.value && user.value.userX && user.value.userY
+    )
     .sort((a, b) => a.userId > b.userId)
 );
 
@@ -56,17 +59,27 @@ const otherUserStyle = (otherUser) =>
     left: `${otherUser.value.userX + centerX.value}px`,
     top: `${otherUser.value.userY + centerY.value}px`,
   }));
+
+const showMessages = ref(false);
 </script>
 
 <template>
   <div>
-    <Overlay style="height: 100vh; opacity: 0.8; pointer-events: none" />
+    <transition name="fade">
+      <Overlay
+        v-if="showMessages"
+        style="height: 100vh; opacity: 0.8; pointer-events: none"
+      />
+    </transition>
     <div style="position: fixed; left: 16px; bottom: 16px">
-      <IconMessage />
+      <IconMessage @click="showMessages = !showMessages" />
     </div>
-    <div style="position: fixed; left: 16px; bottom: 48px">
+    <div v-if="showMessages" style="position: fixed; left: 16px; bottom: 48px">
       <div style="display: flex; font-size: 0.7em">
-        <div style="opacity: 0.5">My name is {{ userName }}</div>
+        <div style="opacity: 0.5">
+          <span style="color: red; transform: translateY(-20px)">⬤</span> My
+          name is {{ userName }}
+        </div>
         &ensp;
         <div @click="onUserNameChange" style="cursor: pointer">Change</div>
       </div>
@@ -85,19 +98,31 @@ const otherUserStyle = (otherUser) =>
         transition: 'all ' + config.messageDelay * 10 + 'ms linear',
       }"
     >
-      <div style="display: grid; grid-template-columns: auto auto; gap: 8px">
+      <div style="display: grid; grid-template-columns: auto 300px; gap: 8px">
         <Dot
           color="#8800FF"
           style="transition: opacity 1000ms"
-          :opacity="otherUser.opacity"
+          :opacity="showMessages ? 1 : otherUser.opacity"
         />
-        <div>{{ otherUser.value.userName }}</div>
+        <div v-if="showMessages">
+          <div
+            style="
+              font-size: 0.8em;
+              opacity: 0.5;
+              line-height: 1.3em;
+              padding-top: 0.3em;
+            "
+          >
+            {{ otherUser.value.userName }}
+          </div>
+          <div>{{ otherUser }}</div>
+        </div>
       </div>
     </div>
     <draggable x="100" y="100" @drag="onUserDrag">
       <div style="display: grid; grid-template-columns: auto 300px; gap: 8px">
         <Dot color="red" opacity="0.8" />
-        <div>
+        <div v-if="showMessages">
           <div
             style="
               font-size: 0.8em;
