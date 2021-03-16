@@ -37,17 +37,14 @@ export const onUserNameChange = () => {
 };
 
 export const refreshUser = () =>
-  watch(
-    () => userName.value,
-    () => {
-      const outgoingMessage = createMessage({
-        type: "USER",
-        userId: userId.value,
-        value: { userName: userName.value, userAbout: userAbout.value },
-      });
-      ws.send(outgoingMessage);
-    }
-  );
+  watch([userName, userAbout], () => {
+    const outgoingMessage = createMessage({
+      type: "USER",
+      userId: userId.value,
+      value: { userName: userName.value, userAbout: userAbout.value },
+    });
+    ws.send(outgoingMessage);
+  });
 
 export const users = ref([]);
 
