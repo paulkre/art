@@ -13,6 +13,7 @@ import {
   scale,
   userName,
   userAbout,
+  onUserNameChange,
 } from "../lib";
 
 const updatedUsers = computed(() =>
@@ -116,7 +117,6 @@ const showMessages = ref(false);
             {{ otherUser.value.userName }}
           </div>
           <div>{{ otherUser.value.userAbout }}</div>
-          <div>{{ otherUser.value }}</div>
         </div>
       </div>
     </div>
