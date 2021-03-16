@@ -32,19 +32,20 @@ const eventsVisible = ref(false);
     </RouterView>
     <!-- </Suspense> -->
 
-    <div style="position: fixed; right: 16px; top: 16px; display: flex">
+    <div
+      v-if="config.newFeatures"
+      style="position: fixed; right: 16px; top: 16px; display: flex"
+    >
       <Button @click="toggleTheme">◑</Button>
     </div>
     <div style="position: fixed; left: 16px; bottom: 16px">
-      <div
-        style="display: flex; justify-content: space-between; font-size: 0.7em"
-      >
-        <div style="opacity: 0.5; line-height: 1em">{{ userName }}:</div>
-        <div @click="onUserNameChange" style="cursor: pointer">
-          Change your name
-        </div>
+      <div style="display: flex; font-size: 0.7em">
+        <div style="opacity: 0.5">My name is {{ userName }}</div>
+        &ensp;
+        <div @click="onUserNameChange" style="cursor: pointer">Change</div>
       </div>
-      <input
+      <textarea
+        rows="1"
         v-model="userAbout"
         style="width: 300px"
         placeholder="Write here a message"

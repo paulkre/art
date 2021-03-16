@@ -81,7 +81,16 @@ const otherUserStyle = (otherUser) =>
     <div style="display: grid; grid-template-columns: auto auto; gap: 8px">
       <Dot color="red" opacity="0.8" />
       <div>
-        <div style="font-size: 0.8em; opacity: 0.5">{{ userName }}</div>
+        <div
+          style="
+            font-size: 0.8em;
+            opacity: 0.5;
+            line-height: 1.3em;
+            padding-top: 0.3em;
+          "
+        >
+          {{ userName }}
+        </div>
         <div>{{ userAbout }}</div>
       </div>
     </div>
