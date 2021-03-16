@@ -59,40 +59,58 @@ const otherUserStyle = (otherUser) =>
 </script>
 
 <template>
-  <div
-    v-for="(otherUser, i) in otherUsers"
-    :key="i"
-    :style="{
-      ...otherUserStyle(otherUser).value,
-      position: 'fixed',
-      transition: 'all ' + config.messageDelay * 10 + 'ms linear',
-    }"
-  >
-    <div style="display: grid; grid-template-columns: auto auto; gap: 8px">
-      <Dot
-        color="#8800FF"
-        style="transition: opacity 1000ms"
-        :opacity="otherUser.opacity"
-      />
-      <div>{{ otherUser.value.userName }}</div>
+  <div>
+    <Overlay style="height: 100vh; opacity: 0.8; pointer-events: none" />
+    <div style="position: fixed; left: 16px; bottom: 16px">
+      <IconMessage />
     </div>
-  </div>
-  <draggable x="100" y="100" @drag="onUserDrag">
-    <div style="display: grid; grid-template-columns: auto auto; gap: 8px">
-      <Dot color="red" opacity="0.8" />
-      <div>
-        <div
-          style="
-            font-size: 0.8em;
-            opacity: 0.5;
-            line-height: 1.3em;
-            padding-top: 0.3em;
-          "
-        >
-          {{ userName }}
-        </div>
-        <div>{{ userAbout }}</div>
+    <div style="position: fixed; left: 16px; bottom: 48px">
+      <div style="display: flex; font-size: 0.7em">
+        <div style="opacity: 0.5">My name is {{ userName }}</div>
+        &ensp;
+        <div @click="onUserNameChange" style="cursor: pointer">Change</div>
+      </div>
+      <textarea
+        v-model="userAbout"
+        style="width: 300px"
+        placeholder="Write here a message"
+      />
+    </div>
+    <div
+      v-for="(otherUser, i) in otherUsers"
+      :key="i"
+      :style="{
+        ...otherUserStyle(otherUser).value,
+        position: 'fixed',
+        transition: 'all ' + config.messageDelay * 10 + 'ms linear',
+      }"
+    >
+      <div style="display: grid; grid-template-columns: auto auto; gap: 8px">
+        <Dot
+          color="#8800FF"
+          style="transition: opacity 1000ms"
+          :opacity="otherUser.opacity"
+        />
+        <div>{{ otherUser.value.userName }}</div>
       </div>
     </div>
-  </draggable>
+    <draggable x="100" y="100" @drag="onUserDrag">
+      <div style="display: grid; grid-template-columns: auto 300px; gap: 8px">
+        <Dot color="red" opacity="0.8" />
+        <div>
+          <div
+            style="
+              font-size: 0.8em;
+              opacity: 0.5;
+              line-height: 1.3em;
+              padding-top: 0.3em;
+            "
+          >
+            {{ userName }}
+          </div>
+          <div>{{ userAbout }}</div>
+        </div>
+      </div>
+    </draggable>
+  </div>
 </template>

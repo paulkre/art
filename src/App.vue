@@ -38,19 +38,6 @@ const eventsVisible = ref(false);
     >
       <Button @click="toggleTheme">◑</Button>
     </div>
-    <div style="position: fixed; left: 16px; bottom: 16px">
-      <div style="display: flex; font-size: 0.7em">
-        <div style="opacity: 0.5">My name is {{ userName }}</div>
-        &ensp;
-        <div @click="onUserNameChange" style="cursor: pointer">Change</div>
-      </div>
-      <textarea
-        rows="1"
-        v-model="userAbout"
-        style="width: 300px"
-        placeholder="Write here a message"
-      />
-    </div>
     <Users />
   </div>
 </template>
