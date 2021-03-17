@@ -1,6 +1,6 @@
 <script setup>
 import { ref, toRefs, computed, watch, watchEffect } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useCssVar } from "@vueuse/core";
 
 import {
@@ -13,6 +13,7 @@ import {
 } from "../lib/index.js";
 
 const { params } = toRefs(useRoute());
+const router = useRouter();
 
 const event = computed(() => {
   const e = events.value.find(
@@ -78,8 +79,8 @@ watch(
   { immediate: true }
 );
 
-const { query } = useRoute();
-const code = ref(query.code);
+const route = useRoute();
+const code = ref(route.query.code);
 const sumittedCode = ref(null);
 
 const { status, statusMessage } = checkTicket(sumittedCode, event);
@@ -88,7 +89,11 @@ const onCheck = () => {
   sumittedCode.value = code.value;
 };
 
-watchEffect(() => console.log(status.value));
+watch(status, () => {
+  if (status.value === "CHECKED" && route.query.code) {
+    router.push({ path: `/${params.value.eventid}` });
+  }
+});
 </script>
 
 <template>
@@ -141,6 +146,7 @@ watchEffect(() => console.log(status.value));
     <Overlay
       v-if="event && event.fientaid && status !== 'CHECKED'"
       :event="event"
+      style="position: fixed; top: 0; right: 0; bottom: 0; left: 0"
     >
       <h1>{{ event.title }}</h1>
       <div>
@@ -149,12 +155,15 @@ watchEffect(() => console.log(status.value));
       <input v-model="code" placeholder="Enter ticket code" />
       <Button @click="onCheck">Enter</Button>
       <p />
-      <div v-if="status === 'USED'">{{ statusMessage }}</div>
-      <div>
+      <div v-if="status === 'USED'">
+        This ticket has been used already. We only support using the ticket on a
+        single device, sorry.
+      </div>
+      <!-- <div>
         <a v-if="event.moreinfo" :href="event.moreinfo">
           <Button>More info →</Button>
         </a>
-      </div>
+      </div> -->
     </Overlay>
     <ButtonBack />
   </div>
