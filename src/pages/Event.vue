@@ -1,6 +1,6 @@
 <script setup>
-import { ref, toRefs, computed, watch } from "vue";
-import { useRoute, onBeforeRouteLeave } from "vue-router";
+import { ref, toRefs, computed, watch, watchEffect } from "vue";
+import { useRoute } from "vue-router";
 import { useCssVar } from "@vueuse/core";
 
 import {
@@ -80,13 +80,15 @@ watch(
 
 const { query } = useRoute();
 const code = ref(query.code);
+const sumittedCode = ref(null);
+
+const status = checkTicket(sumittedCode, event);
 
 const onCheck = () => {
-  if (event.value) {
-    const status = checkTicket(code, event);
-    console.log(status.value);
-  }
+  sumittedCode.value = code.value;
 };
+
+watchEffect(() => console.log(status.value));
 </script>
 
 <template>

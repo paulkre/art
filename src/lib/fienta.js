@@ -1,4 +1,7 @@
-import { ref } from 'vue';
+import {
+  ref,
+  watch,
+} from 'vue';
 
 import ky from 'ky';
 
@@ -42,32 +45,50 @@ const checkLocalTicket = (code, event) =>
     (ticket) => ticket.code === code.value && ticket.fientaid === event.fientaid
   );
 
+const storeLocalTicket = () => {
+  tickets.value = uniqueCollection(
+    [
+      ...tickets.value,
+      {
+        code: code.value,
+        fientaid: res.ticket.event_id,
+      },
+    ],
+    "code"
+  );
+};
+
+const checkRemoteTicket = (code, event) =>
+  fienta
+    .get(`tickets/${code.value}`)
+    .json()
+    .then((res) => {
+      if (res?.ticket?.event_id == event.value.fientaid) {
+        return res?.ticket?.status;
+      } else {
+        return "REMOTE_CHECK_ERROR";
+      }
+    });
+
 export const checkTicket = (code, event) => {
-  const status = ref("NOT CHECKED");
-  if (event.value) {
-    if (checkLocalTicket(code, event)) {
-      status.value = "LOCAL_TICKET";
-    } else {
-      fienta
-        .get(`tickets/${code.value}`)
-        .json()
-        .then((res) => {
-          status.value = res?.ticket?.status;
-          tickets.value = uniqueCollection(
-            [
-              ...tickets.value,
-              {
-                code: code.value,
-                fientaid: res.ticket.event_id,
-              },
-            ],
-            "code"
-          );
-          console.log(tickets.value);
-          console.log(status.value);
-        })
-        .catch((e) => (status.value = "TICKET_DOES_NOT_EXIST"));
-    }
-  }
+  const status = ref("NOT_CHECKED");
+  watch(
+    [code, event],
+    () => {
+      if (code.value && event.value) {
+        if (checkLocalTicket(code, event)) {
+          status.value = "IS_LOCAL";
+        } else {
+          checkRemoteTicket(code, event)
+            .then((res) => {
+              console.log(res);
+              status.value = res;
+            })
+            .catch((e) => (status.value = "TICKET_DOES_NOT_EXIST"));
+        }
+      }
+    },
+    { immediate: true }
+  );
   return status;
 };
