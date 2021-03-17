@@ -20,7 +20,7 @@
   opacity: 0.9;
   padding: 24px;
 }
-.Overlay > div {
+/* .Overlay > div {
   display: grid;
   gap: 16px;
   text-align: center;
@@ -28,5 +28,5 @@
 }
 .Overlay > div > * {
   justify-self: center;
-}
+} */
 </style>

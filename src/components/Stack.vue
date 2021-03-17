@@ -4,8 +4,12 @@
   </div>
 </template>
 
-<style scoped>
+<style>
 .Stack {
+  display: grid;
+  gap: 16px;
+  text-align: center;
+  justify-content: center;
   display: grid;
   gap: 16px;
   text-align: center;
