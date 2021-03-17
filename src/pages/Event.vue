@@ -143,6 +143,12 @@ watch(status, () => {
       /></EventPanel>
       <div v-if="audienceColumns.snapshot" style="display: grid">Snapshot</div>
     </div>
+    <div
+      v-if="event && event.fientaid && status === 'CHECKED'"
+      style="position: fixed; right: 12px; top: 12px"
+    >
+      <IconTicket style="color: #f2dc5d" />
+    </div>
     <Overlay
       v-if="event && event.fientaid && status !== 'CHECKED'"
       :event="event"
