@@ -1,9 +1,16 @@
 <script setup>
-import { toRefs, computed, watch } from "vue";
+import { ref, toRefs, computed, watch } from "vue";
 import { useRoute, onBeforeRouteLeave } from "vue-router";
 import { useCssVar } from "@vueuse/core";
 
-import { replace, config, events, pages, activeTheme } from "../lib/index.js";
+import {
+  replace,
+  config,
+  events,
+  pages,
+  activeTheme,
+  checkTicket,
+} from "../lib/index.js";
 
 const { params } = toRefs(useRoute());
 
@@ -70,6 +77,16 @@ watch(
   },
   { immediate: true }
 );
+
+const { query } = useRoute();
+const code = ref(query.code);
+
+const onCheck = () => {
+  if (event.value) {
+    const status = checkTicket(code, event);
+    console.log(status.value);
+  }
+};
 </script>
 
 <template>
@@ -119,7 +136,25 @@ watch(
       /></EventPanel>
       <div v-if="audienceColumns.snapshot" style="display: grid">Snapshot</div>
     </div>
-    <EventOverlay v-if="event && event.tickets" :event="event" />
+    <Overlay v-if="event && event.fientaid" :event="event">
+      <h1>{{ event.title }}</h1>
+      <div>
+        This event has not yet started<br />but you can already check in
+      </div>
+      <input v-model="code" placeholder="Enter ticket code" />
+      <Button @click="onCheck">Enter</Button>
+      <p />
+      <p />
+      <div>
+        <a v-if="event.moreinfo" :href="event.moreinfo">
+          <Button>More info →</Button>
+        </a>
+        &ensp;
+        <a :href="event.tickets">
+          <Button>Get tickets →</Button>
+        </a>
+      </div>
+    </Overlay>
     <ButtonBack />
   </div>
 </template>
