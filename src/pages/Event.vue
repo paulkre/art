@@ -147,14 +147,15 @@ watch(status, () => {
       v-if="event && event.fientaid && status === 'CHECKED'"
       style="position: fixed; right: 12px; top: 12px"
     >
-      <IconTicket style="color: #f2dc5d" />
+      <IconStage style="color: #f2dc5d" />
     </div>
     <Overlay
-      v-if="event && event.fientaid && status !== 'CHECKED'"
+      v-if="event && event.fientaid && status == 'CHECKED'"
       :event="event"
       style="position: fixed; top: 0; right: 0; bottom: 0; left: 0"
     >
-      <IconTicket style="transform: scale(2.5); color: #f2dc5d" />
+      <IconStage style="transform: scale(4); color: #f2dc5d" />
+      <p />
       <p />
       <h1>{{ event.title }}</h1>
       <div>This event has not yet started but you can already enter.</div>
@@ -164,6 +165,8 @@ watch(status, () => {
         style="width: 200px"
       />
       <Button @click="onCheck">Enter to the event</Button>
+      <p />
+      <p />
       <p />
       <div v-if="status === 'USED'">
         This ticket has been used already. We only support using the ticket on a

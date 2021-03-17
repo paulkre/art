@@ -5,12 +5,26 @@ defineProps({ event: { type: Object } });
 <template>
   <RouterLink class="EventCard" :to="'/' + event.eventid">
     <component
-      :is="event.fientaid ? 'icon-ticket' : 'icon-stage'"
+      :is="event.fientaid ? 'icon-stage' : 'icon-stage'"
       :style="{ color: event.fientaid ? '#f2dc5d' : '' }"
     />
     <div class="EventContent">
       <h3>{{ event.title }}</h3>
       <div class="EventDate" v-if="event.from">
+        <span
+          v-if="event.fientaid"
+          style="
+            background: #f2dc5d;
+            padding: 0 2px;
+            border-radius: 2px;
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 0.8em;
+            text-transform: uppercase;
+            font-weight: bold;
+            transform: translateY(-10px);
+          "
+          >Ticket</span
+        >
         {{ event.from }} {{ event.to ? "→" : "" }} {{ event.to }}
       </div>
       <div class="EventIntro">{{ event.intro }}</div>
@@ -22,7 +36,7 @@ defineProps({ event: { type: Object } });
 .EventCard {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 16px;
+  gap: 20px;
 }
 .EventCard > .Icon {
   transform: scale(1.4) translateY(0.4ch);
@@ -33,7 +47,6 @@ defineProps({ event: { type: Object } });
 }
 .EventDate {
   font-size: 0.9em;
-  opacity: 0.7;
 }
 .EventIntro {
   opacity: 0.85;
