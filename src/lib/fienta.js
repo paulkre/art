@@ -1,4 +1,5 @@
 import {
+  computed,
   ref,
   watch,
 } from 'vue';
@@ -40,10 +41,18 @@ export const fienta = ky.extend({
 
 const tickets = useLocalstorage("elektron_data", []);
 
-const checkLocalTicket = (code, event) =>
-  tickets.value?.find(
-    (ticket) => ticket.code === code.value && ticket.fientaid === event.fientaid
+const checkLocalTicketWithoutCode = (event) => {
+  return tickets.value?.find(
+    (ticket) => ticket.fientaid == event.value.fientaid
   );
+};
+
+const checkLocalTicket = (code, event) => {
+  return tickets.value?.find(
+    (ticket) =>
+      ticket.code == code.value && ticket.fientaid == event.value.fientaid
+  );
+};
 
 const storeLocalTicket = (code, event) => {
   tickets.value = uniqueCollection(
@@ -70,28 +79,59 @@ const checkRemoteTicket = (code, event) =>
       }
     });
 
+const useTicket = async (code) => {
+  await fienta
+    .put(`tickets/${code.value}`, { json: { status: "USED" } })
+    .json();
+};
+
+export const unUseTicket = async (code) => {
+  await fienta
+    .put(`tickets/${code.value}`, { json: { status: "UNUSED" } })
+    .json();
+};
+
+const statuses = {
+  UNCHECKED: "",
+  CHECKED: "",
+  USED: "This ticket has been used already.",
+  ERROR: "Ticket checking failed, please try again.",
+};
+
 export const checkTicket = (code, event) => {
-  const status = ref("NOT_CHECKED");
+  const status = ref("UNCHECKED");
   watch(
     [code, event],
     () => {
-      if (code.value && event.value) {
+      if (!code.value && event.value) {
+        if (checkLocalTicketWithoutCode(event)) {
+          status.value = "CHECKED";
+        }
+      } else if (code.value && event.value) {
         if (checkLocalTicket(code, event)) {
-          status.value = "HAS_TICKET";
+          status.value = "CHECKED";
         } else {
           checkRemoteTicket(code, event)
             .then((checkStatus) => {
               if (checkStatus === "UNUSED") {
-                console.log(checkStatus);
-                storeLocalTicket(code, event);
-                status.value = "HAS_STORED_TICKET";
+                useTicket(code)
+                  .then((_) => {
+                    storeLocalTicket(code, event);
+                    status.value = "CHECKED";
+                  })
+                  .catch((e) => (status.value = "ERROR"));
               }
+              if (checkStatus === "USED") {
+                status.value = "USED";
+              }
+              // @TODO Handle REFUND_REQUESTED ?
             })
-            .catch((e) => (status.value = "TICKET_DOES_NOT_EXIST"));
+            .catch((e) => (status.value = "ERROR"));
         }
       }
     },
     { immediate: true }
   );
-  return status;
+  const statusMessage = computed(() => statuses[status.value]);
+  return { status, statusMessage };
 };

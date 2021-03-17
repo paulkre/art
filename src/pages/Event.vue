@@ -82,7 +82,7 @@ const { query } = useRoute();
 const code = ref(query.code);
 const sumittedCode = ref(null);
 
-const status = checkTicket(sumittedCode, event);
+const { status, statusMessage } = checkTicket(sumittedCode, event);
 
 const onCheck = () => {
   sumittedCode.value = code.value;
@@ -138,7 +138,10 @@ watchEffect(() => console.log(status.value));
       /></EventPanel>
       <div v-if="audienceColumns.snapshot" style="display: grid">Snapshot</div>
     </div>
-    <Overlay v-if="event && event.fientaid" :event="event">
+    <Overlay
+      v-if="event && event.fientaid && status !== 'CHECKED'"
+      :event="event"
+    >
       <h1>{{ event.title }}</h1>
       <div>
         This event has not yet started<br />but you can already check in
@@ -146,14 +149,10 @@ watchEffect(() => console.log(status.value));
       <input v-model="code" placeholder="Enter ticket code" />
       <Button @click="onCheck">Enter</Button>
       <p />
-      <p />
+      <div v-if="status === 'USED'">{{ statusMessage }}</div>
       <div>
         <a v-if="event.moreinfo" :href="event.moreinfo">
           <Button>More info →</Button>
-        </a>
-        &ensp;
-        <a :href="event.tickets">
-          <Button>Get tickets →</Button>
         </a>
       </div>
     </Overlay>

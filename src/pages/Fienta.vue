@@ -9,7 +9,7 @@ const { query } = useRoute();
 const code = ref(query.code);
 const status = ref("");
 
-const codes = useLocalstorage("elektron_codes", []);
+const codes = useLocalstorage("elektron_data", []);
 
 const localTicket = computed(() => {
   const ticket = codes.value?.find((ticket) => ticket.code === code.value);
