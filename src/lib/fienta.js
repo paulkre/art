@@ -45,13 +45,13 @@ const checkLocalTicket = (code, event) =>
     (ticket) => ticket.code === code.value && ticket.fientaid === event.fientaid
   );
 
-const storeLocalTicket = () => {
+const storeLocalTicket = (code, event) => {
   tickets.value = uniqueCollection(
     [
       ...tickets.value,
       {
         code: code.value,
-        fientaid: res.ticket.event_id,
+        fientaid: event.value.fientaid,
       },
     ],
     "code"
@@ -77,12 +77,15 @@ export const checkTicket = (code, event) => {
     () => {
       if (code.value && event.value) {
         if (checkLocalTicket(code, event)) {
-          status.value = "IS_LOCAL";
+          status.value = "HAS_TICKET";
         } else {
           checkRemoteTicket(code, event)
-            .then((res) => {
-              console.log(res);
-              status.value = res;
+            .then((checkStatus) => {
+              if (checkStatus === "UNUSED") {
+                console.log(checkStatus);
+                storeLocalTicket(code, event);
+                status.value = "HAS_STORED_TICKET";
+              }
             })
             .catch((e) => (status.value = "TICKET_DOES_NOT_EXIST"));
         }
