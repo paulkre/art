@@ -149,15 +149,10 @@ watch(status, () => {
     >
       <IconTicket style="color: #f2dc5d" />
     </div>
-    <Overlay
-      v-if="event && event.fientaid && status !== 'CHECKED'"
+    <EventOverlay
+      v-if="event && event.fientaid && status === 'CHECKED'"
       :event="event"
-      style="position: fixed; top: 0; right: 0; bottom: 0; left: 0"
     >
-      <IconTicket style="transform: scale(2.5); color: #f2dc5d" />
-      <p />
-      <h1>{{ event.title }}</h1>
-      <div>This event has not yet started but you can already enter.</div>
       <input
         v-model="code"
         placeholder="Type the ticket code"
@@ -169,15 +164,7 @@ watch(status, () => {
         This ticket has been used already. We only support using the ticket on a
         single device, sorry.
       </div>
-      <a
-        v-if="event.tickets"
-        :href="event.tickets"
-        style="border-bottom: 1px solid var(--fg)"
-      >
-        No tickets yet? Get them here
-      </a>
-      <p style="opacity: 0.5">Having problems? Write us at help@elektron.art</p>
-    </Overlay>
+    </EventOverlay>
     <ButtonBack />
   </div>
 </template>
