@@ -15,6 +15,7 @@ export const config = {
   fientaUrl: import.meta.env.VITE_FIENTA_URL || "",
   fientaToken: import.meta.env.VITE_FIENTA_TOKEN || "",
   fientaTestcode: import.meta.env.VITE_FIENTA_TESTCODE || "",
+  indexComponent: import.meta.env.VITE_INDEX_COMPONENT || "Index",
   userUpdateRate: 30 * 1000,
   userUpdatedSinceLimit: 30 * 1000,
   messageDelay: 50,

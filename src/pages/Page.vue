@@ -21,32 +21,11 @@ const page = computed(() => {
   }
   return p;
 });
-
-// onBeforeRouteLeave(() => {
-//   if (page.value && page.value.theme === "light") {
-//     activeTheme.value = 0;
-//   }
-// });
 </script>
 
 <template>
   <div>
-    <Disc
-      :style="{
-        position: 'absolute',
-        top: '-150px',
-        left: '100px',
-        backgroundColor: page.background,
-        backgroundImage: page.image ? 'url(' + page.image + ')' : '',
-        backgroundSize: 'cover',
-        color: 'white',
-        textAlign: 'center',
-        width: '400px',
-        height: '400px',
-        pointerEvents: 'none',
-        zIndex: -1000,
-      }"
-    />
+    <PageDisc :page="page" />
     <div class="Page">
       <div v-html="page.content" class="PageContent" />
       <div class="EventCards">
