@@ -182,7 +182,7 @@ watch(status, () => {
       </a>
       <p style="opacity: 0.5">Having problems? Write us at help@elektron.art</p>
     </Overlay>
-    <ButtonBack />
+    <ButtonBack :to="event?.pageid ? '/page/' + event.pageid : '/'" />
   </div>
 </template>
 
