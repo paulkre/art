@@ -13,7 +13,7 @@ defineProps({ event: { type: Object } });
       <div class="EventDate" v-if="event.from">
         {{ event.from }} {{ event.to ? "→" : "" }} {{ event.to }}
       </div>
-      <div class="EventIntro">{{ event.intro }}</div>
+      <Vertical class="EventIntro" v-html="event.description" />
     </div>
   </RouterLink>
 </template>
