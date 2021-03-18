@@ -64,7 +64,6 @@ const page = computed(() => {
 .c5 {
   font-weight: bold;
 }
-
 .ConferenceContent {
   display: grid;
   grid-auto-rows: max-content;
