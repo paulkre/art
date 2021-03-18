@@ -5,7 +5,7 @@ defineProps({ event: { type: Object } });
 <template>
   <RouterLink class="EventCard" :to="'/' + event.eventid">
     <component
-      :is="event.fientaid ? 'icon-ticket' : 'icon-stage'"
+      :is="event.fientaid ? 'icon-creditcard' : 'icon-stage'"
       :style="{ color: event.fientaid ? 'var(--ticket)' : '' }"
     />
     <div class="EventContent">
