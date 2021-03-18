@@ -143,12 +143,13 @@ watch(status, () => {
       /></EventPanel>
       <div v-if="audienceColumns.snapshot" style="display: grid">Snapshot</div>
     </div>
-    <div
+    <Flex
       v-if="event && event.fientaid && status === 'CHECKED'"
       style="position: fixed; right: 12px; top: 12px"
     >
+      <Small style="color: var(--ticket)">I have a ticket</Small>
       <IconCreditcard style="color: var(--ticket)" />
-    </div>
+    </Flex>
     <Overlay
       v-if="event && event.fientaid && status !== 'CHECKED'"
       :event="event"
