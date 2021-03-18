@@ -14,9 +14,10 @@
   gap: 16px;
   text-align: center;
   justify-content: center;
+  grid-auto-rows: min-content;
+  align-content: center;
 }
 .Stack > * {
   justify-self: center;
-  border: 2px solid blueviolet;
 }
 </style>
