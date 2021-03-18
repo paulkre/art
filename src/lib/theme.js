@@ -12,6 +12,7 @@ const themeVars = {
   bglight: useCssVar("--bglight"),
   bglighter: useCssVar("--bglighter"),
   fg: useCssVar("--fg"),
+  ticket: useCssVar("--ticket"),
 };
 
 const themeValues = [
@@ -21,6 +22,7 @@ const themeValues = [
     bglight: "#222",
     bglighter: "#333",
     fg: "#fff",
+    ticket: "#f2dc5d",
   },
   {
     bgdark: "#ddd",
@@ -28,6 +30,7 @@ const themeValues = [
     bglight: "#eee",
     bglighter: "#ddd",
     fg: "#000",
+    ticket: "#d0b311",
   },
 ];
 
