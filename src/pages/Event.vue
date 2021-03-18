@@ -147,8 +147,9 @@ watch(status, () => {
       v-if="event && event.fientaid && status === 'CHECKED'"
       style="position: fixed; right: 12px; top: 12px"
     >
-      <Small style="color: var(--ticket)">I have a ticket</Small>
-      <IconCreditcard style="color: var(--ticket)" />
+      <a title="I have a ticket"
+        ><IconCreditcard style="color: var(--ticket)"
+      /></a>
     </Flex>
     <Overlay
       v-if="event && event.fientaid && status !== 'CHECKED'"

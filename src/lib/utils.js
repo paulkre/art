@@ -110,11 +110,13 @@ export const useTextarea = (callback = () => {}) => {
 export const useScrollToBottom = () => {
   const el = ref(null);
   onMounted(() => {
-    el.value.scrollTop = el.value.scrollHeight;
-    const observer = new MutationObserver(
-      () => (el.value.scrollTop = el.value.scrollHeight)
-    );
-    observer.observe(el.value, { childList: true });
+    if (el.value) {
+      el.value.scrollTop = el.value.scrollHeight;
+      const observer = new MutationObserver(
+        () => (el.value.scrollTop = el.value.scrollHeight)
+      );
+      observer.observe(el.value, { childList: true });
+    }
   });
   return el;
 };

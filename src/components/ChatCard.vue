@@ -4,9 +4,13 @@ defineProps({ chat: { type: Object } });
 
 <template>
   <Vertical style="gap: 4px">
-    <div style="font-size: 0.8em; opacity: 0.5">
+    <Smaller style="opacity: 0.5">
       {{ chat.userName }}
-    </div>
-    <div style="font-size: 0.9em; line-height: 0.9em">{{ chat.value }}</div>
+    </Smaller>
+    <Small
+      style="border: 2px solid var(--fgdark); border-radius: 4px; padding: 12px"
+    >
+      {{ chat.value }}
+    </Small>
   </Vertical>
 </template>

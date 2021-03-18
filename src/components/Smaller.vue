@@ -1,10 +1,10 @@
 <template>
-  <div class="Small"><slot /></div>
+  <div class="Smaller"><slot /></div>
 </template>
 
 <style scoped>
-.Small {
-  font-size: 0.9em;
+.Smaller {
+  font-size: 0.8em;
   line-height: 1.4em;
 }
 </style>
