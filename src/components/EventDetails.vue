@@ -4,11 +4,13 @@ defineProps({ event: { type: Object } });
 </script>
 
 <template>
-  <h2>{{ event.title }}</h2>
-  <div class="date" v-if="event.from">
-    {{ event.from }} {{ event.to ? "→" : "" }} {{ event.to }}
-  </div>
-  <div v-html="event.description" />
+  <Vertical>
+    <h1>{{ event.title }}</h1>
+    <div class="date" v-if="event.from">
+      {{ event.from }} {{ event.to ? "→" : "" }} {{ event.to }}
+    </div>
+    <Vertical v-html="event.description" />
+  </Vertical>
 </template>
 
 <style scoped>

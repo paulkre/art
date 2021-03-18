@@ -1,23 +1,19 @@
 <template>
-  <div class="Stack">
+  <div class="Centered">
     <slot />
   </div>
 </template>
 
 <style>
-.Stack {
+.Centered {
   display: grid;
   gap: 16px;
   text-align: center;
   justify-content: center;
-  display: grid;
-  gap: 16px;
-  text-align: center;
-  justify-content: center;
-  grid-auto-rows: min-content;
   align-content: center;
+  grid-auto-rows: min-content;
 }
-.Stack > * {
+.Centered > * {
   justify-self: center;
 }
 </style>

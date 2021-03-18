@@ -1,17 +1,17 @@
 <template>
-  <div class="HStack">
+  <div class="Horizontal">
     <slot />
   </div>
 </template>
 
 <style>
-.HStack {
+.Horizontal {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(8px, 5vw, 64px);
 }
 @media (max-width: 800px) {
-  .HStack {
+  .Horizontal {
     grid-template-columns: 1fr;
   }
 }
