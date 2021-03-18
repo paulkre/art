@@ -142,7 +142,7 @@ watch(status, () => {
       >
         <Chat :channel="channel"
       /></EventPanel>
-      <div v-if="audienceColumns.snapshot" style="display: grid">Snapshot</div>
+      <div v-if="audienceColumns.snapshot" style="display: grid"></div>
     </div>
     <Flex
       v-if="event && event.fientaid && status === 'CHECKED'"
