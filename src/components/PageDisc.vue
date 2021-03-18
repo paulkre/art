@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps } from "vue";
-defineProps({ event: { type: Object } });
+defineProps({ page: { type: Object } });
 </script>
 
 <template>
