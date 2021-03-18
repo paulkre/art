@@ -100,7 +100,6 @@ watch(status, () => {
   <div>
     <div class="Event">
       <div class="EventContent">
-        <!-- @TODO Make VideoStream reactive -->
         <div v-if="event">
           <component
             v-for="(src, i) in srcs"
@@ -116,7 +115,9 @@ watch(status, () => {
         <div v-else>
           <VideoStream :src="srcs[0]" />
         </div>
-        <EventDetails v-if="event" :event="event" />
+        <h2 v-if="event?.title">{{ event.title }}</h2>
+        <EventDate v-if="event?.from" :event="event" />
+        <Vertical v-if="event?.description" v-html="event.description" />
       </div>
     </div>
     <div

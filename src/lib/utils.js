@@ -93,6 +93,7 @@ export const useTextarea = (callback = () => {}) => {
     if (el.value) {
       //el.value.focus();
       el.value.addEventListener("keydown", onKeydown);
+      // @TODO Run when event exists
       onInput();
       el.value.addEventListener("input", onInput);
     }
