@@ -89,7 +89,11 @@ const page = computed(() => {
 .c5 {
   font-weight: bold;
 }
-
+.c12 {
+  padding: 4px 4px 4px 20px;
+  border-left: 5px solid var(--fg);
+  font-weight: bold;
+}
 .PageContent {
   display: grid;
   grid-auto-rows: max-content;
