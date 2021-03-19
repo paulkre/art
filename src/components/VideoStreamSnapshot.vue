@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, watch } from "vue";
 import { useFullscreen } from "@vueuse/core";
-import { useVideoStream } from "../lib";
+import { useVideoStream, emitter } from "../lib";
 
 const props = defineProps({ src: String });
 const { videoRef, status, width, height } = useVideoStream(props.src);
@@ -21,8 +21,6 @@ const statuses = {
 
 const canvasRef = ref(null);
 const context = ref(null);
-const image = ref("");
-
 const canvasSizeMultiplier = 1;
 
 watch([videoRef, canvasRef, width, height], () => {
@@ -35,7 +33,7 @@ watch([videoRef, canvasRef, width, height], () => {
   }
 });
 
-const onSnapshot = () => {
+emitter.on("SNAPSHOT_REQUEST", () => {
   context.value.drawImage(
     videoRef.value,
     0,
@@ -43,8 +41,11 @@ const onSnapshot = () => {
     width.value * canvasSizeMultiplier,
     height.value * canvasSizeMultiplier
   );
-  image.value = canvasRef.value.toDataURL("image/jpeg", 0.8);
-};
+  emitter.emit(
+    "SNAPSHOT_RESPONSE",
+    canvasRef.value.toDataURL("image/jpeg", 0.8)
+  );
+});
 </script>
 
 <template>
@@ -64,7 +65,6 @@ const onSnapshot = () => {
       }"
     />
     <canvas ref="canvasRef" style="display: none" />
-    <img :width="width" :height="height" :src="image" />
     <slot :status="status">
       <Transition name="fade" appear>
         <div v-if="status !== 'playing'">
@@ -95,6 +95,5 @@ const onSnapshot = () => {
         <IconUnfullscreen v-if="isFullscreen" @click="exit" />
       </div>
     </transition>
-    <Button @click="onSnapshot">Snapshot</Button>
   </div>
 </template>
