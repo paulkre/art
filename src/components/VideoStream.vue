@@ -55,7 +55,7 @@ const statuses = {
         "
       >
         <Small v-if="muted" @click="muted = !muted" style="cursor: pointer"
-          >Turn on sound&ensp;</Small
+          >Unmute&ensp;</Small
         >
         <IconMute v-if="!muted" @click="muted = !muted" />
         <IconUnmute v-if="muted" @click="muted = !muted" />
