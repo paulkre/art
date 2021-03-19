@@ -108,7 +108,9 @@ watch(status, () => {
             :is="
               event && event.is360 === 'TRUE'
                 ? 'video-stream-three'
-                : 'video-stream-snapshot'
+                : event && event.snapshot
+                ? 'video-stream-snapshot'
+                : 'video-stream'
             "
             :src="src"
           />
