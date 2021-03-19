@@ -11,8 +11,10 @@ export const config = {
   twitterUrl: import.meta.env.VITE_TWITTER_URL || "",
   youtubeUrl: import.meta.env.VITE_YOUTUBE_URL || "",
   emailUrl: import.meta.env.VITE_EMAIL_URL || "",
+  phoneUrl: import.meta.env.VITE_PHONE_URL || "",
   newFeatures: import.meta.env.VITE_NEW_FEATURES === "true" || false,
   fientaUrl: import.meta.env.VITE_FIENTA_URL || "",
+  fientaTicketUrl: import.meta.env.VITE_FIENTA_TICKET_URL || "",
   fientaToken: import.meta.env.VITE_FIENTA_TOKEN || "",
   fientaTestcode: import.meta.env.VITE_FIENTA_TESTCODE || "",
   indexComponent: import.meta.env.VITE_INDEX_COMPONENT || "Index",
@@ -20,5 +22,4 @@ export const config = {
   userUpdateRate: 30 * 1000,
   userUpdatedSinceLimit: 30 * 1000,
   messageDelay: 50,
-  perfStart: "2021-04-01T18:00:00.002Z",
 };
