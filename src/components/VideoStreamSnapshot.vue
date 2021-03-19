@@ -21,6 +21,7 @@ const statuses = {
 
 const canvasRef = ref(null);
 const context = ref(null);
+const image = ref("");
 
 const canvasSizeMultiplier = 1;
 
@@ -42,13 +43,13 @@ const onSnapshot = () => {
     width.value * canvasSizeMultiplier,
     height.value * canvasSizeMultiplier
   );
+  image.value = canvasRef.value.toDataURL("image/jpeg", 0.8);
 };
 </script>
 
 <template>
   <div style="position: relative; background: var(--bgdark)" ref="playerRef">
     <video
-      class="debug"
       ref="videoRef"
       autoplay
       playsinline
@@ -62,7 +63,8 @@ const onSnapshot = () => {
         aspectRatio: width + ' / ' + height,
       }"
     />
-    <canvas class="debug" ref="canvasRef" style="display: block" />
+    <canvas ref="canvasRef" style="display: none" />
+    <img :width="width" :height="height" :src="image" />
     <slot :status="status">
       <Transition name="fade" appear>
         <div v-if="status !== 'playing'">
