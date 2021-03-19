@@ -22,4 +22,5 @@ export const config = {
   userUpdateRate: 30 * 1000,
   userUpdatedSinceLimit: 30 * 1000,
   messageDelay: 50,
+  perfStart: "2021-04-01T18:00:00.002Z",
 };
