@@ -15,7 +15,7 @@ const imagesRef = useScrollToBottom();
 
 <template>
   <Vertical>
-    <Button @click="onSnapshot">Take snapshot</Button>
+    <Button @click="onSnapshot">Take Snapshot</Button>
     <Vertical
       v-if="images.length"
       style="overflow: auto; height: 70vh; gap: 0"
