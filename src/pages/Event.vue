@@ -161,27 +161,41 @@ watch(status, () => {
       <p />
       <p />
       <h1>{{ event.title }}</h1>
-      <div>This event has not yet started but you can already enter.</div>
+      <div>
+        This event requires you have a ticket. Note that it will only work on a
+        single device.
+      </div>
+      <!-- <div>This event has not yet started but you can already enter.</div> -->
       <input
         v-model="code"
         placeholder="Type the ticket code"
         style="width: 200px"
       />
-      <Button @click="onCheck">Enter to the event</Button>
+      <ButtonBig @click="onCheck">Enter to the event</ButtonBig>
       <p />
       <div v-if="status === 'USED'">
         This ticket has been used already. We only support using the ticket on a
         single device, sorry.
       </div>
       <a
-        v-if="event.tickets"
-        :href="event.tickets"
+        v-if="event.ticketUrl"
+        :href="event.ticketUrl"
         style="border-bottom: 1px solid var(--fg)"
+        target="_blank"
       >
         No tickets yet? Get them here
       </a>
-      <p style="opacity: 0.5">Having problems? Write us at help@elektron.art</p>
-    </Overlay>
+      <p />
+      <p />
+      <p v-if="config.phoneUrl">
+        <span style="opacity: 0.5">Having problems with getting in? Call</span
+        >&nbsp;
+        <a :href="config.phoneUrl" style="border-bottom: 1px solid var(--fg)">{{
+          config.phoneUrl.replace("tel:", "")
+        }}</a>
+      </p></Overlay
+    >
+
     <ButtonBack :to="event?.pageid ? '/page/' + event.pageid : '/'" />
   </div>
 </template>
