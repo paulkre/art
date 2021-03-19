@@ -22,16 +22,15 @@ const statuses = {
 const canvasRef = ref(null);
 const context = ref(null);
 
-const canvasSize = 0.5;
+const canvasSizeMultiplier = 1;
 
 watch([videoRef, canvasRef, width, height], () => {
-  console.log(width.value);
   if (videoRef.value && canvasRef.value) {
     context.value = canvasRef.value.getContext("2d");
   }
   if (width.value && height.value) {
-    canvasRef.value.width = width.value * canvasSize;
-    canvasRef.value.height = height.value * canvasSize;
+    canvasRef.value.width = width.value * canvasSizeMultiplier;
+    canvasRef.value.height = height.value * canvasSizeMultiplier;
   }
 });
 
@@ -40,8 +39,8 @@ const onSnapshot = () => {
     videoRef.value,
     0,
     0,
-    width.value * canvasSize,
-    height.value * canvasSize
+    width.value * canvasSizeMultiplier,
+    height.value * canvasSizeMultiplier
   );
 };
 </script>
@@ -63,7 +62,7 @@ const onSnapshot = () => {
         aspectRatio: width + ' / ' + height,
       }"
     />
-    <canvas class="debug" ref="canvasRef" style="display: block; width: 100%" />
+    <canvas class="debug" ref="canvasRef" style="display: block" />
     <slot :status="status">
       <Transition name="fade" appear>
         <div v-if="status !== 'playing'">
