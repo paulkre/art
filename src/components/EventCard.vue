@@ -1,6 +1,9 @@
 <script setup>
 import { defineProps } from "vue";
-defineProps({ event: { type: Object } });
+defineProps({
+  event: { type: Object },
+  description: { type: Boolean, default: true },
+});
 </script>
 <template>
   <RouterLink class="EventCard" :to="'/' + event.eventid">
@@ -10,10 +13,9 @@ defineProps({ event: { type: Object } });
     />
     <div class="EventContent">
       <h3>{{ event.title }}</h3>
-      <div class="EventDate" v-if="event.from">
-        {{ event.from }} {{ event.to ? "→" : "" }} {{ event.to }}
-      </div>
-      <Small style="opacity: 0.8">
+      <div v-if="event.page?.title">{{ event.page.title }}</div>
+      <EventDate :event="event" />
+      <Small style="opacity: 0.8" v-if="description">
         <Vertical class="EventIntro" v-html="event.description" />
       </Small>
     </div>
