@@ -1,10 +1,9 @@
 export const config = {
   streamUrl: import.meta.env.VITE_STREAM_URL || "",
-  calendarUrl: import.meta.env.VITE_CALENDAR_URL || "",
   eventsUrl: import.meta.env.VITE_EVENTS_URL || "",
-  indexUrl: import.meta.env.VITE_INDEX_URL || "",
+  pagesUrl: import.meta.env.VITE_PAGES_URL || "",
   wsUrl: import.meta.env.VITE_WS_URL || "",
-  historyUrl: import.meta.env.VITE_HISTORY_URL || "",
+  messagesUrl: import.meta.env.VITE_MESSAGES_URL || "",
   corsUrl: import.meta.env.VITE_CORS_URL || "${url}",
   facebookUrl: import.meta.env.VITE_FACEBOOK_URL || "",
   instagramUrl: import.meta.env.VITE_INSTAGRAM_URL || "",

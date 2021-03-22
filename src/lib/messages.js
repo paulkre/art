@@ -36,7 +36,7 @@ export const createMessage = (message) => {
 export const messages = ref([]);
 
 export const loadMessages = () => {
-  fetch(config.historyUrl)
+  fetch(config.messagesUrl)
     .then((res) => res.json())
     .then(
       (loadedMessages) =>
