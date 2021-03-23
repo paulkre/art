@@ -1,11 +1,32 @@
 //@ts-check
+import { ref } from 'vue';
+
 import {
   compareAsc,
+  differenceInHours,
   format,
   formatDistanceStrict,
   intervalToDuration,
   isPast,
 } from 'date-fns';
+
+const timezoneAbbr = (dateInput) => {
+  let dateString = dateInput + "",
+    tzAbbr =
+      dateString.match(/\(([^\)]+)\)$/) ||
+      dateString.match(/([A-Z]+) [\d]{4}$/);
+
+  if (tzAbbr) {
+    // @ts-ignore
+    tzAbbr = tzAbbr[1].match(/[A-Z]/g).join("");
+  }
+
+  if (!tzAbbr && /(GMT\W*\d{4})/.test(dateString)) {
+    return RegExp.$1;
+  }
+
+  return tzAbbr;
+};
 
 const timeZone = "Europe/Tallinn";
 
@@ -49,9 +70,22 @@ export const getDiff = (event) => {
   fromtime = fromtime.trim() ? fromtime : "00:00";
   todate = todate.trim() ? todate : fromdate;
   totime = totime.trim() ? totime : fromtime;
-  const fromDateTime = createDate(fromdate, fromtime);
-  const toDateTime = createDate(todate, totime);
+
   const now = new Date();
+  const tz = now.getTimezoneOffset() / -60;
+  const timezone = `${tz < 0 ? "-" : "+"}${String(tz).padStart(2, "0")}:00`;
+  const timezoneName = `${
+    Intl.DateTimeFormat().resolvedOptions().timeZone.split("/")[1]
+  } time`;
+
+  const tzAbbr = timezoneAbbr(now);
+
+  const fromDateTime = createDate(fromdate, fromtime);
+  const fromDateTime2 = formatDate(fromDateTime);
+  const fromDateTime3 = createDate(fromdate, fromtime, timezone);
+  const fromDateTime4 = formatDate(fromDateTime3);
+  const toDateTime = createDate(todate, totime);
+
   const fromDiff = formatDistanceStrict(fromDateTime, now, {
     roundingMethod: "ceil",
     addSuffix: true,
@@ -70,7 +104,9 @@ export const getDiff = (event) => {
       todate,
       totime,
       fromDateTime,
-      fromDateTime2: formatDate(fromDateTime),
+      fromDateTime2,
+      fromDateTime3,
+      fromDateTime4,
       toDateTime,
       //toDateTime2: formatDate(toDateTime),
       fromDiff,
@@ -78,6 +114,9 @@ export const getDiff = (event) => {
       now,
       now2: formatDate(now),
       past: isPast(fromDateTime),
+      timezone,
+      timezoneName,
+      tzAbbr,
     },
   };
 };
