@@ -1,18 +1,14 @@
-//@ts-check
 import { ref } from 'vue';
 
 import {
   config,
+  createDate,
   fetchSheet,
+  getDiff,
+  replace,
 } from './';
-import { replace } from './utils';
 
 export const events = ref([]);
-
-const createDate = (dateStr, timeStr, tz = "+02:00") =>
-  new Date(`${dateStr}T${timeStr}${tz}`).toLocaleString("et", {
-    timeZone: "Europe/Tallinn",
-  });
 
 const processEvent = (event) => {
   if (event.description) {
@@ -23,6 +19,8 @@ const processEvent = (event) => {
   const toDate = createDate(event.todate, event.totime);
   event.from = fromDate !== "Invalid Date" ? fromDate : "";
   event.to = toDate !== "Invalid Date" ? toDate : "";
+  event.diff = getDiff(event);
+
   if (event.streamkey) {
     event.streamkeys = event.streamkey.split(",").map((key) => key.trim());
   } else {
@@ -49,7 +47,12 @@ export const loadEvents = () => {
     .forEach((url) =>
       fetchSheet(url).then(
         ({ rows }) =>
-          (events.value = [...events.value, ...rows.map(processEvent)])
+          (events.value = [
+            ...events.value,
+            ...rows.map(processEvent),
+          ]) /*.sort((a, b) =>
+            compareDesc(createDate(a.start), createDate(b.start))
+          )*/
       )
     );
 };
