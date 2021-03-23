@@ -1,42 +1,84 @@
-import { ref } from 'vue';
-
+//@ts-check
 import {
-  differenceInHours,
-  formatDistanceToNow,
+  compareAsc,
+  format,
+  formatDistanceStrict,
   intervalToDuration,
-  parseISO,
+  isPast,
 } from 'date-fns';
 
-const timezone = "Europe/Tallinn";
+const timeZone = "Europe/Tallinn";
 
 // export const createDate = (str) => utcToZonedTime(str, timezone);
 
 // export const createNow = () =>
 //   format(utcToZonedTime(new Date(), timezone), "yyyy-MM-dd HH:mm:ss");
 
-export const createDate = (dateStr, timeStr = "00:00:00.000", tz = "+02:00") =>
+/*
+export const createDate = (dateStr, timeStr = "00:00:00.000", tz = "+00:00") =>
   new parseISO(`${dateStr}T${timeStr}${tz}`).toLocaleString("et", {
-    timeZone: "Europe/Tallinn",
+    timeZone: "Europe/Berlin",
+  });*/
+
+export const createDate = (dateStr, timeStr = "00:00", tz = "+02:00") =>
+  new Date(`${dateStr}T${timeStr}:00.000${tz}`);
+
+export const createDate2 = (dateStr, timeStr, tz = "+02:00") =>
+  new Date(`${dateStr}T${timeStr}:00.000${tz}`).toLocaleString("et", {
+    timeZone,
   });
+
+// .toLocaleString("et", {
+//   timeZone: "Europe/Tallinn",
+// });
 
 export const createNow = () => createDate(new Date());
 
 const isDatetime = (str) => String(str).match(/:/g);
 
+export const formatDate = (str) => {
+  if (isDatetime(str)) {
+    return format(new Date(str), "d. MMMM y HH:mm");
+  } else {
+    return format(new Date(str), "d. MMM y");
+  }
+};
+
 export const getDiff = (event) => {
-  const { fromdate, fromtime, todate, totime } = event;
+  let { fromdate, fromtime, todate, totime } = event;
+  fromtime = fromtime.trim() ? fromtime : "00:00";
+  todate = todate.trim() ? todate : fromdate;
+  totime = totime.trim() ? totime : fromtime;
   const fromDateTime = createDate(fromdate, fromtime);
   const toDateTime = createDate(todate, totime);
-  const fromDiff = formatDistanceToNow(new Date());
-  console.log(createDate(fromdate));
+  const now = new Date();
+  const fromDiff = formatDistanceStrict(fromDateTime, now, {
+    roundingMethod: "ceil",
+    addSuffix: true,
+  });
+  const fromDiff2 = intervalToDuration({
+    start: fromDateTime,
+    end: now,
+  });
+  const comp = compareAsc(fromDateTime, toDateTime);
   return {
-    fromdate,
-    fromtime,
-    fromDateTime,
-    todate,
-    totime,
-    toDateTime,
-    fromDiff,
+    from: fromDateTime,
+    to: toDateTime,
+    diff: {
+      fromdate,
+      fromtime,
+      todate,
+      totime,
+      fromDateTime,
+      fromDateTime2: formatDate(fromDateTime),
+      toDateTime,
+      //toDateTime2: formatDate(toDateTime),
+      fromDiff,
+      fromDiff2,
+      now,
+      now2: formatDate(now),
+      past: isPast(fromDateTime),
+    },
   };
 };
 

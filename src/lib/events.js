@@ -1,8 +1,10 @@
+//@ts-check
 import { ref } from 'vue';
+
+import { compareDesc } from 'date-fns';
 
 import {
   config,
-  createDate,
   fetchSheet,
   getDiff,
   replace,
@@ -15,12 +17,12 @@ const processEvent = (event) => {
     event.intro = `${event.description.split(/\n/)[0]}.`;
     event.description = `<p>${event.description.replace(/\n/g, "</p><p>")}</p>`;
   }
-  const fromDate = createDate(event.fromdate, event.fromtime);
-  const toDate = createDate(event.todate, event.totime);
-  event.from = fromDate !== "Invalid Date" ? fromDate : "";
-  event.to = toDate !== "Invalid Date" ? toDate : "";
-  event.diff = getDiff(event);
-
+  // const fromDate = createDate(event.fromdate, event.fromtime);
+  // const toDate = createDate(event.todate, event.totime);
+  // event.from = fromDate !== "Invalid Date" ? fromDate : "";
+  // event.to = toDate !== "Invalid Date" ? toDate : "";
+  event = { ...event, ...getDiff(event) };
+  console.log(event);
   if (event.streamkey) {
     event.streamkeys = event.streamkey.split(",").map((key) => key.trim());
   } else {
@@ -45,14 +47,11 @@ export const loadEvents = () => {
   ]
     .filter((url) => url)
     .forEach((url) =>
-      fetchSheet(url).then(
-        ({ rows }) =>
-          (events.value = [
-            ...events.value,
-            ...rows.map(processEvent),
-          ]) /*.sort((a, b) =>
-            compareDesc(createDate(a.start), createDate(b.start))
-          )*/
+      fetchSheet(url).then(({ rows }) =>
+        (events.value = [
+          ...events.value,
+          ...rows.map(processEvent),
+        ]).sort((a, b) => compareDesc(b.from, a.from))
       )
     );
 };
