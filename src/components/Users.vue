@@ -23,11 +23,6 @@ const props = defineProps({
 });
 
 const showMessages = ref(false);
-// watch(
-//   () => props.showMessages,
-//   () => (showMessages.value = props.showMessages),
-//   { immediate: true }
-// );
 
 const updatedUsers = computed(() =>
   users.value
