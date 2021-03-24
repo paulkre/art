@@ -32,8 +32,8 @@ const isDatetime = (str) => String(str).match(/:/g);
 
 const now = new Date();
 
-export const formatDate = (str, fromtime = null) => {
-  if (fromtime) {
+export const formatDate = (str, fromTime = true) => {
+  if (fromTime) {
     return `${format(new Date(str), "d. MMMM y HH:mm")} ${timezoneShortname(
       now
     )}`;
@@ -44,43 +44,46 @@ export const formatDate = (str, fromtime = null) => {
 
 export const sortEvents = (a, b) => compareDesc(b.fromDatetime, a.fromDatetime);
 
-const getDifferenceBetween = (fromDatetime, toDatetime) => {
+const dateRangeUrgency = (fromDatetime, toDatetime) => {
   const soonMinutes = 3 * 60;
-  const diffStart = differenceInMinutes(fromDatetime, now);
-  const diffEnd = differenceInMinutes(toDatetime, now);
-  if (diffStart < 0 && diffEnd >= 0) {
-    return { diff: "now", diffStart, diffEnd };
-  } else if (diffStart >= 0 && diffStart <= soonMinutes) {
-    return { diff: "soon", diffStart, diffEnd };
-  } else if (diffStart >= 0 && diffStart > soonMinutes) {
-    return { diff: "future", diffStart, diffEnd };
+  const started = differenceInMinutes(fromDatetime, now);
+  const ended = differenceInMinutes(toDatetime, now);
+  if (started < 0 && ended >= 0) {
+    return { urgency: "now", started, ended };
+  } else if (started >= 0 && started <= soonMinutes) {
+    return { urgency: "soon", started, ended };
+  } else if (started >= 0 && started > soonMinutes) {
+    return { urgency: "future", started, ended };
   } else {
-    return { diff: "past", diffStart, diffEnd };
+    return { urgency: "past", started, ended };
   }
 };
 
 export const getDiff = (event) => {
-  let { fromdate, fromtime, todate, totime } = event;
-  fromtime = fromtime.trim() ? fromtime : "00:00";
-  todate = todate.trim() ? todate : fromdate;
-  totime = totime.trim() ? totime : "24:00";
+  const { fromdate, fromtime, todate, totime } = event;
+
+  const fromDate = fromdate;
+  const fromTime = fromtime.trim() ? fromtime : "00:00";
+  const toDate = todate.trim() ? todate : fromDate;
+  const toTime = totime.trim() ? totime : "24:00";
 
   const fromDatetime = createDate(
-    fromdate,
-    fromtime,
+    fromDate,
+    fromTime,
     event.tz === "CEST" ? "+01:00" : "+02:00"
   );
   const formattedFromDatetime = formatDate(fromDatetime);
 
   const toDatetime = createDate(
-    todate,
-    totime,
+    toDate,
+    toTime,
     event.tz === "CEST" ? "+01:00" : "+02:00"
   );
 
   const formattedToDatetime = formatDate(toDatetime);
 
   const formatDistance = (datetime, datetimeStatus = null) => {
+    // @TODO support start and end times
     const distance = sentencecase(
       formatDistanceStrict(datetime, now, {
         roundingMethod: "ceil",
@@ -90,24 +93,16 @@ export const getDiff = (event) => {
     return datetimeStatus === "now" ? `Started ${distance}` : distance;
   };
 
-  const diff2 = getDifferenceBetween(fromDatetime, toDatetime);
+  const { urgency } = dateRangeUrgency(fromDatetime, toDatetime);
 
-  const distance = formatDistance(fromDatetime, diff2.diff);
+  const formattedDistance = formatDistance(fromDatetime, urgency);
 
   return {
     fromDatetime,
     toDatetime,
-    diff: {
-      diff2,
-      fromdate,
-      fromtime,
-      fromDatetime,
-      todate,
-      totime,
-      toDatetime,
-      formattedFromDatetime,
-      formattedToDatetime,
-      distance,
-    },
+    formattedFromDatetime,
+    formattedToDatetime,
+    urgency,
+    formattedDistance,
   };
 };

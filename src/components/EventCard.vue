@@ -13,12 +13,11 @@ defineProps({
     />
     <div class="EventContent">
       <h3>{{ event.title }}</h3>
-      <!-- <div v-if="event.page?.title">{{ event.page.title }}</div>
       <EventDate :event="event" />
+      <div v-if="event?.page?.title">{{ event?.page?.title }}</div>
       <Small style="opacity: 0.8" v-if="description">
         <Vertical class="EventIntro" v-html="event.description" />
-      </Small> -->
-      <div v-if="event">{{ event.diff }}</div>
+      </Small>
     </div>
   </RouterLink>
 </template>
@@ -35,10 +34,6 @@ defineProps({
 .EventContent {
   display: grid;
   gap: 4px;
-}
-.EventDate {
-  font-size: 0.9em;
-  opacity: 0.7;
 }
 .EventIntro {
   opacity: 0.85;

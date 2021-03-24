@@ -21,7 +21,6 @@ const processEvent = (event) => {
   // event.from = fromDate !== "Invalid Date" ? fromDate : "";
   // event.to = toDate !== "Invalid Date" ? toDate : "";
   event = { ...event, ...getDiff(event) };
-  console.log(event);
   if (event.streamkey) {
     event.streamkeys = event.streamkey.split(",").map((key) => key.trim());
   } else {
