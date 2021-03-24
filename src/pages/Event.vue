@@ -240,7 +240,7 @@ const onToggleUsers = () => {
         }}</a>
       </p>
     </Overlay>
-    <Users v-if="showUsers" :about="false" />
+    <Users v-if="showUsers" :about="showAbout" />
     <div
       v-if="admin"
       style="position: fixed; left: 16px; top: 6px; transform: scale(0.7)"
