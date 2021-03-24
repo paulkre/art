@@ -62,6 +62,7 @@ export const useVideoStream = (src) => {
 
   const playHls = () => {
     hls = new Hls({
+      debug: true,
       manifestLoadingRetryDelay: retryDelay,
       manifestLoadingMaxRetry: Infinity,
       xhrSetup: function (xhr) {
@@ -81,6 +82,7 @@ export const useVideoStream = (src) => {
       hls.startLoad();
     });
     hls.on(Hls.Events.ERROR, (_, data) => {
+      console.log("ERROR", data);
       hls.recoverMediaError();
       if (data.type !== Hls.ErrorTypes.MEDIA_ERROR) {
         hls.startLoad();
@@ -90,6 +92,8 @@ export const useVideoStream = (src) => {
 
   onMounted(() => {
     videoRef.value.addEventListener("loadeddata", (e) => {
+      console.log("PLAYER loadeddata");
+
       status.value = "loading";
       width.value =
         videoRef.value?.videoWidth > 0 ? videoRef.value?.videoWidth : -1;
@@ -98,6 +102,8 @@ export const useVideoStream = (src) => {
     });
 
     videoRef.value.addEventListener("playing", (e) => {
+      console.log("PLAYER playing");
+
       status.value = "playing";
       width.value =
         videoRef.value?.videoWidth > 0 ? videoRef.value?.videoWidth : -1;
@@ -105,11 +111,16 @@ export const useVideoStream = (src) => {
         videoRef.value?.videoHeight > 0 ? videoRef.value?.videoHeight : -1;
     });
 
-    // videoRef.value.addEventListener("emptied", (e) => {
-    //   status.value = "nodata";
-    // });
+    videoRef.value.addEventListener("stalled", (e) => {
+      console.log("PLAYER stalled");
+    });
+
+    videoRef.value.addEventListener("emptied", (e) => {
+      console.log("PLAYER emptied");
+    });
 
     videoRef.value.addEventListener("ended", (e) => {
+      console.log("ended");
       status.value = "nodata";
     });
   });
