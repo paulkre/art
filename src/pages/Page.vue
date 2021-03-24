@@ -16,7 +16,9 @@ const page = computed(() => {
       p = currentPage;
     }
     if (events.value) {
-      p.events = events.value.filter((event) => event.pageid == params.pageid);
+      p.events = events.value
+        .filter((event) => event.hidden !== "TRUE")
+        .filter((event) => event.pageid == params.pageid);
     }
   }
   return p;

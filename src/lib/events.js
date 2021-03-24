@@ -47,6 +47,10 @@ export const loadEvents = () => {
     .forEach((url) =>
       fetchSheet(url).then(({ rows }) =>
         (events.value = [...events.value, ...rows.map(processEvent)])
+          .map((e) => {
+            console.log(e.hidden === "TRUE");
+            return e;
+          })
           .filter((event) => event.hidden !== "TRUE")
           .sort(sortEvents)
       )

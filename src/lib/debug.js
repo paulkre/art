@@ -1,7 +1,13 @@
+import { watch } from 'vue';
+
 import { useRoute } from 'vue-router';
 
 export const useDebug = () => {
   const route = useRoute();
-  console.log(route.query);
+  watch(
+    () => route.query,
+    () => console.log(route.query),
+    { immediate: true }
+  );
   return route.query?.debug;
 };
