@@ -13,6 +13,7 @@ import {
   scale,
   userName,
   userAbout,
+  userData,
   onUserNameChange,
   useAboutTextarea,
 } from "../lib";
@@ -57,6 +58,7 @@ const otherUsers = computed(() =>
 const { centerX, centerY } = useWindow();
 
 const onUserDrag = debounce(({ x, y }) => {
+  userData.value = { userX: x - centerX.value, userY: y - centerY.value };
   const outgoingMessage = createMessage({
     type: "USER",
     value: {
@@ -140,7 +142,11 @@ const textareaRef = useAboutTextarea(showMessages);
         </div>
       </div>
     </div>
-    <draggable x="100" y="100" @drag="onUserDrag">
+    <draggable
+      :x="userData.userX + centerX"
+      :y="userData.userY + centerY"
+      @drag="onUserDrag"
+    >
       <div style="display: grid; grid-template-columns: auto 300px; gap: 8px">
         <Dot color="red" opacity="0.8" />
         <div v-if="showMessages && about">
