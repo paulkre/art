@@ -35,7 +35,6 @@ watch(
 );
 
 const debug = useDebug();
-watchEffect(() => console.log(debug));
 </script>
 
 <template>
@@ -47,7 +46,7 @@ watchEffect(() => console.log(debug));
     </RouterView>
 
     <div style="position: fixed; right: 16px; top: 16px; display: flex">
-      {{ debug }} <IconDarkmode @click="toggleTheme" />
+      <IconDarkmode @click="toggleTheme" />
     </div>
     <Users v-if="showUsers" />
   </div>
