@@ -10,21 +10,27 @@ import {
 } from "../lib";
 
 const pagesWithEvents = computed(() =>
-  pages.value.map((page) => {
-    if (page.eventid) {
-      page.event = events.value.find((event) => event.eventid === page.eventid);
-    }
-    return page;
-  })
+  pages.value
+    .map((page) => {
+      if (page.eventid) {
+        page.event = events.value.find(
+          (event) => event.eventid === page.eventid
+        );
+      }
+      return page;
+    })
+    .filter((event) => event.urgency !== "past")
 );
 
 const eventsWithPages = computed(() =>
-  events.value.map((event) => {
-    if (event.pageid) {
-      event.page = pages.value.find((page) => page.pageid === event.pageid);
-    }
-    return event;
-  })
+  events.value
+    .map((event) => {
+      if (event.pageid) {
+        event.page = pages.value.find((page) => page.pageid === event.pageid);
+      }
+      return event;
+    })
+    .filter((event) => event.urgency !== "past")
 );
 
 const countdown = useCountdown(config.perfStart);

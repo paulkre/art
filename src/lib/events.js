@@ -46,9 +46,9 @@ export const loadEvents = () => {
     .filter((url) => url)
     .forEach((url) =>
       fetchSheet(url).then(({ rows }) =>
-        (events.value = [...events.value, ...rows.map(processEvent)]).sort(
-          sortEvents
-        )
+        (events.value = [...events.value, ...rows.map(processEvent)])
+          .filter((event) => event.hidden !== "TRUE")
+          .sort(sortEvents)
       )
     );
 };
