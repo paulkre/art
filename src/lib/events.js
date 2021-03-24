@@ -1,13 +1,12 @@
 //@ts-check
 import { ref } from 'vue';
 
-import { compareDesc } from 'date-fns';
-
 import {
   config,
   fetchSheet,
   getDiff,
   replace,
+  sortEvents,
 } from './';
 
 export const events = ref([]);
@@ -48,10 +47,9 @@ export const loadEvents = () => {
     .filter((url) => url)
     .forEach((url) =>
       fetchSheet(url).then(({ rows }) =>
-        (events.value = [
-          ...events.value,
-          ...rows.map(processEvent),
-        ]).sort((a, b) => compareDesc(b.from, a.from))
+        (events.value = [...events.value, ...rows.map(processEvent)]).sort(
+          sortEvents
+        )
       )
     );
 };

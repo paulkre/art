@@ -2,12 +2,11 @@
 import { ref } from 'vue';
 
 import {
-  compareAsc,
+  compareDesc,
   differenceInHours,
   format,
   formatDistanceStrict,
   intervalToDuration,
-  isPast,
 } from 'date-fns';
 
 const timezoneAbbr = (dateInput) => {
@@ -57,66 +56,66 @@ export const createNow = () => createDate(new Date());
 
 const isDatetime = (str) => String(str).match(/:/g);
 
+const now = new Date();
+
 export const formatDate = (str) => {
+  let dateStr;
   if (isDatetime(str)) {
-    return format(new Date(str), "d. MMMM y HH:mm");
+    dateStr = format(new Date(str), "d. MMMM y HH:mm");
   } else {
-    return format(new Date(str), "d. MMM y");
+    dateStr = format(new Date(str), "d. MMM y");
   }
+  return `${dateStr} ${timezoneAbbr(now)}`;
 };
+
+export const sortEvents = (a, b) => compareDesc(b.fromDatetime, a.fromDatetime);
 
 export const getDiff = (event) => {
   let { fromdate, fromtime, todate, totime } = event;
   fromtime = fromtime.trim() ? fromtime : "00:00";
   todate = todate.trim() ? todate : fromdate;
-  totime = totime.trim() ? totime : fromtime;
+  totime = totime.trim() ? totime : "00:00";
 
-  const now = new Date();
-  const tz = now.getTimezoneOffset() / -60;
-  const timezone = `${tz < 0 ? "-" : "+"}${String(tz).padStart(2, "0")}:00`;
-  const timezoneName = `${
-    Intl.DateTimeFormat().resolvedOptions().timeZone.split("/")[1]
-  } time`;
+  // const tz = now.getTimezoneOffset() / -60;
+  // const timezone = `${tz < 0 ? "-" : "+"}${String(tz).padStart(2, "0")}:00`;
+  // const timezoneName = `${
+  //   Intl.DateTimeFormat().resolvedOptions().timeZone.split("/")[1]
+  // } time`;
+  // const tzAbbr = timezoneAbbr(now);
 
-  const tzAbbr = timezoneAbbr(now);
+  const fromDatetime = createDate(
+    fromdate,
+    fromtime,
+    event.tz === "CEST" ? "+01:00" : "+02:00"
+  );
+  const formattedFromDatetime = formatDate(fromDatetime);
 
-  const fromDateTime = createDate(fromdate, fromtime);
-  const fromDateTime2 = formatDate(fromDateTime);
-  const fromDateTime3 = createDate(fromdate, fromtime, timezone);
-  const fromDateTime4 = formatDate(fromDateTime3);
-  const toDateTime = createDate(todate, totime);
+  const toDatetime = createDate(
+    todate,
+    totime,
+    event.tz === "CEST" ? "+01:00" : "+02:00"
+  );
 
-  const fromDiff = formatDistanceStrict(fromDateTime, now, {
+  const formattedToDatetime = formatDate(toDatetime);
+
+  const distance = formatDistanceStrict(fromDatetime, now, {
     roundingMethod: "ceil",
     addSuffix: true,
   });
-  const fromDiff2 = intervalToDuration({
-    start: fromDateTime,
-    end: now,
-  });
-  const comp = compareAsc(fromDateTime, toDateTime);
+
   return {
-    from: fromDateTime,
-    to: toDateTime,
+    fromDatetime,
+    toDatetime,
     diff: {
       fromdate,
       fromtime,
+      fromDatetime,
       todate,
       totime,
-      fromDateTime,
-      fromDateTime2,
-      fromDateTime3,
-      fromDateTime4,
-      toDateTime,
-      //toDateTime2: formatDate(toDateTime),
-      fromDiff,
-      fromDiff2,
-      now,
-      now2: formatDate(now),
-      past: isPast(fromDateTime),
-      timezone,
-      timezoneName,
-      tzAbbr,
+      toDatetime,
+      formattedFromDatetime,
+      formattedToDatetime,
+      distance,
     },
   };
 };
