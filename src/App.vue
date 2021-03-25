@@ -14,6 +14,10 @@ import {
   userName,
   userAbout,
   onUserNameChange,
+  useAdmin,
+  debug,
+  admin,
+  update,
 } from "./lib";
 
 loadEvents();
@@ -32,6 +36,8 @@ watch(
   },
   { immediate: true }
 );
+
+const { sendUpdate, applyUpdate } = useAdmin();
 </script>
 
 <template>
@@ -43,9 +49,13 @@ watch(
     </RouterView>
 
     <div style="position: fixed; right: 16px; top: 16px; display: flex">
-      <IconDarkmode @click="toggleTheme" />
+      {{ debug ? "a" : "b" }} <IconDarkmode @click="toggleTheme" />
     </div>
     <Users v-if="showUsers" />
+    <div style="position: fixed; left: 100px; top: 16px; display: flex">
+      <Button v-if="debug" @click="sendUpdate">Send update</Button>
+      <Button v-if="update" @click="applyUpdate">Apply update</Button>
+    </div>
   </div>
 </template>
 
