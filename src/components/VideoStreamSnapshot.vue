@@ -87,7 +87,7 @@ const stat = computed(() => {
     <transition name="fade">
       <div>
         <Flex
-          v-if="stat"
+          v-if="stat && status == !'playing'"
           style="
             position: absolute;
             right: clamp(5px, 2vw, 24px);
