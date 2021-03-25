@@ -46,6 +46,24 @@ emitter.on("SNAPSHOT_REQUEST", () => {
     canvasRef.value.toDataURL("image/jpeg", 0.8)
   );
 });
+
+const usePip = (videoRef) => {
+  const pipAvailable = "pictureInPictureEnabled" in document;
+  const pipEnabled = ref(false);
+  const pipEnter = () => {
+    if (pipAvailable && videoRef.value) {
+      videoRef.value
+        .requestPictureInPicture()
+        .then(() => (pipEnabled.value = true));
+    }
+  };
+  const pipExit = () => {
+    document.exitPictureInPicture().then(() => (pipEnabled.value = false));
+  };
+  return { pipAvailable, pipEnabled, pipEnter, pipExit };
+};
+
+const { pipAvailable, pipEnabled, pipEnter, pipExit } = usePip(videoRef);
 </script>
 
 <template>
@@ -75,25 +93,26 @@ emitter.on("SNAPSHOT_REQUEST", () => {
       </Transition>
     </slot>
     <transition name="fade">
-      <div
+      <Flex
         style="
           position: absolute;
           right: clamp(5px, 2vw, 24px);
           bottom: clamp(5px, 2vw, 24px);
           color: white;
-          display: flex;
-          align-items: center;
+          gap: 12px;
         "
       >
         <Small v-if="muted" @click="muted = !muted" style="cursor: pointer"
-          >Turn on sound&ensp;</Small
+          >Turn on sound</Small
         >
+        <Small v-if="!muted">&nbsp;</Small>
         <IconMute v-if="!muted" @click="muted = !muted" />
         <IconUnmute v-if="muted" @click="muted = !muted" />
-        &emsp;
+        <IconPip v-if="pipAvailable && !pipEnabled" @click="pipEnter" />
+        <IconUnpip v-if="pipAvailable && pipEnabled" @click="pipExit" />
         <IconFullscreen v-if="!isFullscreen" @click="enter" />
         <IconUnfullscreen v-if="isFullscreen" @click="exit" />
-      </div>
+      </Flex>
     </transition>
   </div>
 </template>

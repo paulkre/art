@@ -14,7 +14,7 @@
       height="15"
       rx="3"
       stroke="currentColor"
-      stroke-width="1"
+      stroke-width="1.5"
       stroke-linejoin="round"
     />
     <rect
@@ -24,6 +24,7 @@
       height="6"
       rx="1"
       stroke="currentColor"
+      fill="currentColor"
       stroke-width="1.5"
       stroke-linejoin="round"
     />

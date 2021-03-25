@@ -9,24 +9,6 @@ const { videoRef, status, width, height } = useVideoStream(props.src);
 const playerRef = ref(null);
 const { isFullscreen, enter, exit, toggle } = useFullscreen(playerRef);
 
-const usePip = (videoRef) => {
-  const pipAvailable = document.pictureInPictureElement;
-  const pipEnabled = ref(false);
-  const pipEnter = () => {
-    if (pipAvailable && videoRef.value) {
-      pipEnabled.value = true;
-      videoRef.requestPictureInPicture();
-    }
-  };
-  const pipExit = () => {
-    pipEnabled.value = false;
-    document.exitPictureInPicture();
-  };
-  return { pipAvailable, pipEnabled, pipEnter, pipExit };
-};
-
-const { pipAvailable, pipEnabled, pipEnter, pipExit } = usePip(videoRef);
-
 const muted = ref(true);
 
 const statuses = {
