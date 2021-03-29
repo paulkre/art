@@ -1,19 +1,15 @@
 //@ts-check
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import {
-  createMessage,
-  safeJsonParse,
-  ws,
-  emitter,
-  useLocalstorage,
-} from "../lib";
+import { useStorage } from "@vueuse/core";
+
+import { createMessage, safeJsonParse, ws, emitter } from "../lib";
 
 export const superuser = ref(false);
 export const admin = ref(false);
-export const beforeUpdate = ref(false);
 
-const updated = useLocalstorage("elektron_updated", false);
+export const toBeUpdated = ref(false);
+export const updated = useStorage("elektron_updated", false);
 
 export const useAdmin = () => {
   const route = useRoute();
@@ -29,7 +25,7 @@ export const useAdmin = () => {
   ws.addEventListener("message", ({ data }) => {
     const message = safeJsonParse(data);
     if (message.type === "UPDATE") {
-      beforeUpdate.value = true;
+      toBeUpdated.value = true;
     }
   });
 
@@ -41,14 +37,15 @@ export const useAdmin = () => {
   };
 
   const runUpdate = () => {
+    toBeUpdated.value = false;
     updated.value = true;
     location.reload();
   };
 
   const runPostUpdate = () => {
-    updated.value = false;
+    updated.value = null;
     emitter.emit("unmute");
   };
 
-  return { sendUpdate, runUpdate };
+  return { sendUpdate, runUpdate, runPostUpdate };
 };
