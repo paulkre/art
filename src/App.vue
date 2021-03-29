@@ -15,9 +15,7 @@ import {
   userAbout,
   onUserNameChange,
   useAdmin,
-  debug,
-  admin,
-  update,
+  superuser,
 } from "./lib";
 
 loadEvents();
@@ -37,7 +35,13 @@ watch(
   { immediate: true }
 );
 
-const { sendUpdate, applyUpdate } = useAdmin();
+const {
+  sendUpdate,
+  beforeUpdate,
+  runUpdate,
+  updated,
+  runPostUpdate,
+} = useAdmin();
 </script>
 
 <template>
@@ -49,13 +53,13 @@ const { sendUpdate, applyUpdate } = useAdmin();
     </RouterView>
 
     <div style="position: fixed; right: 16px; top: 16px; display: flex">
-      {{ debug ? "a" : "b" }} <IconDarkmode @click="toggleTheme" />
+      <Button v-if="superuser" @click="sendUpdate">Send update</Button>
+      <Button v-if="beforeUpdate" style="--fg: orange"
+        >The site is about to be updated</Button
+      >
+      <IconDarkmode @click="toggleTheme" />
     </div>
     <Users v-if="showUsers" />
-    <div style="position: fixed; left: 100px; top: 16px; display: flex">
-      <Button v-if="debug" @click="sendUpdate">Send update</Button>
-      <Button v-if="update" @click="applyUpdate">Apply update</Button>
-    </div>
   </div>
 </template>
 

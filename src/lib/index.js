@@ -4,10 +4,10 @@ export * from "./utils.js";
 export * from "./events.js";
 export * from "./config.js";
 
+export * from "./admin.js";
 export * from "./chat.js";
 export * from "./countdown.js";
 export * from "./date.js";
-export * from "./debug.js";
 export * from "./doc.js";
 export * from "./dom.js";
 export * from "./emitter.js";

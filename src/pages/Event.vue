@@ -177,7 +177,6 @@ const onToggleUsers = () => {
       <EventPanel
         v-if="audienceColumns.chat"
         title="Chat"
-        :subtitle="users.length + ' online'"
         style="background: var(--bglighter)"
       >
         <Chat
