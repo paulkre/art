@@ -85,18 +85,20 @@ const stat = computed(() => {
       </Transition>
     </slot>
     <transition name="fade">
-      <div>
-        <Flex
-          v-if="stat && status == !'playing'"
-          style="
-            position: absolute;
-            right: clamp(5px, 2vw, 24px);
-            top: clamp(5px, 2vw, 24px);
-            color: yellow;
-          "
-          ><Smaller>{{ stat }}</Smaller>
-          <IconEye />
-        </Flex>
+      <div style="text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1)">
+        <transition name="fade">
+          <Flex
+            v-if="stat && status === 'playing'"
+            style="
+              position: absolute;
+              left: clamp(5px, 2vw, 24px);
+              bottom: clamp(5px, 2vw, 24px);
+            "
+          >
+            <IconEye />
+            <Smaller>{{ stat }}</Smaller>
+          </Flex>
+        </transition>
         <div
           style="
             position: absolute;

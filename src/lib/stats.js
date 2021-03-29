@@ -7,6 +7,5 @@ ws.addEventListener("message", ({ data }) => {
   const message = safeJsonParse(data);
   if (message.type === "STATS") {
     stats.value = message.value;
-    console.log(message, stats.value);
   }
 });
