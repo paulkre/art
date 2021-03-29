@@ -9,7 +9,7 @@
   >
     <path
       d="M19 1H1V19H19V1Z"
-      stroke="black"
+      stroke="currenColor"
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
