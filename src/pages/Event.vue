@@ -14,7 +14,7 @@ import {
   ws,
   createMessage,
   safeJsonParse,
-  useFeatures,
+  useAdmin,
 } from "../lib";
 
 const { params } = toRefs(useRoute());
@@ -109,7 +109,7 @@ watch(status, () => {
   }
 });
 
-const { admin } = useFeatures();
+const { admin } = useAdmin();
 const showUsers = ref(false);
 
 ws.addEventListener("message", ({ data }) => {
@@ -141,13 +141,17 @@ const onToggleUsers = () => {
                 ? 'video-stream-three'
                 : event && event.snapshot
                 ? 'video-stream-snapshot'
-                : 'video-stream'
+                : 'video-stream-snapshot'
             "
             :src="src"
+            :streamkey="event && event.streamkeys[0]"
           />
         </div>
         <div v-else>
-          <VideoStream :src="srcs[0]" />
+          <VideoStreamSnapshot
+            :src="srcs[0]"
+            :streamkey="event?.streamkeys[0] || params.eventid"
+          />
         </div>
         <p />
         <h2 v-if="event?.title">{{ event.title }}</h2>
@@ -173,7 +177,6 @@ const onToggleUsers = () => {
       <EventPanel
         v-if="audienceColumns.chat"
         title="Chat"
-        :subtitle="users.length + ' online'"
         style="background: var(--bglighter)"
       >
         <Chat
