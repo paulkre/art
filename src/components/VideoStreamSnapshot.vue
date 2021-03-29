@@ -42,17 +42,19 @@ watch([videoRef, canvasRef, width, height], () => {
 });
 
 emitter.on("SNAPSHOT_REQUEST", () => {
-  context.value.drawImage(
-    videoRef.value,
-    0,
-    0,
-    width.value * canvasSizeMultiplier,
-    height.value * canvasSizeMultiplier
-  );
-  emitter.emit(
-    "SNAPSHOT_RESPONSE",
-    canvasRef.value.toDataURL("image/jpeg", 0.8)
-  );
+  if (videoRef.value && canvasRef.value) {
+    context.value.drawImage(
+      videoRef.value,
+      0,
+      0,
+      width.value * canvasSizeMultiplier,
+      height.value * canvasSizeMultiplier
+    );
+    emitter.emit(
+      "SNAPSHOT_RESPONSE",
+      canvasRef.value.toDataURL("image/jpeg", 0.8)
+    );
+  }
 });
 
 const usePip = (videoRef) => {
