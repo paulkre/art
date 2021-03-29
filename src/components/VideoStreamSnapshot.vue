@@ -1,9 +1,12 @@
 <script setup>
-import { defineProps, ref, watch } from "vue";
+import { defineProps, ref, watch, computed } from "vue";
 import { useFullscreen } from "@vueuse/core";
-import { useVideoStream, emitter } from "../lib";
+import { useVideoStream, emitter, stats } from "../lib";
 
-const props = defineProps({ src: String });
+const props = defineProps({
+  src: { type: String },
+  streamkey: { type: String, default: "" },
+});
 const { videoRef, status, width, height } = useVideoStream(props.src);
 
 const playerRef = ref(null);
@@ -64,6 +67,12 @@ const usePip = (videoRef) => {
 };
 
 const { pipAvailable, pipEnabled, pipEnter, pipExit } = usePip(videoRef);
+const stat = computed(() => {
+  const viewers = stats.value.find(
+    (s) => props.streamkey && props.streamkey == s.group
+  );
+  return viewers?.count;
+});
 </script>
 
 <template>
@@ -93,26 +102,39 @@ const { pipAvailable, pipEnabled, pipEnter, pipExit } = usePip(videoRef);
       </Transition>
     </slot>
     <transition name="fade">
-      <Flex
-        style="
-          position: absolute;
-          right: clamp(5px, 2vw, 24px);
-          bottom: clamp(5px, 2vw, 24px);
-          color: white;
-          gap: 12px;
-        "
-      >
-        <Small v-if="muted" @click="muted = !muted" style="cursor: pointer"
-          >Turn on sound</Small
+      <div>
+        <Flex
+          v-if="stat && status === 'playing'"
+          style="
+            position: absolute;
+            left: clamp(5px, 2vw, 24px);
+            bottom: clamp(5px, 2vw, 24px);
+          "
         >
-        <Small v-if="!muted">&nbsp;</Small>
-        <IconMute v-if="!muted" @click="muted = !muted" />
-        <IconUnmute v-if="muted" @click="muted = !muted" />
-        <IconPip v-if="pipAvailable && !pipEnabled" @click="pipEnter" />
-        <IconUnpip v-if="pipAvailable && pipEnabled" @click="pipExit" />
-        <IconFullscreen v-if="!isFullscreen" @click="enter" />
-        <IconUnfullscreen v-if="isFullscreen" @click="exit" />
-      </Flex>
+          <IconEye />
+          <Smaller>{{ stat }}</Smaller>
+        </Flex>
+        <Flex
+          style="
+            position: absolute;
+            right: clamp(5px, 2vw, 24px);
+            bottom: clamp(5px, 2vw, 24px);
+            color: white;
+            gap: 12px;
+          "
+        >
+          <Small v-if="muted" @click="muted = !muted" style="cursor: pointer"
+            >Turn on sound</Small
+          >
+          <Small v-if="!muted">&nbsp;</Small>
+          <IconMute v-if="!muted" @click="muted = !muted" />
+          <IconUnmute v-if="muted" @click="muted = !muted" />
+          <IconPip v-if="pipAvailable && !pipEnabled" @click="pipEnter" />
+          <IconUnpip v-if="pipAvailable && pipEnabled" @click="pipExit" />
+          <IconFullscreen v-if="!isFullscreen" @click="enter" />
+          <IconUnfullscreen v-if="isFullscreen" @click="exit" />
+        </Flex>
+      </div>
     </transition>
   </div>
 </template>
