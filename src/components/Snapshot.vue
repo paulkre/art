@@ -19,7 +19,6 @@ const onSnapshot = () => emitter.emit("SNAPSHOT_REQUEST");
 const images = ref([]);
 
 emitter.on("SNAPSHOT_RESPONSE", (image) => {
-  //images.value = [...images.value, image];
   const outgoingMessage = createMessage({
     type: "SNAPSHOT",
     channel: channel.value,
@@ -34,14 +33,6 @@ emitter.on("SNAPSHOT_RESPONSE", (image) => {
 const snapshots = computed(() =>
   messages.value.filter((message) => message.type === "SNAPSHOT").reverse()
 );
-
-// watchEffect(() => console.log(snapshots.value));
-// ws.addEventListener("message", ({ data }) => {
-//   const message = safeJsonParse(data);
-//   if (message.type === "SNAPSHOT") {
-//     console.log(message);
-//   }
-// });
 
 const imagesRef = useScrollToBottom();
 </script>
