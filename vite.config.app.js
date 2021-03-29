@@ -16,7 +16,7 @@ export default {
     fonts({
       google: {
         families: [
-          { name: "Nunito Sans", weights: "ital,wght@0,400;0,800;1,400;1,800" },
+          { name: "Nunito Sans", weights: "wght@0,400;0,700;1,400;1,700" },
         ],
       },
     }),

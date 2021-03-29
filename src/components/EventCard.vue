@@ -1,26 +1,25 @@
 <script setup>
 import { defineProps } from "vue";
-import { replaceYoutube } from "../lib";
 defineProps({
   event: { type: Object },
   description: { type: Boolean, default: true },
 });
 </script>
 <template>
-  <!-- <RouterLink class="EventCard" :to="'/' + event.eventid"> -->
-  <component
-    :is="event.fientaid ? 'icon-creditcard' : 'icon-stage'"
-    :style="{ color: event.fientaid ? 'var(--ticket)' : '' }"
-  />
-  <div class="EventContent">
-    <h3>{{ event.title }}</h3>
-    <EventDate :event="event" />
-    <div v-html="replaceYoutube(event.youtube)" />
-    <Small style="opacity: 0.8" v-if="description">
-      <Vertical class="EventIntro" v-html="event.description" />
-    </Small>
-  </div>
-  <!-- </RouterLink> -->
+  <RouterLink class="EventCard" :to="'/' + event.eventid">
+    <component
+      :is="event.fientaid ? 'icon-creditcard' : 'icon-stage'"
+      :style="{ color: event.fientaid ? 'var(--ticket)' : '' }"
+    />
+    <div class="EventContent">
+      <h3>{{ event.title }}</h3>
+      <EventDate :event="event" />
+      <div v-if="event?.page?.title">{{ event?.page?.title }}</div>
+      <Small style="opacity: 0.8" v-if="description">
+        <Vertical class="EventIntro" v-html="event.description" />
+      </Small>
+    </div>
+  </RouterLink>
 </template>
 
 <style scoped>
