@@ -4,8 +4,11 @@ const { sendUpdate, beforeUpdate, runUpdate, runPostUpdate } = useAdmin();
 </script>
 
 <template>
-  <Button v-if="superuser && !toBeUpdated && !updated" @click="sendUpdate"
-    >Send update</Button
+  <Button
+    style="--fg: red"
+    v-if="superuser && !toBeUpdated && !updated"
+    @click="sendUpdate"
+    >Superuser: Send update</Button
   >
   <Button v-if="toBeUpdated" @click="runUpdate" style="--fg: orange"
     >The site is has new version. Click to run the update</Button

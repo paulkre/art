@@ -244,6 +244,11 @@ const onToggleUsers = () => {
     </Overlay>
     <Users v-if="showUsers" />
     <layout>
+      <template #top-left>
+        <back-button
+          :to="event?.pageid ? '/' + event.pageid + '/page' : null"
+        />
+      </template>
       <template #top-center>
         <update-button />
       </template>
@@ -251,7 +256,9 @@ const onToggleUsers = () => {
         <theme-button />
       </template>
       <template #bottom-center>
-        <Button v-if="admin" @click="onToggleUsers">Admin: Toggle dots</Button>
+        <Button style="--fg: orange" v-if="admin" @click="onToggleUsers">
+          Admin: Toggle dots
+        </Button>
       </template>
       <template #bottom-left>
         <users-button v-if="showUsers" />

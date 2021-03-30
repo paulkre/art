@@ -15,23 +15,23 @@ const routes = [
   },
   {
     path: "/events",
-    component: () => import(`./pages/Events.vue`),
+    component: () => import(`./pages/_Events.vue`),
   },
   {
     path: "/threesixty",
-    component: () => import("./pages/Threesixty.vue"),
+    component: () => import("./pages/_Threesixty.vue"),
   },
   {
     path: "/fienta",
-    component: () => import("./pages/Fienta.vue"),
+    component: () => import("./pages/_Fienta.vue"),
   },
   {
     path: "/test",
-    component: () => import("./pages/Test.vue"),
+    component: () => import("./pages/_Test.vue"),
   },
   {
     path: "/test2",
-    component: () => import("./pages/Test2.vue"),
+    component: () => import("./pages/_Test2.vue"),
   },
   {
     path: "/page/:pageid",
