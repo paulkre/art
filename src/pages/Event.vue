@@ -210,14 +210,7 @@ const onToggleUsers = () => {
         <Snapshot :channel="channel" />
       </EventPanel>
     </div>
-    <Flex
-      v-if="event && event.fientaid && status === 'CHECKED'"
-      style="position: fixed; right: 16px; bottom: 16px"
-    >
-      <a title="I have a ticket"
-        ><IconCreditcard style="color: var(--ticket)"
-      /></a>
-    </Flex>
+
     <Overlay
       v-if="event && event.fientaid && status !== 'CHECKED'"
       :event="event"
@@ -260,6 +253,7 @@ const onToggleUsers = () => {
         }}</a>
       </p>
     </Overlay>
+
     <Users v-if="showUsers" />
     <layout>
       <template #top-left>
@@ -271,13 +265,21 @@ const onToggleUsers = () => {
       <template #top-right>
         <theme-button />
       </template>
+      <template #bottom-left>
+        <users-button v-if="showUsers" />
+      </template>
       <template #bottom-center>
         <Button style="--fg: orange" v-if="admin" @click="onToggleUsers">
           Admin: Toggle dots
         </Button>
       </template>
-      <template #bottom-left>
-        <users-button v-if="showUsers" />
+      <template #bottom-right>
+        <a
+          title="I have a ticket"
+          v-if="event && event.fientaid && status === 'CHECKED'"
+        >
+          <IconCreditcard style="color: var(--ticket)" />
+        </a>
       </template>
     </layout>
   </div>
