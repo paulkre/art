@@ -90,6 +90,18 @@ code {
   opacity: 0;
 }
 
+.slide-enter-active {
+  transition: all 1s ease;
+}
+.slide-enter-from {
+  opacity: 0;
+  transform: translateX(-32px);
+}
+
+.slide-leave-active,
+.slide-leave-to {
+  opacity: 0;
+}
 /* Icons */
 
 .Icon {

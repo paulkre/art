@@ -36,7 +36,7 @@ const snapshots = computed(() =>
   messages.value
     .filter((message) => message.type === "SNAPSHOT")
     .reverse()
-    .slice(0, showAll.value ? Infinity : 8)
+    .slice(0, showAll.value ? Infinity : 6)
 );
 
 const imagesRef = useScrollToBottom();
@@ -73,11 +73,18 @@ const imagesRef = useScrollToBottom();
     </Button>
     <div
       v-if="snapshots.length"
-      style="display: grid; grid-template-columns: repeat(8, 1fr)"
+      style="
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        overflow: hidden;
+      "
+      :style="{ height: showAll ? '' : '9vw' }"
     >
-      <div v-for="(snapshot, i) in snapshots" :key="i">
-        <img :src="snapshot.value" style="width: 100%" />
-      </div>
+      <transition-group name="slide">
+        <div v-for="snapshot in snapshots" :key="snapshot.id">
+          <img :src="snapshot.value" style="width: 100%" />
+        </div>
+      </transition-group>
     </div>
     <div style="width: 100%; display: flex; justify-content: center"></div>
   </vertical>
