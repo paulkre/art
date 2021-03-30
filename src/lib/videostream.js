@@ -1,12 +1,8 @@
-import {
-  isRef,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-} from 'vue';
+import { isRef, onMounted, onUnmounted, ref, watch } from "vue";
 
-import Hls from 'hls.js';
+import { debug } from ".";
+
+import Hls from "hls.js";
 
 export const useVideoStream = (src) => {
   const retryDelay = 3000;
@@ -62,6 +58,7 @@ export const useVideoStream = (src) => {
 
   const playHls = () => {
     hls = new Hls({
+      debug: debug.value,
       manifestLoadingRetryDelay: retryDelay,
       manifestLoadingMaxRetry: Infinity,
       xhrSetup: function (xhr) {

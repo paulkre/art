@@ -7,6 +7,7 @@ import { createMessage, safeJsonParse, ws, emitter } from "../lib";
 
 export const superuser = ref(false);
 export const admin = ref(false);
+export const debug = ref(false);
 
 export const toBeUpdated = ref(false);
 export const updated = useStorage("elektron_updated", false);
@@ -18,6 +19,7 @@ export const useAdmin = () => {
     () => {
       superuser.value = route.query.hasOwnProperty("superuser"); // @TODO use superuser key
       admin.value = route.query.hasOwnProperty("admin"); // @TODO use admin key
+      debug.value = route.query.hasOwnProperty("debug"); // @TODO use admin key
     },
     { immediate: true }
   );

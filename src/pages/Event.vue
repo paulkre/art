@@ -149,16 +149,14 @@ const onToggleUsers = () => {
             :is="
               event && event.is360 === 'TRUE'
                 ? 'video-stream-three'
-                : event && event.snapshot
-                ? 'video-stream-snapshot'
-                : 'video-stream-snapshot'
+                : 'video-stream'
             "
             :src="src"
             :streamkey="event && event.streamkeys[0]"
           />
         </div>
         <div v-else>
-          <VideoStreamSnapshot
+          <VideoStream
             :src="srcs[0]"
             :streamkey="event?.streamkeys[0] || params.eventid"
           />
@@ -172,7 +170,7 @@ const onToggleUsers = () => {
             :event="event"
           />
         </Vertical>
-        <EventDate :event="event" />
+        <EventDate v-if="event?.fromdate" :event="event" />
         <Vertical v-if="event?.description" v-html="event.description" />
       </div>
     </div>
