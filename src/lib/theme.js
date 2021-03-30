@@ -1,10 +1,10 @@
 //@ts-check
-import { watch } from 'vue';
+import { watch } from "vue";
 
-import { useCssVar } from '@vueuse/core';
+import { useCssVar } from "@vueuse/core";
 
-import { config } from './';
-import { useLocalstorage } from './utils';
+import { config } from "./";
+import { useLocalstorage } from "./utils";
 
 const themeVars = {
   bgdark: useCssVar("--bgdark"),
@@ -33,7 +33,7 @@ const themeValues = [
     bg: "#fff",
     bglight: "#eee",
     bglighter: "#ddd",
-    fg: "#000",
+    fg: "#111",
     fgdark: "#ccc",
     ticket: "#f0b400",
     overlay: "hsla(0,0%,100%,0.95)",

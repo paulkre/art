@@ -11,20 +11,12 @@ const isOpen = ref(false);
   <Vertical style="gap: 4px">
     <div>
       <Vertical style="gap: 4px">
-        <h2 style="cursor: pointer" @click="isOpen = !isOpen">
+        <h3 style="cursor: pointer" @click="isOpen = !isOpen">
           {{ event.title }}
-        </h2>
-        <Flex v-if="event.fientaid" style="color: var(--ticket)">
-          <IconCreditcard />
-          It is a paid event
-        </Flex>
+        </h3>
         <EventDate :event="event" />
       </Vertical>
-      <Youtube :src="event.youtube" style="margin-bottom: 8px" />
       <Vertical>
-        <Vertical v-if="event && event.intro && !isOpen" class="EventIntro"
-          >{{ event.intro }}
-        </Vertical>
         <Vertical
           v-if="description && isOpen"
           class="EventIntro"
@@ -40,14 +32,6 @@ const isOpen = ref(false);
         class="EventCard"
         :to="event.pageid ? '/' + event.pageid : '/' + event.eventid"
       >
-        <Button
-          :style="{
-            opacity:
-              event.urgency === 'soon' || event.urgency === 'node' ? 1 : 0.25,
-          }"
-        >
-          Go to event
-        </Button>
       </RouterLink>
     </Flex>
   </Vertical>
