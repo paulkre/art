@@ -8,7 +8,7 @@ import {
   loadEvents,
   refreshUser,
   refreshUsers,
-  toggleTheme,
+  // toggleTheme,
   activeTheme,
   config,
   userName,
@@ -59,9 +59,9 @@ const { sendUpdate, beforeUpdate, runUpdate, runPostUpdate } = useAdmin();
         Update run fine, now click to turn the volume back on
       </Button>
       &ensp;
-      <IconDarkmode @click="toggleTheme" />
+      <!-- <IconDarkmode @click="toggleTheme" /> -->
     </div>
-    <Users v-if="showUsers" />
+    <Users />
   </div>
 </template>
 

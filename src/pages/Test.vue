@@ -15,9 +15,10 @@
       <icon-left />
     </template>
     <template #top-right>
-      <icon-left />
-      <icon-left />
-      <icon-left />
+      <theme-button />
+    </template>
+    <template #bottom-left>
+      <users-button />
     </template>
   </layout>
 </template>

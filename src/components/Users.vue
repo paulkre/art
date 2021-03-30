@@ -16,6 +16,7 @@ import {
   userData,
   onUserNameChange,
   useAboutTextarea,
+  emitter,
 } from "../lib";
 
 const props = defineProps({
@@ -23,6 +24,10 @@ const props = defineProps({
 });
 
 const showMessages = ref(false);
+
+emitter.on("TOGGLE_USERS", () => {
+  showMessages.value = !showMessages.value;
+});
 
 const updatedUsers = computed(() =>
   users.value
@@ -90,9 +95,10 @@ const textareaRef = useAboutTextarea(showMessages);
       "
       :style="{ opacity: showMessages ? 0.9 : 0 }"
     />
-    <div style="position: fixed; left: 12px; bottom: 12px" v-if="about">
+    <!-- <div style="position: fixed; left: 12px; bottom: 12px" v-if="about">
       <IconMessage @click="showMessages = !showMessages" />
     </div>
+     -->
     <transition name="fade">
       <div v-show="showMessages && about" class="AboutPanel">
         <div style="display: flex; font-size: 0.8em">
