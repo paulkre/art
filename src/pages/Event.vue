@@ -14,7 +14,7 @@ import {
   ws,
   createMessage,
   safeJsonParse,
-  useAdmin,
+  admin,
 } from "../lib";
 
 const { params } = toRefs(useRoute());
@@ -109,7 +109,6 @@ watch(status, () => {
   }
 });
 
-const { admin } = useAdmin();
 const showUsers = ref(false);
 
 ws.addEventListener("message", ({ data }) => {
@@ -243,14 +242,21 @@ const onToggleUsers = () => {
         }}</a>
       </p>
     </Overlay>
-    <Users v-if="showUsers" :about="showAbout" />
-    <div
-      v-if="admin"
-      style="position: fixed; left: 16px; top: 6px; transform: scale(0.7)"
-    >
-      <Button @click="onToggleUsers">Admin: Toggle dots</Button>
-    </div>
-    <ButtonBack :to="event?.pageid ? '/page/' + event.pageid : '/'" />
+    <Users v-if="showUsers" />
+    <layout>
+      <template #top-center>
+        <update-button />
+      </template>
+      <template #top-right>
+        <theme-button />
+      </template>
+      <template #bottom-center>
+        <Button v-if="admin" @click="onToggleUsers">Admin: Toggle dots</Button>
+      </template>
+      <template #bottom-left>
+        <users-button v-if="showUsers" />
+      </template>
+    </layout>
   </div>
 </template>
 

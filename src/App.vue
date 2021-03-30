@@ -47,7 +47,6 @@ const { sendUpdate, beforeUpdate, runUpdate, runPostUpdate } = useAdmin();
         <component :is="Component" />
       </Transition>
     </RouterView>
-
     <!-- <div style="position: fixed; right: 16px; top: 16px; display: flex">
       <Button v-if="superuser && !toBeUpdated && !updated" @click="sendUpdate"
         >Send update</Button
@@ -61,7 +60,6 @@ const { sendUpdate, beforeUpdate, runUpdate, runPostUpdate } = useAdmin();
       &ensp;
       <IconDarkmode @click="toggleTheme" />
     </div> -->
-    <Users />
   </div>
 </template>
 

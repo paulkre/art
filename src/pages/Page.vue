@@ -26,7 +26,7 @@ const page = computed(() => {
 </script>
 
 <template>
-  <div>
+  <layout>
     <PageDisc :page="page" />
     <div class="Page">
       <div v-html="page.content" class="PageContent" />
@@ -38,9 +38,20 @@ const page = computed(() => {
         />
       </div>
     </div>
-
-    <ButtonBack />
-  </div>
+    <users />
+    <template #top-left>
+      <back-button />
+    </template>
+    <template #top-center>
+      <update-button />
+    </template>
+    <template #top-right>
+      <theme-button />
+    </template>
+    <template #bottom-left>
+      <users-button />
+    </template>
+  </layout>
 </template>
 
 <style>

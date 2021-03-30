@@ -42,7 +42,7 @@ const pageStyle = (page) =>
   }));
 </script>
 <template>
-  <div>
+  <layout>
     <!-- <Horizontal>
       &nbsp;
       <Vertical style="padding: 60px 0; gap: 32px">
@@ -118,5 +118,15 @@ const pageStyle = (page) =>
         <Social style="pointer-events: auto" />
       </div>
     </div>
-  </div>
+    <users />
+    <template #top-center>
+      <update-button />
+    </template>
+    <template #top-right>
+      <theme-button />
+    </template>
+    <template #bottom-left>
+      <users-button />
+    </template>
+  </layout>
 </template>

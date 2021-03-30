@@ -1,5 +1,6 @@
 <template>
   <div>
+    <slot />
     <div class="Top">
       <Flex><slot name="top-left" /></Flex>
       <Flex><slot name="top-center" /></Flex>
@@ -29,11 +30,11 @@
   left: 12px;
   right: 12px;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
 }
 .Top > *,
 .Bottom > * {
-  border: 2px solid red;
+  min-width: 32px;
 }
 </style>
