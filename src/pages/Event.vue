@@ -149,16 +149,14 @@ const onToggleUsers = () => {
             :is="
               event && event.is360 === 'TRUE'
                 ? 'video-stream-three'
-                : event && event.snapshot
-                ? 'video-stream-snapshot'
-                : 'video-stream-snapshot'
+                : 'video-stream'
             "
             :src="src"
             :streamkey="event && event.streamkeys[0]"
           />
         </div>
         <div v-else>
-          <VideoStreamSnapshot
+          <VideoStream
             :src="srcs[0]"
             :streamkey="event?.streamkeys[0] || params.eventid"
           />
@@ -172,7 +170,7 @@ const onToggleUsers = () => {
             :event="event"
           />
         </Vertical>
-        <EventDate :event="event" />
+        <EventDate v-if="event?.fromdate" :event="event" />
         <Vertical v-if="event?.description" v-html="event.description" />
       </div>
     </div>
@@ -210,14 +208,7 @@ const onToggleUsers = () => {
         <Snapshot :channel="channel" />
       </EventPanel>
     </div>
-    <Flex
-      v-if="event && event.fientaid && status === 'CHECKED'"
-      style="position: fixed; right: 16px; bottom: 16px"
-    >
-      <a title="I have a ticket"
-        ><IconCreditcard style="color: var(--ticket)"
-      /></a>
-    </Flex>
+
     <Overlay
       v-if="event && event.fientaid && status !== 'CHECKED'"
       :event="event"
@@ -260,6 +251,7 @@ const onToggleUsers = () => {
         }}</a>
       </p>
     </Overlay>
+
     <Users v-if="showUsers" />
     <layout>
       <template #top-left>
@@ -271,13 +263,21 @@ const onToggleUsers = () => {
       <template #top-right>
         <theme-button />
       </template>
+      <template #bottom-left>
+        <users-button v-if="showUsers" />
+      </template>
       <template #bottom-center>
         <Button style="--fg: orange" v-if="admin" @click="onToggleUsers">
           Admin: Toggle dots
         </Button>
       </template>
-      <template #bottom-left>
-        <users-button v-if="showUsers" />
+      <template #bottom-right>
+        <a
+          title="I have a ticket"
+          v-if="event && event.fientaid && status === 'CHECKED'"
+        >
+          <IconCreditcard style="color: var(--ticket)" />
+        </a>
       </template>
     </layout>
   </div>

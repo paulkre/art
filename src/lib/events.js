@@ -16,16 +16,10 @@ const processEvent = (event) => {
   if (event.description) {
     event.intro = `${event.description.split(/\n/)[0]}.`;
     event.description = formatText(event.description);
-    // event.description = `<p>${replaceYoutube(event.description).replace(
-    //   /\n/g,
-    //   "</p><p>"
-    // )}</p>`;
   }
-  // const fromDate = createDate(event.fromdate, event.fromtime);
-  // const toDate = createDate(event.todate, event.totime);
-  // event.from = fromDate !== "Invalid Date" ? fromDate : "";
-  // event.to = toDate !== "Invalid Date" ? toDate : "";
-  event = { ...event, ...getDiff(event) };
+  if (event.fromdate) {
+    event = { ...event, ...getDiff(event) };
+  }
   if (event.streamkey) {
     event.streamkeys = event.streamkey.split(",").map((key) => key.trim());
   } else {

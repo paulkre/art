@@ -55,7 +55,7 @@ const started = ref(false);
       >Stop my camera</Button
     >
     <p />
-    <ImageGrid class="grid-gap: 2px;">
+    <ImageGrid v-if="started" class="grid-gap: 2px;">
       <img
         v-for="(user, i) in usersWithImages"
         :src="user.value.image"
