@@ -77,7 +77,11 @@ img {
 code {
   background: var(--fg-lighter);
 }
-
+blockquote {
+  margin: 0;
+  font-size: 1.3em;
+  line-height: 1.6em;
+}
 /* Transitions */
 
 .fade-enter-active,

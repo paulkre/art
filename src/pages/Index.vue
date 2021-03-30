@@ -11,6 +11,7 @@ import {
 
 const pagesWithEvents = computed(() =>
   pages.value
+    .filter((page) => page.radius)
     .map((page) => {
       if (page.eventid) {
         page.event = events.value.find(

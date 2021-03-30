@@ -1,23 +1,28 @@
 <script setup>
 import { ref, computed } from "vue";
-import { checkTicket, events, formatStreamUrl } from "../lib";
+import { checkTicket, events, formatStreamUrl, pages } from "../lib";
 
 const eventid = "ruumiantropoloogiad";
-const eventid2 = "debug";
 const event = computed(() =>
   events.value.find((event) => event.eventid === eventid)
+);
+const page = computed(() =>
+  pages.value.find((page) => page.pageid === eventid)
 );
 const { status } = checkTicket(ref(null), event);
 </script>
 
 <template>
-  <layout>
+  <layout v-if="event && event.fientaid && status === 'CHECKED'">
     <vertical style="padding: 64px 32px 32px clamp(1.5rem, 5vw, 3rem)">
-      <video-stream :src="formatStreamUrl(eventid2)" style="width: 100%" />
+      <video-stream :src="formatStreamUrl(eventid)" style="width: 100%" />
       <snapshot :channel="eventid" />
+      <p />
       <h1>{{ event?.title }}</h1>
+      <p />
       <horizontal>
         <vertical v-html="event?.description" />
+        <vertical v-html="page?.content" />
       </horizontal>
     </vertical>
     <template #top-left>

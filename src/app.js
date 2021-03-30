@@ -14,7 +14,7 @@ const routes = [
     component: () => import(`./pages/${config.indexComponent}.vue`),
   },
   {
-    path: "/snapshot",
+    path: "/ruumiantropoloogiad",
     component: () => import(`./pages/SnapshotPage.vue`),
   },
   {
