@@ -15,7 +15,7 @@ defineProps({
       <h3>{{ event.title }}</h3>
       <EventDate :event="event" />
       <div v-if="event?.page?.title">{{ event?.page?.title }}</div>
-      <Small style="opacity: 0.8" v-if="description">
+      <Small v-if="description">
         <Vertical class="EventIntro" v-html="event.description" />
       </Small>
     </div>

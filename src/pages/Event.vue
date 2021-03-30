@@ -30,13 +30,24 @@ const eventsWithPages = computed(() =>
 );
 
 const event = computed(() => {
-  const e = eventsWithPages.value.find(
+  const currentEvent = eventsWithPages.value.find(
     (event) => event.eventid === params.value.eventid
   );
-  if (e && e.pageid && pages.value) {
-    e.page = pages.value.find((page) => page.pageid === e.pageid);
+  if (currentEvent) {
+    const pageEvents = events.value.filter(
+      (event) =>
+        event.pageid &&
+        currentEvent.pageid &&
+        event.pageid === currentEvent.pageid
+    );
+    currentEvent.events = pageEvents;
   }
-  return e;
+  if (currentEvent && currentEvent.pageid && pages.value) {
+    currentEvent.page = pages.value.find(
+      (page) => page.pageid === currentEvent.pageid
+    );
+  }
+  return currentEvent;
 });
 
 const formatStreamUrl = (streamkey) => {
@@ -153,7 +164,14 @@ const onToggleUsers = () => {
           />
         </div>
         <p />
-        <h2 v-if="event?.title">{{ event.title }}</h2>
+        <h1 v-if="event?.title">{{ event.title }}</h1>
+        <Vertical v-if="event?.events" style="gap: 48px">
+          <EventDetails
+            v-for="(event, i) in event.events"
+            :key="i"
+            :event="event"
+          />
+        </Vertical>
         <EventDate :event="event" />
         <Vertical v-if="event?.description" v-html="event.description" />
       </div>
@@ -245,9 +263,7 @@ const onToggleUsers = () => {
     <Users v-if="showUsers" />
     <layout>
       <template #top-left>
-        <back-button
-          :to="event?.pageid ? '/' + event.pageid + '/page' : null"
-        />
+        <back-button :to="event?.pageid ? '/page/' + event.pageid : null" />
       </template>
       <template #top-center>
         <update-button />
