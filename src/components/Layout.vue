@@ -32,4 +32,8 @@
   align-items: flex-start;
   justify-content: space-between;
 }
+.Top > *,
+.Bottom > * {
+  border: 2px solid red;
+}
 </style>

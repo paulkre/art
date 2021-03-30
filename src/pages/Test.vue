@@ -5,14 +5,10 @@
 <template>
   <layout>
     <template #top-left>
-      <icon-left />
-      <icon-left />
-      <icon-left />
+      <back-button />
     </template>
     <template #top-center>
-      <icon-left />
       <button-small>A new update</button-small>
-      <icon-left />
     </template>
     <template #top-right>
       <theme-button />

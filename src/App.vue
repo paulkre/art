@@ -48,7 +48,7 @@ const { sendUpdate, beforeUpdate, runUpdate, runPostUpdate } = useAdmin();
       </Transition>
     </RouterView>
 
-    <div style="position: fixed; right: 16px; top: 16px; display: flex">
+    <!-- <div style="position: fixed; right: 16px; top: 16px; display: flex">
       <Button v-if="superuser && !toBeUpdated && !updated" @click="sendUpdate"
         >Send update</Button
       >
@@ -59,8 +59,8 @@ const { sendUpdate, beforeUpdate, runUpdate, runPostUpdate } = useAdmin();
         Update run fine, now click to turn the volume back on
       </Button>
       &ensp;
-      <!-- <IconDarkmode @click="toggleTheme" /> -->
-    </div>
+      <IconDarkmode @click="toggleTheme" />
+    </div> -->
     <Users />
   </div>
 </template>
