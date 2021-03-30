@@ -119,9 +119,6 @@ const pageStyle = (page) =>
       </div>
     </div>
     <users />
-    <template #top-left>
-      <back-button />
-    </template>
     <template #top-center>
       <update-button />
     </template>
