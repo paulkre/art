@@ -15,6 +15,7 @@ import {
   createMessage,
   safeJsonParse,
   admin,
+  formatStreamUrl,
 } from "../lib";
 
 const { params } = toRefs(useRoute());
@@ -50,13 +51,13 @@ const event = computed(() => {
   return currentEvent;
 });
 
-const formatStreamUrl = (streamkey) => {
-  if (streamkey.endsWith("m3u8")) {
-    return streamkey;
-  } else {
-    return replace(config.streamUrl, { streamkey });
-  }
-};
+// const formatStreamUrl = (streamkey) => {
+//   if (streamkey.endsWith("m3u8")) {
+//     return streamkey;
+//   } else {
+//     return replace(config.streamUrl, { streamkey });
+//   }
+// };
 
 const srcs = computed(() => {
   if (event.value && event.value.streamkeys) {

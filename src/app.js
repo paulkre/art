@@ -14,6 +14,10 @@ const routes = [
     component: () => import(`./pages/${config.indexComponent}.vue`),
   },
   {
+    path: "/ruumiantropoloogiad",
+    component: () => import(`./pages/SnapshotPage.vue`),
+  },
+  {
     path: "/events",
     component: () => import(`./pages/_Events.vue`),
   },
