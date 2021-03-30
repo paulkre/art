@@ -10,10 +10,11 @@ const page = computed(() =>
   pages.value.find((page) => page.pageid === eventid)
 );
 const { status } = checkTicket(ref(null), event);
+//v-if="event && event.fientaid && status === 'CHECKED'
 </script>
 
 <template>
-  <layout v-if="event && event.fientaid && status === 'CHECKED'">
+  <layout>
     <vertical style="padding: 64px 32px 32px clamp(1.5rem, 5vw, 3rem)">
       <video-stream :src="formatStreamUrl(eventid)" style="width: 100%" />
       <snapshot :channel="eventid" />
