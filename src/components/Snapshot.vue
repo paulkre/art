@@ -30,20 +30,55 @@ emitter.on("SNAPSHOT_RESPONSE", (image) => {
   ws.send(outgoingMessage);
 });
 
+const showAll = ref(false);
+
 const snapshots = computed(() =>
-  messages.value.filter((message) => message.type === "SNAPSHOT").reverse()
+  messages.value
+    .filter((message) => message.type === "SNAPSHOT")
+    .reverse()
+    .slice(0, showAll.value ? Infinity : 8)
 );
 
 const imagesRef = useScrollToBottom();
 </script>
 
 <template>
-  <Vertical>
-    <Button @click="onSnapshot">Take Snapshot</Button>
-    <Vertical v-if="snapshots.length" style="overflow: auto; height: 70vh">
+  <vertical>
+    <div
+      style="
+        width: 100%;
+        height: 64px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
+      &nbsp;
+      <Button v-if="!showAll" @click="showAll = true"
+        >Show all snapshots</Button
+      >
+      <Button v-if="showAll" @click="showAll = false"
+        >Hide all snapshots</Button
+      >
+    </div>
+    <Button
+      style="
+        margin-top: calc(-64px - 8px);
+        justify-self: center;
+        width: 64px;
+        height: 64px;
+      "
+    >
+      <icon-camera @click="onSnapshot" style="transform: scale(1.25)" />
+    </Button>
+    <div
+      v-if="snapshots.length"
+      style="display: grid; grid-template-columns: repeat(8, 1fr)"
+    >
       <div v-for="(snapshot, i) in snapshots" :key="i">
         <img :src="snapshot.value" style="width: 100%" />
       </div>
-    </Vertical>
-  </Vertical>
+    </div>
+    <div style="width: 100%; display: flex; justify-content: center"></div>
+  </vertical>
 </template>
