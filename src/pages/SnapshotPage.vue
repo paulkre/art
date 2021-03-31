@@ -1,5 +1,7 @@
 <script setup>
 import { watchEffect, ref, toRefs, computed, defineProps } from "vue";
+import { useStorage } from "@vueuse/core";
+
 import {
   checkTicket,
   events,
@@ -25,7 +27,9 @@ const page = computed(() =>
 const { status } = checkTicket(ref(null), event);
 const imgSrc = ref(null);
 
-const onSnapshot = () => emitter.emit("SNAPSHOT_REQUEST");
+const onSnapshot = () => {
+  emitter.emit("SNAPSHOT_REQUEST");
+};
 const images = ref([]);
 
 emitter.on("SNAPSHOT_RESPONSE", (image) => {
@@ -49,6 +53,10 @@ const snapshots = computed(() =>
     .slice(0, showAll.value ? Infinity : 6)
 );
 
+const lastSnapshot = useStorage("elektron_snapshot");
+
+const activeSnapshot = ref(null);
+
 //v-if="event && event.fientaid && status === 'CHECKED'
 </script>
 
@@ -57,7 +65,7 @@ const snapshots = computed(() =>
     <vertical
       style="padding: 64px 32px 32px clamp(1.5rem, 5vw, 3rem); gap: 32px"
     >
-      <video-stream :src="formatStreamUrl(eventid)" style="width: 100%" />
+      <video-stream :src="formatStreamUrl('debug')" style="width: 100%" />
       <div
         style="
           width: 100%;
@@ -91,7 +99,12 @@ const snapshots = computed(() =>
         :style="{ height: showAll ? '' : '9vw' }"
       >
         <transition-group v-if="snapshots.length" name="slide">
-          <div v-for="snapshot in snapshots" :key="snapshot.id">
+          <div
+            v-for="snapshot in snapshots"
+            :key="snapshot.id"
+            @click="activeSnapshot = snapshot.value"
+            class="cursor: pointer"
+          >
             <img :src="snapshot.value" style="width: 100%" />
           </div>
         </transition-group>
@@ -102,6 +115,15 @@ const snapshots = computed(() =>
         <vertical v-html="page?.content" />
       </horizontal>
     </vertical>
+    <transition name="fade">
+      <Overlay
+        v-if="activeSnapshot"
+        style="position: fixed"
+        @click="activeSnapshot = null"
+      >
+        <img :src="activeSnapshot" style="width: 100%" />
+      </Overlay>
+    </transition>
     <template #top-left>
       <back-button :to="event?.pageid ? '/page/' + event.pageid : null" />
     </template>
@@ -122,7 +144,7 @@ const snapshots = computed(() =>
   </layout>
 </template>
 
-<style>
+<style scoped>
 .CameraButton {
   margin-top: -96px;
   justify-self: center;

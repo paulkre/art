@@ -25,7 +25,7 @@
 @media (max-width: 800px) {
   .ButtonBig {
     height: auto;
-    padding: 16px;
+    padding: 16px 24px;
   }
 }
 </style>
