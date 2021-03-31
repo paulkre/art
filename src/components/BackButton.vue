@@ -7,11 +7,11 @@ const props = defineProps({ to: { type: String, default: "/" } });
 const router = useRouter();
 
 const onBack = () => {
-  if (history?.state?.back) {
-    router.go(-1);
-  } else {
-    router.push(props.to);
-  }
+  // if (history?.state?.back) {
+  //   router.go(-1);
+  // } else {
+  router.push(props.to);
+  //}
 };
 </script>
 
