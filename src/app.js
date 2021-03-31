@@ -15,7 +15,7 @@ const routes = [
   },
   {
     path: "/ruumiantropoloogiad",
-    component: () => import(`./pages/SnapshotPage.vue`),
+    component: () => import(`./pages/Snapshot.vue`),
   },
   {
     path: "/events",

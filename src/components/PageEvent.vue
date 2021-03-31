@@ -36,6 +36,22 @@ const pageLink = computed(() => {
         <EventDate :event="event" />
       </Vertical>
       <Youtube :src="event.youtube" style="margin-bottom: 8px" />
+
+      <Flex style="gap: 16px; margin-bottom: 8px">
+        <Button v-if="!isOpen" @click="isOpen = true">More info</Button>
+        <Button v-if="isOpen" @click="isOpen = false">Less info</Button>
+        <RouterLink class="EventCard" :to="pageLink">
+          <Button
+            :style="{
+              background: event.urgency === 'now' ? 'red' : '',
+              border: event.urgency === 'now' ? 'red' : '',
+            }"
+          >
+            Go to event ➜
+          </Button>
+        </RouterLink>
+      </Flex>
+
       <Vertical>
         <Vertical v-if="event && event.intro && !isOpen" class="EventIntro"
           >{{ event.intro }}
@@ -47,21 +63,6 @@ const pageLink = computed(() => {
         />
       </Vertical>
     </div>
-
-    <Flex style="gap: 16px; margin-top: 8px">
-      <Button v-if="!isOpen" @click="isOpen = true">More info</Button>
-      <Button v-if="isOpen" @click="isOpen = false">Less info</Button>
-      <RouterLink class="EventCard" :to="pageLink">
-        <Button
-          :style="{
-            background: event.urgency === 'now' ? 'red' : '',
-            border: event.urgency === 'now' ? 'red' : '',
-          }"
-        >
-          Go to event ➜
-        </Button>
-      </RouterLink>
-    </Flex>
   </Vertical>
 </template>
 

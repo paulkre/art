@@ -25,13 +25,13 @@ const isOpen = ref(false);
   <Vertical style="gap: 4px">
     <div>
       <Vertical style="gap: 4px">
-        <h3 style="cursor: pointer" @click="isOpen = !isOpen">
+        <h3>
           <badge v-if="event.urgency === 'now'">live</badge>
           {{ event.title }}
         </h3>
         <EventDate :event="event" />
       </Vertical>
-      <Flex style="gap: 16px; margin-top: 8px">
+      <Flex style="gap: 16px; margin: 16px 0 8px 0">
         <Button style="opacity: 0.8" v-if="!isOpen" @click="isOpen = true"
           >More info</Button
         >
@@ -52,8 +52,9 @@ const isOpen = ref(false);
               background: event.urgency === 'now' ? 'red' : '',
               border: event.urgency === 'now' ? 'red' : '',
             }"
-            >Go to event ➜</Button
           >
+            Go to event ➜
+          </Button>
         </RouterLink>
       </Flex>
       <Vertical>
