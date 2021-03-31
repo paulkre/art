@@ -35,12 +35,14 @@ const event = computed(() => {
     (event) => event.eventid === params.value.eventid
   );
   if (currentEvent) {
-    const pageEvents = events.value.filter(
-      (event) =>
-        event.pageid &&
-        currentEvent.pageid &&
-        event.pageid === currentEvent.pageid
-    );
+    const pageEvents = events.value
+      .filter(
+        (event) =>
+          event.pageid &&
+          currentEvent.pageid &&
+          event.pageid === currentEvent.pageid
+      )
+      .filter((event) => event.hidden !== "TRUE");
     currentEvent.events = pageEvents;
   }
   if (currentEvent && currentEvent.pageid && pages.value) {
@@ -165,7 +167,7 @@ const onToggleUsers = () => {
         <p />
         <h1 v-if="event?.title">{{ event.title }}</h1>
         <Vertical v-if="event?.events" style="gap: 48px">
-          <EventDetails
+          <EventEvent
             v-for="(event, i) in event.events"
             :key="i"
             :event="event"
