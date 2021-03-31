@@ -1,16 +1,8 @@
-import {
-  computed,
-  ref,
-  watch,
-} from 'vue';
+import { computed, ref, watch } from "vue";
 
-import ky from 'ky';
+import ky from "ky";
 
-import {
-  config,
-  uniqueCollection,
-  useLocalstorage,
-} from './';
+import { config, uniqueCollection, useLocalstorage } from "./";
 
 export const fienta = ky.extend({
   prefixUrl: config.fientaUrl,
@@ -113,19 +105,19 @@ export const checkTicket = (code, event) => {
         } else {
           checkRemoteTicket(code, event)
             .then((checkStatus) => {
-              if (checkStatus === "UNUSED") {
-                status.value = "CHECKED";
-                // useTicket(code)
-                //   .then((_) => {
-                //     storeLocalTicket(code, event);
-                //     status.value = "CHECKED";
-                //   })
-                //   .catch((e) => (status.value = "ERROR"));
-              }
-              if (checkStatus === "USED") {
-                //status.value = "USED";
-                status.value = "CHECKED";
-              }
+              storeLocalTicket(code, event);
+              status.value = "CHECKED";
+              // if (checkStatus === "UNUSED") {
+              //   useTicket(code)
+              //     .then((_) => {
+              //       storeLocalTicket(code, event);
+              //       status.value = "CHECKED";
+              //     })
+              //     .catch((e) => (status.value = "ERROR"));
+              // }
+              // if (checkStatus === "USED") {
+              //   status.value = "USED";
+              // }
               // @TODO Handle REFUND_REQUESTED ?
             })
             .catch((e) => (status.value = "ERROR"));
