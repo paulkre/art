@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, defineProps } from "vue";
-import { useImages, users } from "../lib";
+import { useImages, users, plausible } from "../lib";
 
 const props = defineProps({ channel: String });
 
@@ -40,6 +40,7 @@ const started = ref(false);
         () => {
           onStart();
           started = !started;
+          plausible.trackEvent('user_image');
         }
       "
       >Start my camera</Button
