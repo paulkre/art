@@ -29,7 +29,7 @@ const statuses = {
 
 const canvasRef = ref(null);
 const context = ref(null);
-const canvasSizeMultiplier = 1;
+const canvasSizeMultiplier = 0.25;
 
 watch([videoRef, canvasRef, width, height], () => {
   if (videoRef.value && canvasRef.value) {
