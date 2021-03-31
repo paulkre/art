@@ -29,7 +29,7 @@ const statuses = {
 
 const canvasRef = ref(null);
 const context = ref(null);
-const canvasSizeMultiplier = 1;
+const canvasSizeMultiplier = 0.5;
 
 watch([videoRef, canvasRef, width, height], () => {
   if (videoRef.value && canvasRef.value) {
@@ -52,7 +52,7 @@ emitter.on("SNAPSHOT_REQUEST", () => {
     );
     emitter.emit(
       "SNAPSHOT_RESPONSE",
-      canvasRef.value.toDataURL("image/jpeg", 0.8)
+      canvasRef.value.toDataURL("image/jpeg", 0.7)
     );
   }
 });
