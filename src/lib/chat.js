@@ -1,9 +1,5 @@
 //@ts-check
-import {
-  computed,
-  isRef,
-  ref,
-} from 'vue';
+import { computed, isRef, ref } from "vue";
 
 import {
   createMessage,
@@ -11,8 +7,8 @@ import {
   useChatTextarea,
   useScrollToBottom,
   ws,
-} from './';
-import { userName } from './users';
+} from "./";
+import { userName } from "./users";
 
 export const useChat = (channel, sendtype, receivetype) => {
   const chatChannel = isRef(channel) ? channel : ref(channel);
@@ -21,7 +17,9 @@ export const useChat = (channel, sendtype, receivetype) => {
 
   const chats = computed(() =>
     messagesWithUsers.value.filter(
-      (m) => m.type === chatReceiveType.value && m.channel === chatChannel.value
+      (m) =>
+        m.type === (chatReceiveType.value || "CHAT") &&
+        m.channel === chatChannel.value
     )
   );
 
@@ -30,7 +28,7 @@ export const useChat = (channel, sendtype, receivetype) => {
   const onNewMessage = () => {
     if (newMessage.value) {
       const outgoingMessage = createMessage({
-        type: chatSendType.value,
+        type: chatSendType.value || "CHAT",
         channel: chatChannel.value,
         userName: userName.value,
         value: newMessage.value,
