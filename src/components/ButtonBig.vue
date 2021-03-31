@@ -7,9 +7,10 @@
   display: inline-grid;
   place-items: center;
   border-radius: 100px;
-  padding: 0 16px;
+  padding: 0 32px;
   font-family: "Nunito Sans", sans-serif;
   font-size: 16px;
+  line-height: 1.25;
   font-weight: bold;
   height: 48px;
   background: none;
@@ -19,5 +20,12 @@
   border: 2px solid var(--fg);
   background: var(--bg);
   color: var(--fg);
+  text-align: center;
+}
+@media (max-width: 800px) {
+  .ButtonBig {
+    height: auto;
+    padding: 16px 24px;
+  }
 }
 </style>
