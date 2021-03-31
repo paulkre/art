@@ -1,5 +1,6 @@
 <script setup>
 import { watchEffect, ref, toRefs, computed, defineProps } from "vue";
+import { differenceInSeconds } from "date-fns";
 import { useStorage } from "@vueuse/core";
 
 import {
@@ -18,6 +19,8 @@ import {
 } from "../lib";
 
 const eventid = "ruumiantropoloogiad";
+const timeDiff = 60 * 1;
+
 const event = computed(() =>
   events.value.find((event) => event.eventid === eventid)
 );
@@ -27,8 +30,15 @@ const page = computed(() =>
 const { status } = checkTicket(ref(null), event);
 const imgSrc = ref(null);
 
+const lastSnapshot = useStorage("elektron_snapshot");
+const sinceLastSnapshot = computed(() =>
+  differenceInSeconds(new Date(), new Date(lastSnapshot.value))
+);
+
 const onSnapshot = () => {
-  emitter.emit("SNAPSHOT_REQUEST");
+  //emitter.emit("SNAPSHOT_REQUEST");
+  console.log(sinceLastSnapshot.value >= timeDiff);
+  lastSnapshot.value = new Date();
 };
 const images = ref([]);
 
@@ -53,8 +63,6 @@ const snapshots = computed(() =>
     .slice(0, showAll.value ? Infinity : 6)
 );
 
-const lastSnapshot = useStorage("elektron_snapshot");
-
 const activeSnapshot = ref(null);
 
 //v-if="event && event.fientaid && status === 'CHECKED'
@@ -76,8 +84,7 @@ const activeSnapshot = ref(null);
         "
       >
         <Small style="max-width: 250px; opacity: 0.5">
-          Take a public snapshot of the performance. Note that you only do it
-          once in each 10 minutes.
+          Take a public snapshot of the performance.
         </Small>
         <ButtonBig v-if="!showAll" @click="showAll = true">
           Show all snapshots
