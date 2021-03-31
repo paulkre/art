@@ -95,13 +95,13 @@ const activeSnapshot = ref(null);
         "
       >
         <Small style="max-width: 250px; opacity: 0.5">
-          Take a public snapshot of the performance. {{ sinceStr }}
+          Choose your moment.<br />Save your presence.
         </Small>
         <ButtonBig v-if="!showAll" @click="showAll = true">
-          Show all snapshots
+          Show all moments
         </ButtonBig>
         <ButtonBig v-if="showAll" @click="showAll = false">
-          Hide all snapshots
+          Hide all moments
         </ButtonBig>
       </div>
       <Button class="CameraButton">

@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, watch, computed } from "vue";
 import { useFullscreen } from "@vueuse/core";
-import { useVideoStream, emitter, stats } from "../lib";
+import { useVideoStream, emitter, stats, debug } from "../lib";
 
 const props = defineProps({
   src: { type: String },
@@ -86,6 +86,7 @@ const stat = computed(() => {
   <div style="position: relative; background: var(--bgdark)" ref="playerRef">
     <video
       ref="videoRef"
+      :controls="debug"
       autoplay
       playsinline
       loop
@@ -117,6 +118,10 @@ const stat = computed(() => {
             left: clamp(5px, 2vw, 24px);
             bottom: clamp(5px, 2vw, 24px);
           "
+          :style="{
+            top: debug ? 'clamp(5px, 2vw, 24px)' : '',
+            bottom: debug ? '' : 'clamp(5px, 2vw, 24px)',
+          }"
         >
           <IconEye />
           <Smaller>{{ stat }}</Smaller>
@@ -129,6 +134,10 @@ const stat = computed(() => {
             color: white;
             gap: 12px;
           "
+          :style="{
+            top: debug ? 'clamp(5px, 2vw, 24px)' : '',
+            bottom: debug ? '' : 'clamp(5px, 2vw, 24px)',
+          }"
         >
           <Small v-if="muted" @click="muted = !muted" style="cursor: pointer"
             >Turn on sound</Small
