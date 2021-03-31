@@ -219,10 +219,7 @@ const onToggleUsers = () => {
       <p />
       <p />
       <h1>{{ event.title }}</h1>
-      <div>
-        This event requires a ticket. Note that it will only work on a single
-        device.
-      </div>
+      <div style="color: var(--ticket)">This event requires a ticket</div>
       <!-- <div>This event has not yet started but you can already enter.</div> -->
       <input
         v-model="code"
