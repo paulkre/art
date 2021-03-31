@@ -1,19 +1,34 @@
 <script setup>
-import { defineProps, ref } from "vue";
+import { computed, defineProps, ref } from "vue";
 import { replaceYoutube } from "../lib";
-defineProps({
+const props = defineProps({
   event: { type: Object },
   description: { type: Boolean, default: true },
 });
 const isOpen = ref(false);
+const pageLink = computed(() => {
+  let link = "";
+  if (props.event.pageid) {
+    link =
+      props.event.pageid === props.event.streamkey
+        ? props.event.pageid
+        : props.event.eventid;
+  } else {
+    link = props.event.eventid;
+  }
+  return `/${link}`;
+});
 </script>
 <template>
   <Vertical style="gap: 4px">
     <div>
       <Vertical style="gap: 4px">
-        <h2 style="cursor: pointer" @click="isOpen = !isOpen">
-          {{ event.title }}
-        </h2>
+        <RouterLink :to="pageLink">
+          <h2 style="cursor: pointer">
+            <badge v-if="event.urgency === 'now'">live</badge>
+            {{ event.title }}
+          </h2>
+        </RouterLink>
         <Flex v-if="event.fientaid" style="color: var(--ticket)">
           <IconCreditcard />
           It is a paid event
@@ -21,6 +36,22 @@ const isOpen = ref(false);
         <EventDate :event="event" />
       </Vertical>
       <Youtube :src="event.youtube" style="margin-bottom: 8px" />
+
+      <Flex style="gap: 16px; margin-bottom: 8px">
+        <Button v-if="!isOpen" @click="isOpen = true">More info</Button>
+        <Button v-if="isOpen" @click="isOpen = false">Less info</Button>
+        <RouterLink class="EventCard" :to="pageLink">
+          <Button
+            :style="{
+              background: event.urgency === 'now' ? 'red' : '',
+              border: event.urgency === 'now' ? 'red' : '',
+            }"
+          >
+            Go to event ➜
+          </Button>
+        </RouterLink>
+      </Flex>
+
       <Vertical>
         <Vertical v-if="event && event.intro && !isOpen" class="EventIntro"
           >{{ event.intro }}
@@ -32,24 +63,6 @@ const isOpen = ref(false);
         />
       </Vertical>
     </div>
-
-    <Flex style="gap: 16px; margin-top: 8px">
-      <Button v-if="!isOpen" @click="isOpen = true">More info</Button>
-      <Button v-if="isOpen" @click="isOpen = false">Less info</Button>
-      <RouterLink
-        class="EventCard"
-        :to="event.pageid ? '/' + event.pageid : '/' + event.eventid"
-      >
-        <Button
-          :style="{
-            opacity:
-              event.urgency === 'soon' || event.urgency === 'node' ? 1 : 0.25,
-          }"
-        >
-          Go to event
-        </Button>
-      </RouterLink>
-    </Flex>
   </Vertical>
 </template>
 

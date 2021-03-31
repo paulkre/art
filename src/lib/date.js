@@ -3,9 +3,9 @@ import {
   differenceInMinutes,
   format,
   formatDistanceStrict,
-} from 'date-fns';
+} from "date-fns";
 
-import { sentencecase } from './';
+import { sentencecase } from "./";
 
 const timezoneShortname = (date) => {
   let dateString = date + "",
@@ -25,7 +25,7 @@ const timezoneShortname = (date) => {
   return tz;
 };
 
-export const createDate = (dateStr, timeStr = "00:00", tz = "+02:00") =>
+export const createDate = (dateStr, timeStr = "00:00", tz = "+03:00") =>
   new Date(`${dateStr}T${timeStr}:00.000${tz}`);
 
 const isDatetime = (str) => String(str).match(/:/g);
@@ -70,14 +70,14 @@ export const getDiff = (event) => {
   const fromDatetime = createDate(
     fromDate,
     fromTime,
-    event.tz === "CEST" ? "+01:00" : "+02:00"
+    event.tz === "CEST" ? "+02:00" : "+03:00"
   );
   const formattedFromDatetime = formatDate(fromDatetime);
 
   const toDatetime = createDate(
     toDate,
     toTime,
-    event.tz === "CEST" ? "+01:00" : "+02:00"
+    event.tz === "CEST" ? "+02:00" : "+03:00"
   );
 
   const formattedToDatetime = formatDate(toDatetime);

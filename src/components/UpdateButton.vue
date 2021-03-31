@@ -14,6 +14,6 @@ const { sendUpdate, beforeUpdate, runUpdate, runPostUpdate } = useAdmin();
     >The site is has new version. Click to run the update</Button
   >
   <Button v-if="updated" @click="runPostUpdate" style="--fg: orange">
-    Update run fine, now click to turn the volume back on
+    🌼 Update was successful, click to close
   </Button>
 </template>
