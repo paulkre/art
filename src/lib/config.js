@@ -18,7 +18,7 @@ export const config = {
   fientaUrl: import.meta.env.VITE_FIENTA_URL || "",
   fientaTicketUrl: import.meta.env.VITE_FIENTA_TICKET_URL || "",
   fientaToken: import.meta.env.VITE_FIENTA_TOKEN || "",
-  plausibleDomain: import.meta.env.VITE_PLAUSIBLE_DOMAIN || "example.com",
+  plausibleDomain: import.meta.env.VITE_PLAUSIBLE_DOMAIN || "localhost",
   // @TODO:remove these two
   indexComponent: import.meta.env.VITE_INDEX_COMPONENT || "Index",
   theme: import.meta.env.VITE_THEME || 0,
