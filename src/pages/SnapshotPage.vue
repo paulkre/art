@@ -84,7 +84,7 @@ const activeSnapshot = ref(null);
     <vertical
       style="padding: 64px 32px 32px clamp(1.5rem, 5vw, 3rem); gap: 32px"
     >
-      <video-stream :src="formatStreamUrl('debug')" style="width: 100%" />
+      <video-stream :src="formatStreamUrl(eventid)" style="width: 100%" />
       <div
         style="
           width: 100%;
