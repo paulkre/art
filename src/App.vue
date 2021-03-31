@@ -1,13 +1,11 @@
 <script setup>
-import { ref, watch, watchEffect } from "vue";
-import { useRoute } from "vue-router";
-
 import {
   loadEvents,
   loadMessages,
   loadPages,
   refreshUser,
   refreshUsers,
+  plausible,
 } from "./lib";
 
 loadEvents();
@@ -15,17 +13,7 @@ loadMessages();
 loadPages();
 refreshUser();
 refreshUsers();
-
-const route = useRoute();
-const showUsers = ref(false);
-
-watch(
-  () => route.matched,
-  () => {
-    showUsers.value = route.matched?.[0]?.path !== "/:eventid";
-  },
-  { immediate: true }
-);
+plausible.enableAutoPageviews();
 </script>
 
 <template>

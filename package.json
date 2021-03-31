@@ -17,6 +17,7 @@
     "lodash": "^4.17.20",
     "marked": "^2.0.1",
     "mitt": "^2.1.0",
+    "plausible-tracker": "^0.3.1",
     "reconnecting-websocket": "^4.4.0",
     "three": "^0.126.1",
     "vue": "^3.0.5",
