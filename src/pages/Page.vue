@@ -27,15 +27,11 @@ const page = computed(() => {
 
 <template>
   <layout>
-    <PageDisc :page="page" />
+    <page-disc :page="page" />
     <div class="Page">
       <div v-html="page.content" class="PageContent" />
       <div class="EventCards">
-        <EventSection
-          v-for="(event, i) in page.events"
-          :key="i"
-          :event="event"
-        />
+        <page-event v-for="(event, i) in page.events" :key="i" :event="event" />
       </div>
     </div>
     <users />

@@ -11,9 +11,14 @@ const isOpen = ref(false);
   <Vertical style="gap: 4px">
     <div>
       <Vertical style="gap: 4px">
-        <h2 style="cursor: pointer" @click="isOpen = !isOpen">
-          {{ event.title }}
-        </h2>
+        <RouterLink
+          :to="event.pageid ? '/' + event.pageid : '/' + event.eventid"
+        >
+          <h2 style="cursor: pointer">
+            <badge v-if="event.urgency === 'now'">live</badge>
+            {{ event.title }}
+          </h2>
+        </RouterLink>
         <Flex v-if="event.fientaid" style="color: var(--ticket)">
           <IconCreditcard />
           It is a paid event
@@ -43,7 +48,7 @@ const isOpen = ref(false);
         <Button
           :style="{
             opacity:
-              event.urgency === 'soon' || event.urgency === 'node' ? 1 : 0.25,
+              event.urgency === 'soon' || event.urgency === 'now' ? 1 : 0.25,
           }"
         >
           Go to event
