@@ -1,7 +1,7 @@
 <script setup>
 import { watchEffect, ref, toRefs, computed, defineProps } from "vue";
 import { differenceInSeconds } from "date-fns";
-import { useStorage } from "@vueuse/core";
+import { useStorage, useNow } from "@vueuse/core";
 
 import {
   checkTicket,
@@ -19,7 +19,6 @@ import {
 } from "../lib";
 
 const eventid = "ruumiantropoloogiad";
-const timeDiff = 60 * 1;
 
 const event = computed(() =>
   events.value.find((event) => event.eventid === eventid)
@@ -30,15 +29,27 @@ const page = computed(() =>
 const { status } = checkTicket(ref(null), event);
 const imgSrc = ref(null);
 
+const diff = 60;
+const { now } = useNow();
 const lastSnapshot = useStorage("elektron_snapshot");
 const sinceLastSnapshot = computed(() =>
-  differenceInSeconds(new Date(), new Date(lastSnapshot.value))
+  differenceInSeconds(now.value, new Date(lastSnapshot.value))
 );
+const canSnapshot = computed(() => sinceLastSnapshot.value > diff);
+const sinceStr = computed(() => {
+  if (!lastSnapshot.value) {
+    return "You can do it only after each 10 minute";
+  }
+  if (canSnapshot.value) {
+    return "Capture the moment!";
+  } else {
+    return `Time to next snapshot ${60 - sinceLastSnapshot.value}`;
+  }
+});
 
 const onSnapshot = () => {
-  //emitter.emit("SNAPSHOT_REQUEST");
-  console.log(sinceLastSnapshot.value >= timeDiff);
-  lastSnapshot.value = new Date();
+  emitter.emit("SNAPSHOT_REQUEST");
+  //lastSnapshot.value = new Date();
 };
 const images = ref([]);
 
@@ -84,7 +95,7 @@ const activeSnapshot = ref(null);
         "
       >
         <Small style="max-width: 250px; opacity: 0.5">
-          Take a public snapshot of the performance.
+          Take a public snapshot of the performance. {{ sinceStr }}
         </Small>
         <ButtonBig v-if="!showAll" @click="showAll = true">
           Show all snapshots
