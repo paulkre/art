@@ -4,14 +4,23 @@ import { createApp, defineAsyncComponent } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 import App from "./App.vue";
+import { useRouter } from "vue-router";
 import { config } from "./lib";
 
 const components = import.meta.glob("./components/*.vue");
-
 const routes = [
   {
     path: "/",
     component: () => import(`./pages/${config.indexComponent}.vue`),
+  },
+  {
+    path: "/page/festival",
+    component: {
+      setup() {
+        router.push("/page/spooky2021");
+        return () => null;
+      },
+    },
   },
   {
     path: "/ruumiantropoloogiad",

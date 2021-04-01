@@ -12,5 +12,5 @@ defineProps({
 </script>
 
 <template>
-  <audio :src="src" :muted="muted" autoplay loop />
+  <audio :src="src" :muted="muted" autoplay loop preload />
 </template>
