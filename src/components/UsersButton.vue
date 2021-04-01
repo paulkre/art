@@ -10,10 +10,10 @@ const onClick = () => {
 
 <template>
   <button-plain
-    :style="{ animation: showMessages ? '' : 'bounce 1s infinite' }"
+    :style="{ animation: showMessages ? '' : 'scale-xl 1s infinite' }"
     @click="onClick"
   >
     <icon-close v-if="showMessages" />
-    <icon-message v-if="!showMessages" />
+    <icon-circles v-if="!showMessages" />
   </button-plain>
 </template>
