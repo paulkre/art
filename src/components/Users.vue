@@ -75,10 +75,10 @@ const isNumber = (value) => typeof value === "number" && isFinite(value);
 
 const otherUserStyle = (otherUser) =>
   computed(() => ({
-    display:
-      isNumber(otherUser.value.userX) && isNumber(otherUser.value.userX)
-        ? "block"
-        : "none",
+    // display:
+    //   isNumber(otherUser.value.userX) && isNumber(otherUser.value.userX)
+    //     ? "block"
+    //     : "none",
     left: `${otherUser.value.userX + centerX.value}px`,
     top: `${otherUser.value.userY + centerY.value}px`,
   }));
@@ -161,8 +161,8 @@ const colliding = computed(() => {
       />
     </transition>
     <div
-      v-for="(otherUser, i) in otherUsers"
-      :key="i"
+      v-for="otherUser in otherUsers"
+      :key="otherUser.userId"
       :style="{
         ...otherUserStyle(otherUser).value,
         position: 'fixed',
