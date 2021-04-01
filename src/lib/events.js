@@ -18,7 +18,23 @@ const processEvent = (event) => {
     event.description = formatText(event.description);
   }
   if (event.fromdate) {
-    event = { ...event, ...getDiff(event) };
+    const {
+      fromDatetime,
+      toDatetime,
+      formattedFromDatetime,
+      formattedToDatetime,
+      urgency,
+      formattedDistance,
+    } = getDiff(event);
+    event = {
+      ...event,
+      fromDatetime,
+      toDatetime,
+      formattedFromDatetime,
+      formattedToDatetime,
+      urgency,
+      formattedDistance,
+    };
   }
   if (event.streamkey) {
     event.streamkeys = event.streamkey.split(",").map((key) => key.trim());

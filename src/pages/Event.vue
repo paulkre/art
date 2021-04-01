@@ -42,7 +42,9 @@ const event = computed(() => {
           currentEvent.pageid &&
           event.pageid === currentEvent.pageid
       )
-      .filter((event) => event.hidden !== "TRUE");
+      .filter((event) => {
+        return event.hidden !== "TRUE" && event.urgency !== "past";
+      });
     currentEvent.events = pageEvents;
   }
   if (currentEvent && currentEvent.pageid && pages.value) {

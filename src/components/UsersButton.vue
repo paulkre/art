@@ -1,6 +1,11 @@
 <script setup>
-import { emitter, showMessages } from "../lib";
-const onClick = () => emitter.emit("TOGGLE_USERS");
+import { emitter, showMessages, plausible } from "../lib";
+const onClick = () => {
+  if (!showMessages.value) {
+    plausible.trackEvent("user_circlechat");
+  }
+  emitter.emit("TOGGLE_USERS");
+};
 </script>
 
 <template>

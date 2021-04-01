@@ -20,7 +20,10 @@ const pageLink = computed(() => {
 });
 </script>
 <template>
-  <Vertical style="gap: 4px">
+  <Vertical
+    style="gap: 4px"
+    :style="{ opacity: event.urgency === 'past' ? 0.25 : 1 }"
+  >
     <div>
       <Vertical style="gap: 4px">
         <RouterLink :to="pageLink">
@@ -43,8 +46,8 @@ const pageLink = computed(() => {
         <RouterLink class="EventCard" :to="pageLink">
           <Button
             :style="{
-              background: event.urgency === 'now' ? 'red' : '',
-              border: event.urgency === 'now' ? 'red' : '',
+              background: event.urgency.valuey === 'now' ? 'red' : '',
+              border: event.urgency.value === 'now' ? 'red' : '',
             }"
           >
             Go to event ➜
