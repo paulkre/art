@@ -1,6 +1,7 @@
 <script setup>
 import { computed, watch, ref } from "vue";
 import { differenceInMilliseconds } from "date-fns";
+import { Circle, Result } from "collisions";
 
 import {
   ws,
@@ -70,13 +71,35 @@ const onUserDrag = debounce(({ x, y }) => {
   ws.send(outgoingMessage);
 }, config.messageDelay);
 
+const isNumber = (value) => typeof value === "number" && isFinite(value);
+
 const otherUserStyle = (otherUser) =>
   computed(() => ({
+    // display:
+    //   isNumber(otherUser.value.userX) && isNumber(otherUser.value.userX)
+    //     ? "block"
+    //     : "none",
     left: `${otherUser.value.userX + centerX.value}px`,
     top: `${otherUser.value.userY + centerY.value}px`,
   }));
 
 const textareaRef = useAboutTextarea(showMessages);
+
+const circle = new Circle(0, 0, 100);
+const myCircle = new Circle(
+  userData.value.userX,
+  userData.value.userY,
+  28 + 16
+);
+const result = new Result();
+
+const colliding = computed(() => {
+  myCircle.x = userData.value.userX;
+  myCircle.y = userData.value.userY;
+  return !!myCircle.collides(circle, result);
+});
+
+//const colliding = ref(false);
 </script>
 
 <template>
@@ -97,9 +120,11 @@ const textareaRef = useAboutTextarea(showMessages);
     <transition name="fade">
       <Vertical v-show="showMessages && about" class="AboutPanel">
         <h3 class="mobilehide">
-          <span style="display: inline-block; color: red; transform: scale(0.8)"
-            >⬤</span
+          <span
+            style="display: inline-block; color: red; transform: scale(0.8)"
           >
+            ⬤
+          </span>
           Let's get together!
         </h3>
         <Small class="mobilehide" style="opacity: 0.5"
@@ -119,9 +144,25 @@ const textareaRef = useAboutTextarea(showMessages);
         />
       </Vertical>
     </transition>
+    <transition name="fade">
+      <Disc
+        v-if="false"
+        style="position: fixed; pointer-events: none; border: 2px solid white"
+        :style="{
+          width: '200px',
+          height: '200px',
+          top: centerY - 100 + 'px',
+          left: centerX - 100 + 'px',
+          border: colliding ? '2px solid red' : ' 2px solid white',
+          transition: 'all 500ms',
+          transform: colliding ? 'scale(1.1)' : '',
+          animation: colliding ? 'scale 1s infinite' : 'scale 2s infinite',
+        }"
+      />
+    </transition>
     <div
-      v-for="(otherUser, i) in otherUsers"
-      :key="i"
+      v-for="otherUser in otherUsers"
+      :key="otherUser.userId"
       :style="{
         ...otherUserStyle(otherUser).value,
         position: 'fixed',
@@ -132,7 +173,7 @@ const textareaRef = useAboutTextarea(showMessages);
         <Dot
           color="#8800FF"
           style="transition: opacity 1000ms"
-          :opacity="showMessages ? 1 : otherUser.opacity"
+          :opacity="showMessages ? 1 : otherUser.opacity / 2"
         />
         <div v-if="showMessages && about">
           <div

@@ -121,6 +121,30 @@ blockquote {
   }
 }
 
+@keyframes scale {
+  0%,
+  100% {
+    transform: scale(1);
+    animationtimingfunction: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: scale(1.025);
+    animationtimingfunction: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes fastscale {
+  0%,
+  100% {
+    transform: scale(1);
+    animationtimingfunction: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: scale(1.05);
+    animationtimingfunction: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
 /* Icons */
 
 .Icon {
