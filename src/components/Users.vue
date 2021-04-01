@@ -56,9 +56,11 @@ const otherUsers = computed(() =>
 );
 
 const { centerX, centerY } = useWindow();
-
-const onUserDrag = debounce(({ x, y }) => {
+const onUserDrag2 = ({ x, y }) => {
   userData.value = { userX: x - centerX.value, userY: y - centerY.value };
+};
+const onUserDrag = debounce(({ x, y }) => {
+  //userData.value = { userX: x - centerX.value, userY: y - centerY.value };
   const outgoingMessage = createMessage({
     type: "USER",
     value: {
@@ -71,14 +73,8 @@ const onUserDrag = debounce(({ x, y }) => {
   ws.send(outgoingMessage);
 }, config.messageDelay);
 
-const isNumber = (value) => typeof value === "number" && isFinite(value);
-
 const otherUserStyle = (otherUser) =>
   computed(() => ({
-    // display:
-    //   isNumber(otherUser.value.userX) && isNumber(otherUser.value.userX)
-    //     ? "block"
-    //     : "none",
     left: `${otherUser.value.userX + centerX.value}px`,
     top: `${otherUser.value.userY + centerY.value}px`,
   }));
@@ -86,11 +82,7 @@ const otherUserStyle = (otherUser) =>
 const textareaRef = useAboutTextarea(showMessages);
 
 const circle = new Circle(0, 0, 100);
-const myCircle = new Circle(
-  userData.value.userX,
-  userData.value.userY,
-  28 + 16
-);
+const myCircle = new Circle(userData.value.userX, userData.value.userY, 10);
 const result = new Result();
 
 const colliding = computed(() => {
@@ -146,7 +138,7 @@ const colliding = computed(() => {
     </transition>
     <transition name="fade">
       <Disc
-        v-if="false"
+        v-if="showMessages"
         style="position: fixed; pointer-events: none; border: 2px solid white"
         :style="{
           width: '200px',
@@ -156,7 +148,7 @@ const colliding = computed(() => {
           border: colliding ? '2px solid red' : ' 2px solid white',
           transition: 'all 500ms',
           transform: colliding ? 'scale(1.1)' : '',
-          animation: colliding ? 'scale 1s infinite' : 'scale 2s infinite',
+          animation: colliding ? 'scale 1s infinite' : '',
         }"
       />
     </transition>
@@ -175,47 +167,64 @@ const colliding = computed(() => {
           style="transition: opacity 1000ms"
           :opacity="showMessages ? 1 : otherUser.opacity / 2"
         />
-        <div v-if="showMessages && about">
-          <div
-            style="
-              font-size: 0.8em;
-              opacity: 0.5;
-              line-height: 1.3em;
-              padding-top: 0.5em;
-            "
-          >
-            {{ otherUser.value.userName }}
+        <transition name="fade">
+          <div v-if="showMessages && about && !colliding">
+            <div
+              style="
+                font-size: 0.8em;
+                opacity: 0.5;
+                line-height: 1.3em;
+                padding-top: 0.5em;
+              "
+            >
+              {{ otherUser.value.userName }}
+            </div>
+            <div
+              style="font-size: 0.9em; line-height: 1.5em; padding-top: 0.3em"
+            >
+              {{ otherUser.value.userAbout }}
+            </div>
           </div>
-          <div style="font-size: 0.9em; line-height: 1.5em; padding-top: 0.3em">
-            {{ otherUser.value.userAbout }}
-          </div>
-        </div>
+        </transition>
       </div>
     </div>
     <draggable
       :x="userData.userX + centerX"
       :y="userData.userY + centerY"
-      @drag="onUserDrag"
+      @drag="
+        (drag) => {
+          onUserDrag2(drag);
+          onUserDrag(drag);
+        }
+      "
     >
       <div style="display: grid; grid-template-columns: auto 250px; gap: 8px">
         <Dot color="red" opacity="0.8" />
-        <div v-if="showMessages && about">
-          <div
-            style="
-              font-size: 0.8em;
-              opacity: 0.5;
-              line-height: 1.3em;
-              padding-top: 0.3em;
-            "
-          >
-            {{ userName }}
+        <transition name="fade">
+          <div v-if="showMessages && about && !colliding">
+            <div
+              style="
+                font-size: 0.8em;
+                opacity: 0.5;
+                line-height: 1.3em;
+                padding-top: 0.3em;
+              "
+            >
+              {{ userName }}
+            </div>
+            <div
+              style="font-size: 0.9em; line-height: 1.5em; padding-top: 0.3em"
+            >
+              {{ userAbout }}
+            </div>
           </div>
-          <div style="font-size: 0.9em; line-height: 1.5em; padding-top: 0.3em">
-            {{ userAbout }}
-          </div>
-        </div>
+        </transition>
       </div>
     </draggable>
+    <audio-file
+      :muted="!colliding"
+      src="//elektron.fra1.digitaloceanspaces.com/backup/assets/generative-backround-hackaton.mp3"
+    />
   </div>
 </template>
 

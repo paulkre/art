@@ -168,3 +168,5 @@ export const car2pol = (x, y) => {
 export const random = (from = 0, to = 1) => from + Math.random() * (to - from);
 
 export const randomint = (from = 0, to = 1) => Math.floor(random(from, to));
+
+const isNumber = (value) => typeof value === "number" && isFinite(value);
