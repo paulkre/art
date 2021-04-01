@@ -1,6 +1,7 @@
 <script setup>
 import { computed, watch, ref } from "vue";
 import { differenceInMilliseconds } from "date-fns";
+import { Circle, Result } from "collisions";
 
 import {
   ws,
@@ -77,6 +78,22 @@ const otherUserStyle = (otherUser) =>
   }));
 
 const textareaRef = useAboutTextarea(showMessages);
+
+const circle = new Circle(0, 0, 100);
+const myCircle = new Circle(
+  userData.value.userX,
+  userData.value.userY,
+  28 + 16
+);
+const result = new Result();
+
+const colliding = computed(() => {
+  myCircle.x = userData.value.userX;
+  myCircle.y = userData.value.userY;
+  return !!myCircle.collides(circle, result);
+});
+
+//const colliding = ref(false);
 </script>
 
 <template>
@@ -118,6 +135,22 @@ const textareaRef = useAboutTextarea(showMessages);
           placeholder="Write here a message"
         />
       </Vertical>
+    </transition>
+    <transition name="fade">
+      <Disc
+        v-if="showMessages"
+        style="position: fixed; pointer-events: none; border: 2px solid white"
+        :style="{
+          width: '200px',
+          height: '200px',
+          top: centerY - 100 + 'px',
+          left: centerX - 100 + 'px',
+          border: colliding ? '2px solid red' : ' 2px solid white',
+          transition: 'all 500ms',
+          transform: colliding ? 'scale(1.1)' : '',
+          animation: colliding ? 'scale 2s infinite' : '',
+        }"
+      />
     </transition>
     <div
       v-for="(otherUser, i) in otherUsers"
