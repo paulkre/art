@@ -114,9 +114,11 @@ const colliding = computed(() => {
     <transition name="fade">
       <Vertical v-show="showMessages && about" class="AboutPanel">
         <h3 class="mobilehide">
-          <span style="display: inline-block; color: red; transform: scale(0.8)"
-            >⬤</span
+          <span
+            style="display: inline-block; color: red; transform: scale(0.8)"
           >
+            ⬤
+          </span>
           Let's get together!
         </h3>
         <Small class="mobilehide" style="opacity: 0.5"
@@ -148,7 +150,7 @@ const colliding = computed(() => {
           border: colliding ? '2px solid red' : ' 2px solid white',
           transition: 'all 500ms',
           transform: colliding ? 'scale(1.1)' : '',
-          animation: colliding ? 'scale 2s infinite' : '',
+          animation: colliding ? 'scale 1s infinite' : 'scale 2s infinite',
         }"
       />
     </transition>
