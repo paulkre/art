@@ -31,7 +31,7 @@ const eventsWithPages = computed(() =>
       }
       return event;
     })
-    .filter((event) => event.urgency.value !== "past")
+    .filter((event) => event.urgency !== "past")
 );
 
 const countdown = useCountdown(config.perfStart);
