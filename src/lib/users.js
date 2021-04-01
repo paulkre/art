@@ -102,3 +102,5 @@ export const refreshUsers = () => {
 
   onUnmounted(() => clearInterval(interval.value));
 };
+
+export const showMessages = ref(false);

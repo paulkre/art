@@ -17,13 +17,12 @@ import {
   onUserNameChange,
   useAboutTextarea,
   emitter,
+  showMessages,
 } from "../lib";
 
 const props = defineProps({
   about: { type: Boolean, default: true },
 });
-
-const showMessages = ref(false);
 
 emitter.on("TOGGLE_USERS", () => {
   showMessages.value = !showMessages.value;
@@ -96,18 +95,29 @@ const textareaRef = useAboutTextarea(showMessages);
       :style="{ opacity: showMessages ? 0.9 : 0 }"
     />
     <transition name="fade">
-      <div v-show="showMessages && about" class="AboutPanel">
-        <div style="display: flex; font-size: 0.8em">
-          <div style="opacity: 0.5">My name is {{ userName }}</div>
-          &ensp;
-          <div @click="onUserNameChange" style="cursor: pointer">Change</div>
-        </div>
+      <Vertical v-show="showMessages && about" class="AboutPanel">
+        <h3 class="mobilehide">
+          <span style="display: inline-block; color: red; transform: scale(0.8)"
+            >⬤</span
+          >
+          Let's get together!
+        </h3>
+        <Small class="mobilehide" style="opacity: 0.5"
+          >Here's the place the audience can hang out and spend time together.
+          Move your red dot and write messages to each other.</Small
+        >
+        <Small>
+          <span style="opacity: 0.5">Your name is "{{ userName }}"</span>&ensp;
+          <span @click="onUserNameChange" style="cursor: pointer"
+            >Change the name</span
+          >
+        </Small>
         <textarea
           ref="textareaRef"
           v-model="userAbout"
           placeholder="Write here a message"
         />
-      </div>
+      </Vertical>
     </transition>
     <div
       v-for="(otherUser, i) in otherUsers"
@@ -130,12 +140,14 @@ const textareaRef = useAboutTextarea(showMessages);
               font-size: 0.8em;
               opacity: 0.5;
               line-height: 1.3em;
-              padding-top: 0.3em;
+              padding-top: 0.5em;
             "
           >
             {{ otherUser.value.userName }}
           </div>
-          <div>{{ otherUser.value.userAbout }}</div>
+          <div style="font-size: 0.9em; line-height: 1.5em; padding-top: 0.3em">
+            {{ otherUser.value.userAbout }}
+          </div>
         </div>
       </div>
     </div>
@@ -144,7 +156,7 @@ const textareaRef = useAboutTextarea(showMessages);
       :y="userData.userY + centerY"
       @drag="onUserDrag"
     >
-      <div style="display: grid; grid-template-columns: auto 300px; gap: 8px">
+      <div style="display: grid; grid-template-columns: auto 250px; gap: 8px">
         <Dot color="red" opacity="0.8" />
         <div v-if="showMessages && about">
           <div
@@ -157,7 +169,9 @@ const textareaRef = useAboutTextarea(showMessages);
           >
             {{ userName }}
           </div>
-          <div style="font-size: 0.9em">{{ userAbout }}</div>
+          <div style="font-size: 0.9em; line-height: 1.5em; padding-top: 0.3em">
+            {{ userAbout }}
+          </div>
         </div>
       </div>
     </draggable>
@@ -167,8 +181,8 @@ const textareaRef = useAboutTextarea(showMessages);
 <style>
 .AboutPanel {
   position: fixed;
-  left: 12px;
-  bottom: 48px;
+  left: 16px;
+  bottom: 40px;
   padding: 16px;
   background: var(--bglight);
   border-radius: 6px;
@@ -179,7 +193,10 @@ const textareaRef = useAboutTextarea(showMessages);
 }
 @media (max-width: 800px) {
   .AboutPanel {
-    width: calc(100vw - 12px - 12px);
+    width: calc(100vw - 16px - 16px);
+  }
+  .mobilehide {
+    display: none;
   }
 }
 </style>
