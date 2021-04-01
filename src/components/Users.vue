@@ -71,8 +71,14 @@ const onUserDrag = debounce(({ x, y }) => {
   ws.send(outgoingMessage);
 }, config.messageDelay);
 
+const isNumber = (value) => typeof value === "number" && isFinite(value);
+
 const otherUserStyle = (otherUser) =>
   computed(() => ({
+    display:
+      isNumber(otherUser.value.userX) && isNumber(otherUser.value.userX)
+        ? "block"
+        : "none",
     left: `${otherUser.value.userX + centerX.value}px`,
     top: `${otherUser.value.userY + centerY.value}px`,
   }));
@@ -140,7 +146,7 @@ const colliding = computed(() => {
     </transition>
     <transition name="fade">
       <Disc
-        v-if="showMessages"
+        v-if="false"
         style="position: fixed; pointer-events: none; border: 2px solid white"
         :style="{
           width: '200px',
@@ -167,7 +173,7 @@ const colliding = computed(() => {
         <Dot
           color="#8800FF"
           style="transition: opacity 1000ms"
-          :opacity="showMessages ? 1 : otherUser.opacity"
+          :opacity="showMessages ? 1 : otherUser.opacity / 2"
         />
         <div v-if="showMessages && about">
           <div
