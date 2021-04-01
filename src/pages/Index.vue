@@ -20,7 +20,7 @@ const pagesWithEvents = computed(() =>
       }
       return page;
     })
-    .filter((event) => event.urgency.value !== "past")
+    .filter((event) => event.urgency !== "past")
 );
 
 const eventsWithPages = computed(() =>
