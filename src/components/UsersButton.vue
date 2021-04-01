@@ -1,10 +1,14 @@
 <script setup>
-import { emitter } from "../lib";
+import { emitter, showMessages } from "../lib";
 const onClick = () => emitter.emit("TOGGLE_USERS");
 </script>
 
 <template>
-  <button-plain @click="onClick">
-    <icon-message />
+  <button-plain
+    :style="{ animation: showMessages ? '' : 'bounce 1s infinite' }"
+    @click="onClick"
+  >
+    <icon-close v-if="showMessages" />
+    <icon-message v-if="!showMessages" />
   </button-plain>
 </template>
