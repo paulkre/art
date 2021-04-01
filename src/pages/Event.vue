@@ -168,6 +168,11 @@ const onToggleUsers = () => {
         </div>
         <p />
         <h1 v-if="event?.title">{{ event.title }}</h1>
+        <EventDate v-if="event?.fromdate" :event="event" />
+        <Vertical v-if="event?.description" v-html="event.description" />
+        <p />
+        <h2 v-if="event?.events">Current and upcoming events</h2>
+
         <Vertical v-if="event?.events" style="gap: 32px">
           <EventEvent
             v-for="(event, i) in event.events"
@@ -175,8 +180,6 @@ const onToggleUsers = () => {
             :event="event"
           />
         </Vertical>
-        <EventDate v-if="event?.fromdate" :event="event" />
-        <Vertical v-if="event?.description" v-html="event.description" />
       </div>
     </div>
     <div
@@ -303,9 +306,11 @@ const onToggleUsers = () => {
   grid-auto-rows: max-content;
   gap: 16px;
 }
-.EventContent > *:last-child {
-  height: calc(100vh - 64px - 64px);
-  overflow: auto;
+@media (max-width: 800px) {
+  .EventContent {
+    height: calc(50vh);
+    overflow: auto;
+  }
 }
 .EventPanels {
   position: fixed;
