@@ -22,10 +22,12 @@ const { chats, newMessage, onNewMessage, scrollRef, textareaRef } = useChat(
     <div class="ChatCards" ref="scrollRef">
       <ChatCard v-for="(chat, i) in chats" :key="i" :chat="chat" />
     </div>
-    <div style="display: flex; font-size: 0.8em; transform: translateY(12px)">
-      <div style="opacity: 0.5">My name is {{ userName }}</div>
+    <div
+      style="font-size: 0.8em; line-height: 1.5em; transform: translateY(6px)"
+    >
+      <span style="opacity: 0.5">My name is {{ userName }}</span>
       &ensp;
-      <div @click="onUserNameChange" style="cursor: pointer">Change</div>
+      <span @click="onUserNameChange" style="cursor: pointer">Change</span>
     </div>
     <textarea
       style="width: 100%"
