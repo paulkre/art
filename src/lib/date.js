@@ -1,11 +1,19 @@
 import {
   compareDesc,
   differenceInMinutes,
+  differenceInSeconds,
   format,
   formatDistanceStrict,
 } from "date-fns";
 
+import { useNow } from "@vueuse/core";
+
 import { sentencecase } from "./";
+import { computed } from "vue-demi";
+
+const { now } = useNow({ options: 1000 });
+
+//const now = ref(new Date());
 
 const timezoneShortname = (date) => {
   let dateString = date + "",
@@ -30,12 +38,10 @@ export const createDate = (dateStr, timeStr = "00:00", tz = "+03:00") =>
 
 const isDatetime = (str) => String(str).match(/:/g);
 
-const now = new Date();
-
 export const formatDate = (str, fromTime = true) => {
   if (fromTime) {
     return `${format(new Date(str), "d. MMMM y HH:mm")} ${timezoneShortname(
-      now
+      now.value
     )}`;
   } else {
     return format(new Date(str), "d. MMM y");
@@ -44,20 +50,21 @@ export const formatDate = (str, fromTime = true) => {
 
 export const sortEvents = (a, b) => compareDesc(b.fromDatetime, a.fromDatetime);
 
-const dateRangeUrgency = (fromDatetime, toDatetime) => {
-  const soonMinutes = 3 * 60;
-  const started = differenceInMinutes(fromDatetime, now);
-  const ended = differenceInMinutes(toDatetime, now);
-  if (started < 0 && ended >= 0) {
-    return { urgency: "now", started, ended };
-  } else if (started >= 0 && started <= soonMinutes) {
-    return { urgency: "soon", started, ended };
-  } else if (started >= 0 && started > soonMinutes) {
-    return { urgency: "future", started, ended };
-  } else {
-    return { urgency: "past", started, ended };
-  }
-};
+const dateRangeUrgency = (fromDatetime, toDatetime) =>
+  computed(() => {
+    const soonMinutes = 3 * 60;
+    const started = differenceInMinutes(fromDatetime, now.value);
+    const ended = differenceInMinutes(toDatetime, now.value);
+    if (started < 0 && ended >= 0) {
+      return "now";
+    } else if (started >= 0 && started <= soonMinutes) {
+      return "soon";
+    } else if (started >= 0 && started > soonMinutes) {
+      return "future";
+    } else {
+      return "past";
+    }
+  });
 
 export const getDiff = (event) => {
   const { fromdate, fromtime, todate, totime } = event;
@@ -82,18 +89,19 @@ export const getDiff = (event) => {
 
   const formattedToDatetime = formatDate(toDatetime);
 
-  const formatDistance = (datetime, datetimeStatus = null) => {
-    // @TODO support start and end times
-    const distance = sentencecase(
-      formatDistanceStrict(datetime, now, {
-        roundingMethod: "ceil",
-        addSuffix: true,
-      })
-    );
-    return datetimeStatus === "now" ? `Started ${distance}` : distance;
-  };
+  const formatDistance = (datetime, urgency = null) =>
+    computed(() => {
+      // @TODO support start and end times
+      const distance = sentencecase(
+        formatDistanceStrict(datetime, now.value, {
+          roundingMethod: "ceil",
+          addSuffix: true,
+        })
+      );
+      return urgency.value === "now" ? `Started ${distance}` : distance;
+    });
 
-  const { urgency } = dateRangeUrgency(fromDatetime, toDatetime);
+  const urgency = dateRangeUrgency(fromDatetime, toDatetime);
 
   const formattedDistance = formatDistance(fromDatetime, urgency);
 

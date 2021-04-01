@@ -17,7 +17,10 @@ const page = computed(() => {
     }
     if (events.value) {
       p.events = events.value
-        .filter((event) => event.hidden !== "TRUE")
+        .filter((event) => event.hidden !== "TRUE" && event.urgency !== "past")
+        .filter((event) => event.pageid == params.pageid);
+      p.pastEvents = events.value
+        .filter((event) => event.hidden !== "TRUE" && event.urgency === "past")
         .filter((event) => event.pageid == params.pageid);
     }
   }
@@ -30,8 +33,23 @@ const page = computed(() => {
     <page-disc :page="page" />
     <div class="Page">
       <div v-html="page.content" class="PageContent" />
-      <div class="EventCards">
-        <page-event v-for="(event, i) in page.events" :key="i" :event="event" />
+      <div>
+        <div class="EventCards">
+          <page-event
+            v-for="(event, i) in page.events"
+            :key="i"
+            :event="event"
+          />
+        </div>
+        <br /><br />
+        <h1>Past events</h1>
+        <div class="EventCards">
+          <page-event
+            v-for="(event, i) in page.pastEvents"
+            :key="i"
+            :event="event"
+          />
+        </div>
       </div>
     </div>
     <users />

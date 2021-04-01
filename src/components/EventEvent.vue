@@ -38,19 +38,11 @@ const isOpen = ref(false);
         <Button style="opacity: 0.8" v-if="isOpen" @click="isOpen = false"
           >Less info</Button
         >
-        <RouterLink
-          v-if="!page.isPage"
-          class="EventCard"
-          :to="page.link"
-          :style="{
-            opacity:
-              event.urgency === 'soon' || event.urgency === 'now' ? 1 : 0.25,
-          }"
-        >
+        <RouterLink v-if="!page.isPage" class="EventCard" :to="page.link">
           <Button
             :style="{
-              background: event.urgency === 'now' ? 'red' : '',
-              border: event.urgency === 'now' ? 'red' : '',
+              background: event.urgency.value === 'now' ? 'red' : '',
+              border: event.urgency.value === 'now' ? 'red' : '',
             }"
           >
             Go to event ➜
