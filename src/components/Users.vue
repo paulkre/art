@@ -25,8 +25,12 @@ const props = defineProps({
   about: { type: Boolean, default: true },
 });
 
-emitter.on("TOGGLE_USERS", () => {
-  showMessages.value = !showMessages.value;
+emitter.on("USERS_ON", () => {
+  showMessages.value = true;
+});
+
+emitter.on("USERS_OFF", () => {
+  showMessages.value = false;
 });
 
 const updatedUsers = computed(() =>
@@ -222,8 +226,9 @@ const colliding = computed(() => {
       </div>
     </draggable>
     <audio-file
+      v-if="showMessages"
       :muted="!colliding"
-      src="//elektron.fra1.digitaloceanspaces.com/backup/assets/generative-backround-hackaton.mp3"
+      src="https://elektron.fra1.digitaloceanspaces.com/assets/music1.mp3"
     />
   </div>
 </template>

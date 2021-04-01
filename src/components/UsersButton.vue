@@ -1,10 +1,12 @@
 <script setup>
 import { emitter, showMessages, plausible } from "../lib";
 const onClick = () => {
-  if (!showMessages.value) {
+  if (showMessages.value) {
+    emitter.emit("USERS_OFF");
+  } else {
     plausible.trackEvent("user_circlechat");
+    emitter.emit("USERS_ON");
   }
-  emitter.emit("TOGGLE_USERS");
 };
 </script>
 
