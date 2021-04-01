@@ -96,15 +96,15 @@ const textareaRef = useAboutTextarea(showMessages);
     />
     <transition name="fade">
       <Vertical v-show="showMessages && about" class="AboutPanel">
-        <h3>
+        <h3 class="mobilehide">
           <span style="display: inline-block; color: red; transform: scale(0.8)"
             >⬤</span
           >
           Let's get together!
         </h3>
-        <Small style="opacity: 0.5"
+        <Small class="mobilehide" style="opacity: 0.5"
           >Here's the place the audience can hang out and spend time together.
-          Move you red dot and write messages to each other.</Small
+          Move your red dot and write messages to each other.</Small
         >
         <Small>
           <span style="opacity: 0.5">Your name is "{{ userName }}"</span>&ensp;
@@ -194,6 +194,9 @@ const textareaRef = useAboutTextarea(showMessages);
 @media (max-width: 800px) {
   .AboutPanel {
     width: calc(100vw - 16px - 16px);
+  }
+  .mobilehide {
+    display: none;
   }
 }
 </style>
