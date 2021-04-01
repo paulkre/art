@@ -87,9 +87,9 @@ const audienceColumns = computed(
       if (event.value.images === "TRUE") {
         images = true;
       }
-      if (event.value.snapshot === "TRUE") {
-        snapshot = true;
-      }
+      // if (event.value.snapshot === "TRUE") {
+      //   snapshot = true;
+      // }
     }
     return { images, chat, snapshot };
   },
@@ -203,13 +203,13 @@ const onToggleUsers = () => {
           :reveivetype="event?.reveivetype"
         />
       </EventPanel>
-      <EventPanel
+      <!-- <EventPanel
         v-if="audienceColumns.snapshot"
         title="Snapshot"
         style="background: var(--bglighter)"
       >
         <Snapshot :channel="channel" />
-      </EventPanel>
+      </EventPanel> -->
     </div>
 
     <Overlay
