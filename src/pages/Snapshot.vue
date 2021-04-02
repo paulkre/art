@@ -71,7 +71,7 @@ const snapshots = computed(() =>
   messages.value
     .filter((message) => message.type === "SNAPSHOT")
     .reverse()
-    .slice(0, showAll.value ? 72 : 6)
+    .slice(0, showAll.value ? 120 : 6)
 );
 
 const activeSnapshot = ref(null);
