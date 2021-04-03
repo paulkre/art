@@ -172,6 +172,7 @@ const onToggleUsers = () => {
         <Vertical v-if="event?.description" v-html="event.description" />
         <p />
         <h2 v-if="event?.events">Current and upcoming events</h2>
+        <p />
 
         <Vertical v-if="event?.events" style="gap: 32px">
           <EventEvent

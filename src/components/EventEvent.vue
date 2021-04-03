@@ -26,7 +26,16 @@ const isOpen = ref(false);
     <div>
       <Vertical style="gap: 4px">
         <h3>
-          <badge v-if="event.urgency === 'now'">live</badge>
+          <badge v-if="event.urgency === 'now' && event.postponed !== 'TRUE'"
+            >live</badge
+          >
+
+          <badge
+            style="background: var(--fgdark)"
+            v-if="event.postponed === 'TRUE'"
+          >
+            postponed
+          </badge>
           {{ event.title }}
         </h3>
         <EventDate :event="event" />

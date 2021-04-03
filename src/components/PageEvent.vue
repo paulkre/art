@@ -28,7 +28,16 @@ const pageLink = computed(() => {
       <Vertical style="gap: 4px">
         <RouterLink :to="pageLink">
           <h2 style="cursor: pointer">
-            <badge v-if="event.urgency === 'now'">live</badge>
+            <badge v-if="event.urgency === 'now' && event.postponed !== 'TRUE'"
+              >live</badge
+            >
+
+            <badge
+              style="background: var(--fgdark)"
+              v-if="event.postponed === 'TRUE'"
+            >
+              postponed
+            </badge>
             {{ event.title }}
           </h2>
         </RouterLink>
