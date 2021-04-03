@@ -81,10 +81,8 @@ const activeSnapshot = ref(null);
 
 <template>
   <layout>
-    <vertical
-      style="padding: 64px 32px 32px clamp(1.5rem, 5vw, 3rem); gap: 32px"
-    >
-      <video-stream :src="formatStreamUrl(eventid)" style="width: 100%" />
+    <vertical style="padding: 72px clamp(1.5rem, 5vw, 3rem); gap: 32px">
+      <!-- <video-stream :src="formatStreamUrl(eventid)" style="width: 100%" />
       <div
         style="
           width: 100%;
@@ -106,24 +104,31 @@ const activeSnapshot = ref(null);
       </div>
       <Button class="CameraButton">
         <icon-camera @click="onSnapshot" style="transform: scale(1.25)" />
-      </Button>
+      </Button> -->
       <div
         style="
           display: grid;
           grid-template-columns: repeat(6, 1fr);
-          overflow: hidden;
+          overflow: auto;
           margin-top: -32px;
         "
-        :style="{ height: showAll ? '' : '9vw' }"
+        :style="{ height: showAll ? '80vh' : '80vh' }"
       >
-        <transition-group v-if="snapshots.length" name="slide">
+        <transition-group name="slide">
           <div
-            v-for="snapshot in snapshots"
-            :key="snapshot.id"
-            @click="activeSnapshot = snapshot.value"
+            v-for="i in 238"
+            :key="i"
+            @click="activeSnapshot = i"
             class="cursor: pointer"
           >
-            <img :src="snapshot.value" style="width: 100%" />
+            <img
+              :src="
+                'https://elektron.fra1.digitaloceanspaces.com/snapshots/' +
+                i +
+                '.jpg'
+              "
+              style="width: 100%"
+            />
           </div>
         </transition-group>
       </div>
