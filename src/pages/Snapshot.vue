@@ -105,32 +105,43 @@ const activeSnapshot = ref(null);
       <Button class="CameraButton">
         <icon-camera @click="onSnapshot" style="transform: scale(1.25)" />
       </Button> -->
-      <div
-        style="
-          display: grid;
-          grid-template-columns: repeat(6, 1fr);
-          overflow: auto;
-          margin-top: -32px;
-        "
-        :style="{ height: showAll ? '80vh' : '80vh' }"
-      >
-        <transition-group name="slide">
-          <div
-            v-for="i in 238"
-            :key="i"
-            @click="activeSnapshot = i"
-            class="cursor: pointer"
-          >
-            <img
-              :src="
-                'https://elektron.fra1.digitaloceanspaces.com/snapshots/' +
-                i +
-                '.jpg'
-              "
-              style="width: 100%"
-            />
-          </div>
-        </transition-group>
+      <div style="overflow: auto; height: 80vh">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            overflow: auto;
+            margin-top: -32px;
+          "
+        >
+          <transition-group name="slide">
+            <div
+              v-for="i in 238"
+              :key="i"
+              @click="activeSnapshot = i"
+              class="cursor: pointer"
+            >
+              <img
+                :src="
+                  'https://elektron.fra1.digitaloceanspaces.com/snapshots/' +
+                  i +
+                  '.jpg'
+                "
+                style="width: 100%"
+              />
+            </div>
+          </transition-group>
+        </div>
+        <img
+          v-for="j in 3"
+          :key="j"
+          :src="
+            'https://elektron.fra1.digitaloceanspaces.com/snapshots/archive' +
+            j +
+            '.jpg'
+          "
+          style="width: 100%"
+        />
       </div>
       <h1>{{ event?.title }}</h1>
       <horizontal>
