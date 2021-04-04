@@ -86,7 +86,7 @@ const otherUserStyle = (otherUser) =>
 const textareaRef = useAboutTextarea(showMessages);
 
 const circle = new Circle(0, 0, 100);
-const circle2 = new Circle(200, -200, 50);
+const circle2 = new Circle(-200, -200, 50);
 const myCircle = new Circle(userData.value.userX, userData.value.userY, 10);
 const result = new Result();
 const result2 = new Result();
@@ -172,7 +172,7 @@ const colliding2 = computed(() => {
           width: '100px',
           height: '100px',
           top: centerY - 50 - 200 + 'px',
-          left: centerX - 50 + 200 + 'px',
+          left: centerX - 50 - 200 + 'px',
           border: colliding2 ? '2px solid red' : ' 2px solid var(--fg)',
           transition: 'all 500ms',
           transform: colliding2 ? 'scale(1.1)' : '',
@@ -257,7 +257,7 @@ const colliding2 = computed(() => {
     <audio-file
       v-if="showMessages"
       :muted="!colliding2"
-      src="https://elektron.fra1.digitaloceanspaces.com/assets/music2.mp3"
+      src="https://elektron.fra1.digitaloceanspaces.com/assets/music3.mp3"
     />
   </div>
 </template>
