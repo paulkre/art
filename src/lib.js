@@ -1,38 +1,17 @@
-import { createApp, defineAsyncComponent } from "vue";
+import { createApp } from "vue";
 
 export * from "vue";
 export * from "./lib/index.js";
 
 import "./app.css";
 
-export const components = Object.fromEntries(
-  Object.entries(import.meta.globEager("./components/*.vue")).map(
-    ([path, component]) => {
-      const name = path.match(/\.\/components\/(.*)\.vue$/)[1];
-      return [name, component];
-    }
-  )
-);
-
-const components2 = import.meta.glob("./components/*.vue");
+const components = import.meta.globEager("./components/*.vue");
 
 export const createElektronApp = (appComponent = {}) => {
   const app = createApp(appComponent);
-  Object.entries(components2).forEach(([path, component]) => {
+  Object.entries(components).forEach(([path, component]) => {
     const name = path.match(/\.\/components\/(.*)\.vue$/)[1];
-    app.component(name, defineAsyncComponent(component));
+    app.component(name, component.default);
   });
-
   return app;
 };
-
-//export { defineAsyncComponent };
-//export const components = import.meta.globEager("./components/*.vue");
-// const components = Object.fromEntries(
-//   Object.entries(import.meta.glob("./components/*.vue")).map(
-//     ([path, component]) => {
-//       const name = path.match(/\.\/components\/(.*)\.vue$/)[1];
-//       return [name, defineAsyncComponent(component)];
-//     }
-//   )
-// );

@@ -22,7 +22,7 @@ export default {
     }),
   ],
   build: {
-    sourcemap: false,
+    sourcemap: true,
     minify: "esbuild",
     emptyOutDir: true,
     lib: {
