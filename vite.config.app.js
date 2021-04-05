@@ -1,6 +1,5 @@
-import fonts from "vite-plugin-fonts";
-
 import vue from "@vitejs/plugin-vue";
+import fonts from "vite-plugin-fonts";
 
 /**
  * @type {import('vite').UserConfig}
@@ -21,4 +20,5 @@ export default {
       },
     }),
   ],
+  build: { minify: "esbuild", emptyOutDir: true },
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot />
+    <slot style="clamp(1.5rem, 5vw, 3rem)" />
     <div class="Top">
       <Flex><slot name="top-left" /></Flex>
       <Flex><slot name="top-center" /></Flex>
