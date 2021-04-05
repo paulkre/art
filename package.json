@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "vite -c vite.config.app.js",
-    "build": "vite build -c vite.config.app.js && vite build -c vite.config.lib.js",
+    "build": "vite build -c vite.config.app.js && vite build -c vite.config.lib.js --outDir dist/lib",
     "serve": "vite preview"
   },
   "dependencies": {

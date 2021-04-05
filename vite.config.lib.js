@@ -22,12 +22,13 @@ export default {
     }),
   ],
   build: {
+    sourcemap: false,
     minify: "esbuild",
-    emptyOutDir: false,
+    emptyOutDir: true,
     lib: {
       entry: path.resolve(__dirname, "src/lib.js"),
       formats: ["es"],
-      name: "lib",
+      name: "art",
     },
   },
 };
