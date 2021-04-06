@@ -10,7 +10,6 @@
   padding: 0 16px;
   font-family: "Nunito Sans", sans-serif;
   font-size: 16px;
-  font-weight: bold;
   height: 32px;
   background: none;
   outline: none;
