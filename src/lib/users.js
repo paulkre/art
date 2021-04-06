@@ -3,7 +3,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 
 import { differenceInSeconds } from "date-fns";
 import { merge } from "lodash";
-
+import { useStorage } from "@vueuse/core";
 import {
   adjectives,
   animals,
@@ -14,20 +14,19 @@ import {
   random,
   randomId,
   safeJsonParse,
-  useLocalstorage,
   ws,
 } from "../lib";
 
 const initialUserId = randomId();
 const initialUserName = `${any(adjectives)} ${any(animals)}`;
 
-export const userId = useLocalstorage("elektron_user_id", initialUserId);
-export const userName = useLocalstorage("elektron_user_name", initialUserName);
-export const userAbout = useLocalstorage("elektron_user_about", "");
+export const userId = useStorage("elektron_user_id", initialUserId);
+export const userName = useStorage("elektron_user_name", initialUserName);
+export const userAbout = useStorage("elektron_user_about", "");
 
 const randomPosition = pol2car(random(0, 360), random(0, 100));
 
-export const userData = useLocalstorage("elektron_user_data", {
+export const userData = useStorage("elektron_user_data", {
   userX: randomPosition.x,
   userY: randomPosition.y,
 });

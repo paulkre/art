@@ -4,47 +4,12 @@ import { createApp, defineAsyncComponent } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 import App from "./App.vue";
-import { useRouter } from "vue-router";
-import { config } from "./lib";
 
 const components = import.meta.glob("./components/*.vue");
 const routes = [
   {
     path: "/",
-    component: () => import(`./pages/${config.indexComponent}.vue`),
-  },
-  {
-    path: "/page/festival",
-    component: {
-      setup() {
-        router.push("/page/spooky2021");
-        return () => null;
-      },
-    },
-  },
-  {
-    path: "/ruumiantropoloogiad",
-    component: () => import(`./pages/Snapshot.vue`),
-  },
-  {
-    path: "/events",
-    component: () => import(`./pages/_Events.vue`),
-  },
-  {
-    path: "/threesixty",
-    component: () => import("./pages/_Threesixty.vue"),
-  },
-  {
-    path: "/fienta",
-    component: () => import("./pages/_Fienta.vue"),
-  },
-  {
-    path: "/test",
-    component: () => import("./pages/_Test.vue"),
-  },
-  {
-    path: "/test2",
-    component: () => import("./pages/_Test2.vue"),
+    component: () => import(`./pages/Index.vue`),
   },
   {
     path: "/page/:pageid",

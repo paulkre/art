@@ -1,8 +1,8 @@
 import { computed, ref, watch } from "vue";
-
+import { useStorage } from "@vueuse/core";
 import ky from "ky";
 
-import { config, uniqueCollection, useLocalstorage } from "./";
+import { config, uniqueCollection } from "./";
 
 export const fienta = ky.extend({
   prefixUrl: config.fientaUrl,
@@ -18,7 +18,7 @@ export const fienta = ky.extend({
 // const useFienta = (event, code = null) => {
 //   const code = isRef(code) ? code : ref(code);
 
-//   const tickets = useLocalstorage("elektron_data", []);
+//   const tickets = useStorage("elektron_data", []);
 
 //   const hasLocalTicket = computed(() =>
 //     tickets.value?.find((ticket) => ticket.code === code.value)
@@ -31,7 +31,7 @@ export const fienta = ky.extend({
 //   })
 // };
 
-const tickets = useLocalstorage("elektron_data", []);
+const tickets = useStorage("elektron_data", []);
 
 const checkLocalTicketWithoutCode = (event) => {
   return tickets.value?.find(
