@@ -1,4 +1,5 @@
 <script setup>
+import { formatMarkdown } from "../lib";
 defineProps({ chat: { type: Object } });
 </script>
 
@@ -13,8 +14,7 @@ defineProps({ chat: { type: Object } });
         border-radius: 4px;
         padding: 8px 12px;
       "
-    >
-      {{ chat.value }}
-    </small>
+      v-html="formatMarkdown(chat.value)"
+    />
   </vertical>
 </template>

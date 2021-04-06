@@ -6,7 +6,7 @@ import {
   fetchSheet,
   getDiff,
   replace,
-  formatText,
+  formatMarkdown,
   sortEvents,
 } from "./";
 
@@ -15,7 +15,7 @@ export const events = ref([]);
 const processEvent = (event) => {
   if (event.description) {
     event.intro = `${event.description.split(/\n/)[0]}.`;
-    event.description = formatText(event.description);
+    event.description = formatMarkdown(event.description);
   }
   if (event.fromdate) {
     const {

@@ -41,12 +41,11 @@ h6 {
   font-family: "font-medium", sans-serif;
   line-height: 1.3em;
   font-weight: normal;
-  /* word-break: break-all; */
 }
 a {
   text-decoration: none;
   color: inherit;
-  word-wrap: break-word;
+  word-break: break-all;
 }
 input,
 textarea {
