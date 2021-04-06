@@ -4,7 +4,7 @@ defineProps({ page: { type: Object } });
 </script>
 
 <template>
-  <Disc
+  <disc
     :style="{
       position: 'absolute',
       top: '-150px',

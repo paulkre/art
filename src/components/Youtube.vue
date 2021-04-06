@@ -1,7 +1,9 @@
 <script setup>
 import { defineProps } from "vue";
-import { replaceYoutube } from "../lib";
 import "@justinribeiro/lite-youtube";
+
+import { replaceYoutube } from "../lib";
+
 defineProps({
   src: { type: String },
 });

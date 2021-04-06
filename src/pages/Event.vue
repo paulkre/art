@@ -145,8 +145,8 @@ const onToggleUsers = () => {
 
 <template>
   <div>
-    <div class="Event">
-      <div class="EventContent">
+    <div class="event">
+      <div class="event-content">
         <div v-if="event">
           <component
             v-for="(src, i) in srcs"
@@ -161,26 +161,26 @@ const onToggleUsers = () => {
           />
         </div>
         <div v-else>
-          <VideoStream
+          <video-stream
             :src="srcs[0]"
             :streamkey="event?.streamkeys[0] || params.eventid"
           />
         </div>
         <p />
         <h1 v-if="event?.title">{{ event.title }}</h1>
-        <EventDate v-if="event?.fromdate" :event="event" />
-        <Vertical v-if="event?.description" v-html="event.description" />
+        <event-date v-if="event?.fromdate" :event="event" />
+        <vertical v-if="event?.description" v-html="event.description" />
         <p />
         <h2 v-if="event?.events">Current and upcoming events</h2>
         <p />
 
-        <Vertical v-if="event?.events" style="gap: 32px">
-          <EventEvent
+        <vertical v-if="event?.events" style="gap: 32px">
+          <event-event
             v-for="(event, i) in event.events"
             :key="i"
             :event="event"
           />
-        </Vertical>
+        </vertical>
       </div>
     </div>
     <div
@@ -189,41 +189,34 @@ const onToggleUsers = () => {
         audienceColumns.chat ||
         audienceColumns.snapshot
       "
-      class="EventPanels"
+      class="event-panels"
     >
-      <EventPanel
+      <event-panel
         v-if="audienceColumns.images"
         title="Audience"
         style="background: var(--bglight)"
       >
-        <Images />
-      </EventPanel>
-      <EventPanel
+        <images />
+      </event-panel>
+      <event-panel
         v-if="audienceColumns.chat"
         title="Chat"
         style="background: var(--bglighter)"
       >
-        <Chat
+        <chat
           :channel="channel"
           :sendtype="event?.sendtype"
           :reveivetype="event?.reveivetype"
         />
-      </EventPanel>
-      <!-- <EventPanel
-        v-if="audienceColumns.snapshot"
-        title="Snapshot"
-        style="background: var(--bglighter)"
-      >
-        <Snapshot :channel="channel" />
-      </EventPanel> -->
+      </event-panel>
     </div>
 
-    <Overlay
+    <overlay
       v-if="event && event.fientaid && status !== 'CHECKED'"
       :event="event"
       style="position: fixed; top: 0; right: 0; bottom: 0; left: 0"
     >
-      <IconCreditcard style="transform: scale(3); color: var(--ticket)" />
+      <icon-creditcard style="transform: scale(3); color: var(--ticket)" />
       <p />
       <p />
       <h1>{{ event.title }}</h1>
@@ -234,7 +227,7 @@ const onToggleUsers = () => {
         placeholder="Type the ticket code"
         style="width: 200px"
       />
-      <ButtonBig @click="onCheck">Enter to the event</ButtonBig>
+      <button-mediumBig @click="onCheck">Enter to the event</button-mediumBig>
       <p />
       <div v-if="status === 'USED'">
         This ticket has been used already. We only support using the ticket on a
@@ -256,9 +249,9 @@ const onToggleUsers = () => {
           config.phoneUrl.replace("tel:", "")
         }}</a>
       </p>
-    </Overlay>
+    </overlay>
 
-    <Users v-if="showUsers" />
+    <users v-if="showUsers" />
     <layout>
       <template #top-left>
         <back-button :to="event?.pageid ? '/page/' + event.pageid : null" />
@@ -273,16 +266,16 @@ const onToggleUsers = () => {
         <users-button v-if="showUsers" />
       </template>
       <template #bottom-center>
-        <Button style="--fg: orange" v-if="admin" @click="onToggleUsers">
+        <button-medium style="--fg: orange" v-if="admin" @click="onToggleUsers">
           Admin: Toggle dots
-        </Button>
+        </button-medium>
       </template>
       <template #bottom-right>
         <a
           title="I have a ticket"
           v-if="event && event.fientaid && status === 'CHECKED'"
         >
-          <IconCreditcard style="color: var(--ticket)" />
+          <icon-creditcard style="color: var(--ticket)" />
         </a>
       </template>
     </layout>
@@ -290,30 +283,30 @@ const onToggleUsers = () => {
 </template>
 
 <style scoped>
-.Event {
+.event {
   display: grid;
   grid-template-columns: 1fr var(--event-audience-width);
   min-height: 100vh;
   transition: 200ms;
 }
 @media (max-width: 800px) {
-  .Event {
+  .event {
     grid-template-columns: 1fr;
   }
 }
-.EventContent {
+.event-content {
   padding: 64px 32px 32px clamp(1.5rem, 5vw, 3rem);
   display: grid;
   grid-auto-rows: max-content;
   gap: 16px;
 }
 @media (max-width: 800px) {
-  .EventContent {
+  .event-content {
     height: calc(50vh);
     overflow: auto;
   }
 }
-.EventPanels {
+.event-panels {
   position: fixed;
   top: 0;
   right: 0;
@@ -324,7 +317,7 @@ const onToggleUsers = () => {
   transition: 200ms;
 }
 @media (max-width: 800px) {
-  .EventPanels {
+  .event-panels {
     position: static;
     width: inherit;
     grid-template-columns: 1fr;

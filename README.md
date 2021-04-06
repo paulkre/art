@@ -7,6 +7,6 @@ npm install
 npm run dev
 ```
 
-### Icons
+### icons
 
 https://feathericons.com/ 24px / 2px

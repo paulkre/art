@@ -34,7 +34,7 @@ const page = computed(() => {
     <div class="Page">
       <div v-html="page.content" class="PageContent" />
       <div>
-        <div class="EventCards">
+        <div class="event-cards">
           <page-event
             v-for="(event, i) in page.events"
             :key="i"
@@ -43,7 +43,7 @@ const page = computed(() => {
         </div>
         <br /><br />
         <h1>Past events</h1>
-        <div class="EventCards">
+        <div class="event-cards">
           <page-event
             v-for="(event, i) in page.pastEvents"
             :key="i"
@@ -126,7 +126,7 @@ const page = computed(() => {
   display: block;
   grid-column: ;
 }
-.EventCards {
+.event-cards {
   display: grid;
   grid-auto-rows: max-content;
   gap: 32px;

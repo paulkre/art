@@ -5,7 +5,7 @@
     viewBox="0 0 20 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    class="Icon"
+    class="icon"
     stroke="currentColor"
     stroke-width="1.5"
     stroke-linecap="round"

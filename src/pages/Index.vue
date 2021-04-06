@@ -44,17 +44,17 @@ const pageStyle = (page) =>
 </script>
 <template>
   <layout>
-    <!-- <Horizontal>
+    <!-- <horizontal>
       &nbsp;
-      <Vertical style="padding: 60px 0; gap: 32px">
-        <EventCard
+      <vertical style="padding: 60px 0; gap: 32px">
+        <page-event
           v-for="(event, i) in eventsWithPages"
           :key="i"
           :event="event"
           :description="false"
         />
-      </Vertical>
-    </Horizontal> -->
+      </vertical>
+    </horizontal> -->
     <Link
       v-for="(page, i) in pagesWithEvents"
       :key="i"
@@ -66,7 +66,7 @@ const pageStyle = (page) =>
           : '/page/' + page.pageid
       "
     >
-      <Disc
+      <disc
         :key="i"
         :style="{
           ...pageStyle(page).value,
@@ -90,7 +90,7 @@ const pageStyle = (page) =>
         <p style="line-height: 1.3em" v-if="page.about">
           {{ page.about }}
         </p>
-      </Disc>
+      </disc>
     </Link>
     <div
       style="

@@ -16,8 +16,6 @@ const { onStart, onStop, videoRef, canvasRef, sendImageMessages } = useImages(
   props.channel
 );
 
-// @TODO Handle the empty image filtering in the useImages()
-
 const emptyImage =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCABkAGQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAj/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB//Z";
 
@@ -31,10 +29,10 @@ const started = ref(false);
 </script>
 
 <template>
-  <Vertical>
+  <vertical>
     Please allow access to your camera to be a public audience member in our
     venue.
-    <Button
+    <button-medium
       v-show="!started"
       @click="
         () => {
@@ -43,9 +41,9 @@ const started = ref(false);
           plausible.trackEvent('user_image');
         }
       "
-      >Start my camera</Button
+      >Start my camera</button-medium
     >
-    <Button
+    <button-medium
       v-show="started"
       @click="
         () => {
@@ -53,7 +51,7 @@ const started = ref(false);
           started = !started;
         }
       "
-      >Stop my camera</Button
+      >Stop my camera</button-medium
     >
     <p />
     <ImageGrid v-if="started" class="grid-gap: 2px;">
@@ -79,5 +77,5 @@ const started = ref(false);
       />
       <canvas ref="canvasRef" style="display: none" />
     </div>
-  </Vertical>
+  </vertical>
 </template>

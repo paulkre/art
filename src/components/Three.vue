@@ -11,9 +11,9 @@ import {
   Mesh,
   Group,
 } from "three";
+
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { deg2rad } from "../lib";
-import { range } from "../lib";
+import { deg2rad, range } from "../lib";
 
 const el = ref(null);
 const width = 640;

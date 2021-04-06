@@ -11,7 +11,7 @@ const componentType = computed(() =>
 
 <template>
   <a v-if="componentType === 'a'" :href="src" target="_blank"><slot /></a>
-  <RouterLink v-if="componentType === 'router-link'" :to="src"
-    ><slot
-  /></RouterLink>
+  <router-link v-if="componentType === 'router-link'" :to="src">
+    <slot />
+  </router-link>
 </template>

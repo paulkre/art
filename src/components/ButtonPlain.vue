@@ -1,9 +1,9 @@
 <template>
-  <div class="ButtonPlain"><slot /></div>
+  <div class="button-plain"><slot /></div>
 </template>
 
 <style>
-.ButtonPlain {
+.button-plain {
   padding: 0;
   background: none;
   border: none;

@@ -108,7 +108,7 @@ const colliding2 = computed(() => {
 
 <template>
   <div>
-    <Overlay
+    <overlay
       v-if="about"
       style="
         position: fixed;
@@ -122,7 +122,7 @@ const colliding2 = computed(() => {
       :style="{ opacity: showMessages ? 0.9 : 0 }"
     />
     <transition name="fade">
-      <Vertical v-show="showMessages && about" class="AboutPanel">
+      <vertical v-show="showMessages && about" class="about-panel">
         <h3 class="mobilehide">
           <span
             style="display: inline-block; color: red; transform: scale(0.8)"
@@ -131,25 +131,25 @@ const colliding2 = computed(() => {
           </span>
           Let's get together!
         </h3>
-        <Small class="mobilehide" style="opacity: 0.5"
+        <small class="mobilehide" style="opacity: 0.5"
           >Here's the place the audience can hang out and spend time together.
-          Move your red dot and write messages to each other.</Small
+          Move your red dot and write messages to each other.</small
         >
-        <Small>
+        <small>
           <span style="opacity: 0.5">Your name is "{{ userName }}"</span>&ensp;
           <span @click="onUserNameChange" style="cursor: pointer"
             >Change the name</span
           >
-        </Small>
+        </small>
         <textarea
           ref="textareaRef"
           v-model="userAbout"
           placeholder="Write here a message"
         />
-      </Vertical>
+      </vertical>
     </transition>
     <transition name="fade">
-      <Disc
+      <disc
         v-if="showMessages"
         style="position: fixed; pointer-events: none; border: 2px solid white"
         :style="{
@@ -165,7 +165,7 @@ const colliding2 = computed(() => {
       />
     </transition>
     <transition name="fade">
-      <Disc
+      <disc
         v-if="showMessages"
         style="position: fixed; pointer-events: none; border: 2px solid white"
         :style="{
@@ -190,7 +190,7 @@ const colliding2 = computed(() => {
       }"
     >
       <div style="display: grid; grid-template-columns: auto 300px; gap: 8px">
-        <Dot
+        <dot
           color="#8800FF"
           style="transition: opacity 1000ms"
           :opacity="showMessages ? 1 : otherUser.opacity / 2"
@@ -227,7 +227,7 @@ const colliding2 = computed(() => {
       "
     >
       <div style="display: grid; grid-template-columns: auto 250px; gap: 8px">
-        <Dot color="red" opacity="0.8" />
+        <dot color="red" opacity="0.8" />
         <transition name="fade">
           <div v-if="showMessages && about && !colliding && !colliding2">
             <div
@@ -263,7 +263,7 @@ const colliding2 = computed(() => {
 </template>
 
 <style>
-.AboutPanel {
+.about-panel {
   position: fixed;
   left: 16px;
   bottom: 40px;
@@ -276,7 +276,7 @@ const colliding2 = computed(() => {
   width: 300px;
 }
 @media (max-width: 800px) {
-  .AboutPanel {
+  .about-panel {
     width: calc(100vw - 16px - 16px);
   }
   .mobilehide {

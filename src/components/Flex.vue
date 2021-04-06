@@ -1,9 +1,9 @@
 <template>
-  <div class="Flex"><slot /></div>
+  <div class="flex"><slot /></div>
 </template>
 
 <style>
-.Flex {
+.flex {
   display: inline-grid;
   gap: 8px;
   grid-auto-flow: column;

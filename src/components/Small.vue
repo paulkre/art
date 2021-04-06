@@ -1,9 +1,9 @@
 <template>
-  <div class="Small"><slot /></div>
+  <div class="small"><slot /></div>
 </template>
 
 <style scoped>
-.Small {
+.small {
   font-size: 0.9em;
   line-height: 1.5;
 }

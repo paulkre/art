@@ -1,9 +1,9 @@
 <template>
-  <div class="Button"><slot /></div>
+  <div class="button-medium"><slot /></div>
 </template>
 
 <style>
-.Button {
+.button-medium {
   display: inline-grid;
   place-items: center;
   border-radius: 100px;

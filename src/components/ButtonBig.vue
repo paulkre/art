@@ -1,9 +1,9 @@
 <template>
-  <div class="ButtonBig"><slot /></div>
+  <div class="button-big"><slot /></div>
 </template>
 
 <style>
-.ButtonBig {
+.button-big {
   display: inline-grid;
   place-items: center;
   border-radius: 100px;
@@ -23,7 +23,7 @@
   text-align: center;
 }
 @media (max-width: 800px) {
-  .ButtonBig {
+  .button-big {
     height: auto;
     padding: 16px 24px;
   }

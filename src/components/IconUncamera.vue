@@ -9,7 +9,7 @@
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="Icon"
+    class="icon"
   >
     <line x1="1" y1="1" x2="23" y2="23"></line>
     <path

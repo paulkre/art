@@ -17,6 +17,6 @@ const onBack = () => {
 
 <template>
   <button-plain @click="onBack">
-    <IconLeft />
+    <icon-left />
   </button-plain>
 </template>

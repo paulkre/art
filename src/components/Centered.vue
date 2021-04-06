@@ -1,11 +1,11 @@
 <template>
-  <div class="Centered">
+  <div class="centered">
     <slot />
   </div>
 </template>
 
 <style>
-.Centered {
+.centered {
   display: grid;
   gap: 16px;
   text-align: center;
@@ -13,7 +13,7 @@
   align-content: center;
   grid-auto-rows: min-content;
 }
-.Centered > * {
+.centered > * {
   justify-self: center;
 }
 </style>
