@@ -18,6 +18,7 @@ export const useAdmin = () => {
     () => route.query,
     () => {
       superuser.value = route.query.hasOwnProperty("superuser"); // @TODO use superuser key
+      // Currently admin is unused
       admin.value = route.query.hasOwnProperty("admin"); // @TODO use admin key
       debug.value = route.query.hasOwnProperty("debug"); // @TODO use admin key
     },

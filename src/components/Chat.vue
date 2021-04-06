@@ -25,7 +25,7 @@ const { chats, newMessage, onNewMessage, scrollRef, textareaRef } = useChat(
     <div
       style="font-size: 0.8em; line-height: 1.5em; transform: translateY(6px)"
     >
-      <span style="opacity: 0.5">My name is {{ userName }}</span>
+      <span style="opacity: 0.5">Your name is {{ userName }}</span>
       &ensp;
       <span @click="onUserNameChange" style="cursor: pointer">Change</span>
     </div>

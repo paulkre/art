@@ -14,7 +14,6 @@ import {
   ws,
   createMessage,
   safeJsonParse,
-  admin,
   formatStreamUrl,
 } from "../lib";
 
@@ -55,14 +54,6 @@ const event = computed(() => {
   return currentEvent;
 });
 
-// const formatStreamUrl = (streamkey) => {
-//   if (streamkey.endsWith("m3u8")) {
-//     return streamkey;
-//   } else {
-//     return replace(config.streamUrl, { streamkey });
-//   }
-// };
-
 const srcs = computed(() => {
   if (event.value && event.value.streamkeys) {
     return event.value.streamkeys.map(formatStreamUrl);
@@ -81,7 +72,6 @@ const audienceColumns = computed(
   () => {
     let images = false;
     let chat = true;
-    let snapshot = false;
     if (event.value) {
       if (event.value.chat === "FALSE") {
         chat = false;
@@ -89,11 +79,8 @@ const audienceColumns = computed(
       if (event.value.images === "TRUE") {
         images = true;
       }
-      // if (event.value.snapshot === "TRUE") {
-      //   snapshot = true;
-      // }
     }
-    return { images, chat, snapshot };
+    return { images, chat };
   },
   { immediate: true }
 );
@@ -124,23 +111,6 @@ watch(status, () => {
     router.push({ path: `/${params.value.eventid}` });
   }
 });
-
-const showUsers = ref(false);
-
-ws.addEventListener("message", ({ data }) => {
-  const message = safeJsonParse(data);
-  if (message.type === "USERS") {
-    showUsers.value = !showUsers.value;
-  }
-});
-
-const onToggleUsers = () => {
-  const outgoingMessage = createMessage({
-    type: "USERS",
-    channel: channel.value,
-  });
-  ws.send(outgoingMessage);
-};
 </script>
 
 <template>
@@ -184,11 +154,7 @@ const onToggleUsers = () => {
       </div>
     </div>
     <div
-      v-if="
-        audienceColumns.images ||
-        audienceColumns.chat ||
-        audienceColumns.snapshot
-      "
+      v-if="audienceColumns.images || audienceColumns.chat"
       class="event-panels"
     >
       <event-panel
@@ -251,7 +217,6 @@ const onToggleUsers = () => {
       </p>
     </overlay>
 
-    <users v-if="showUsers" />
     <layout>
       <template #top-left>
         <back-button :to="event?.pageid ? '/page/' + event.pageid : null" />
@@ -264,11 +229,6 @@ const onToggleUsers = () => {
       </template>
       <template #bottom-left>
         <users-button v-if="showUsers" />
-      </template>
-      <template #bottom-center>
-        <button-medium style="--fg: orange" v-if="admin" @click="onToggleUsers">
-          Admin: Toggle dots
-        </button-medium>
       </template>
       <template #bottom-right>
         <a

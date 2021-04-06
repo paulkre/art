@@ -136,7 +136,8 @@ const colliding2 = computed(() => {
           Move your red dot and write messages to each other.</small
         >
         <small>
-          <span style="opacity: 0.5">Your name is "{{ userName }}"</span>&ensp;
+          <span style="opacity: 0.5">Your name is {{ userName }}</span
+          >&ensp;
           <span @click="onUserNameChange" style="cursor: pointer"
             >Change the name</span
           >
