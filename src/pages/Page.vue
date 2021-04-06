@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
-import { useRoute, onBeforeRouteLeave } from "vue-router";
-import { pages, events, activeTheme } from "../lib";
+import { useRoute } from "vue-router";
+import { pages, events } from "../lib";
 
 const { params } = useRoute();
 
@@ -31,8 +31,8 @@ const page = computed(() => {
 <template>
   <layout>
     <page-disc :page="page" />
-    <div class="Page">
-      <div v-html="page.content" class="PageContent" />
+    <div class="page">
+      <div v-html="page.content" class="page-content" />
       <div>
         <div class="event-cards">
           <page-event
@@ -41,8 +41,7 @@ const page = computed(() => {
             :event="event"
           />
         </div>
-        <br /><br />
-        <h1>Past events</h1>
+        <h1 style="margin-top: 32px" v-if="page?.events.length">Past events</h1>
         <div class="event-cards">
           <page-event
             v-for="(event, i) in page.pastEvents"
@@ -69,7 +68,7 @@ const page = computed(() => {
 </template>
 
 <style>
-.Page {
+.page {
   padding: clamp(1.5rem, 5vw, 3rem);
   padding-top: clamp(5rem, 10vw, 10rem);
   display: grid;
@@ -77,7 +76,7 @@ const page = computed(() => {
   gap: clamp(8px, 5vw, 64px);
 }
 @media (max-width: 800px) {
-  .Page {
+  .page {
     grid-template-columns: 1fr;
   }
 }
@@ -103,25 +102,25 @@ const page = computed(() => {
   border-left: 5px solid var(--fg);
   font-weight: bold;
 } */
-.PageContent {
+.page-content {
   display: grid;
   grid-auto-rows: max-content;
   gap: clamp(8px, 1vw, 16px);
   word-wrap: break-word;
 }
-.PageContent > * {
+.page-content > * {
   grid-column: 1;
 }
-.PageContent p {
+.page-content p {
   margin: 0;
 }
-.PageContent a {
+.page-content a {
   text-decoration: underline;
 }
-.PageContent hr {
+.page-content hr {
   display: none;
 }
-.PageContent img {
+.page-content img {
   width: 100%;
   display: block;
   grid-column: ;
