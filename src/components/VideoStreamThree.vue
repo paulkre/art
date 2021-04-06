@@ -30,10 +30,10 @@ const muted = ref(true);
       crossorigin="anonymous"
       playsinline
     />
-    <div class="VideoStreamThree">
+    <div class="video-stream-three">
       <Three>
         <ThreeVideoStream :video="videoRef" />
-        <!-- <ThreeDots /> -->
+        <!-- <Threedots /> -->
       </Three>
       <transition name="fade">
         <div
@@ -46,14 +46,14 @@ const muted = ref(true);
             align-items: center;
           "
         >
-          <Small v-if="muted" @click="muted = !muted" style="cursor: pointer"
-            >Turn on sound&ensp;</Small
+          <small v-if="muted" @click="muted = !muted" style="cursor: pointer"
+            >Turn on sound&ensp;</small
           >
-          <IconMute v-if="!muted" @click="muted = !muted" />
-          <IconUnmute v-if="muted" @click="muted = !muted" />
+          <icon-mute v-if="!muted" @click="muted = !muted" />
+          <icon-unmute v-if="muted" @click="muted = !muted" />
           &emsp;
-          <IconFullscreen v-if="!isFullscreen" @click="enter" />
-          <IconUnfullscreen v-if="isFullscreen" @click="exit" />
+          <icon-fullscreen v-if="!isFullscreen" @click="enter" />
+          <icon-unfullscreen v-if="isFullscreen" @click="exit" />
         </div>
       </transition>
     </div>
@@ -61,15 +61,15 @@ const muted = ref(true);
 </template>
 
 <style>
-.VideoStreamThree {
+.video-stream-three {
   position: relative;
   aspect-ratio: 16 / 9;
 }
-.VideoStreamThree canvas {
+.video-stream-three canvas {
   width: 100% !important;
   height: 100% !important;
 }
-.VideoStreamThree .mute {
+.video-stream-three .mute {
   position: absolute;
   right: 16px;
   bottom: 16px;

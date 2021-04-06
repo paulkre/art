@@ -25,7 +25,7 @@ const statuses = {
   playing: "",
 };
 
-// Snapshot
+/*
 
 const canvasRef = ref(null);
 const context = ref(null);
@@ -56,6 +56,8 @@ emitter.on("SNAPSHOT_REQUEST", () => {
     );
   }
 });
+
+*/
 
 const usePip = (videoRef) => {
   const pipAvailable = "pictureInPictureEnabled" in document;
@@ -99,19 +101,19 @@ const stat = computed(() => {
         aspectRatio: width + ' / ' + height,
       }"
     />
-    <canvas ref="canvasRef" style="display: none" />
+    <!-- <canvas ref="canvasRef" style="display: none" /> -->
     <slot :status="status">
       <Transition name="fade" appear>
         <div v-if="status !== 'playing'">
-          <Overlay>
+          <overlay>
             {{ statuses[status] }}
-          </Overlay>
+          </overlay>
         </div>
       </Transition>
     </slot>
     <transition name="fade">
       <div>
-        <Flex
+        <flex
           v-if="stat && status === 'playing'"
           style="
             position: absolute;
@@ -123,10 +125,10 @@ const stat = computed(() => {
             bottom: debug ? '' : 'clamp(5px, 2vw, 24px)',
           }"
         >
-          <IconEye />
-          <Smaller>{{ stat }}</Smaller>
-        </Flex>
-        <Flex
+          <icon-eye />
+          <smaller>{{ stat }}</smaller>
+        </flex>
+        <flex
           style="
             position: absolute;
             right: clamp(5px, 2vw, 24px);
@@ -139,17 +141,17 @@ const stat = computed(() => {
             bottom: debug ? '' : 'clamp(5px, 2vw, 24px)',
           }"
         >
-          <Small v-if="muted" @click="muted = !muted" style="cursor: pointer"
-            >Turn on sound</Small
+          <small v-if="muted" @click="muted = !muted" style="cursor: pointer"
+            >Turn on sound</small
           >
-          <Small v-if="!muted">&nbsp;</Small>
-          <IconMute v-if="!muted" @click="muted = !muted" />
-          <IconUnmute v-if="muted" @click="muted = !muted" />
-          <IconPip v-if="pipAvailable && !pipEnabled" @click="pipEnter" />
-          <IconUnpip v-if="pipAvailable && pipEnabled" @click="pipExit" />
-          <IconFullscreen v-if="!isFullscreen" @click="enter" />
-          <IconUnfullscreen v-if="isFullscreen" @click="exit" />
-        </Flex>
+          <small v-if="!muted">&nbsp;</small>
+          <icon-mute v-if="!muted" @click="muted = !muted" />
+          <icon-unmute v-if="muted" @click="muted = !muted" />
+          <icon-pip v-if="pipAvailable && !pipEnabled" @click="pipEnter" />
+          <icon-unpip v-if="pipAvailable && pipEnabled" @click="pipExit" />
+          <icon-fullscreen v-if="!isFullscreen" @click="enter" />
+          <icon-unfullscreen v-if="isFullscreen" @click="exit" />
+        </flex>
       </div>
     </transition>
   </div>

@@ -5,7 +5,7 @@ defineProps({ event: Object });
 
 <template>
   <div>
-    <IconStage style="transform: scale(4); color: var(--ticket)" />
+    <icon-stage style="transform: scale(4); color: var(--ticket)" />
     <p />
     <div>This event has not yet started but you can already enter.</div>
     <slot />

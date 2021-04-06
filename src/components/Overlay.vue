@@ -1,5 +1,5 @@
 <template>
-  <div class="Overlay">
+  <div class="overlay">
     <div>
       <slot />
     </div>
@@ -7,7 +7,7 @@
 </template>
 
 <style>
-.Overlay {
+.overlay {
   position: absolute;
   display: flex;
   align-items: center;
@@ -19,13 +19,13 @@
   background: var(--overlay);
   padding: 24px;
 }
-.Overlay > div {
+.overlay > div {
   display: grid;
   gap: 16px;
   text-align: center;
   justify-content: center;
 }
-.Overlay > div > * {
+.overlay > div > * {
   justify-self: center;
 }
 </style>

@@ -1,18 +1,18 @@
 <template>
-  <div class="Horizontal">
+  <div class="horizontal">
     <slot />
   </div>
 </template>
 
 <style>
-.Horizontal {
+.horizontal {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(8px, 5vw, 64px);
 }
 
 @media (max-width: 800px) {
-  .Horizontal {
+  .horizontal {
     grid-template-columns: 1fr;
   }
 }

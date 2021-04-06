@@ -1,9 +1,9 @@
 <template>
-  <div class="ButtonSmall"><slot /></div>
+  <div class="button-small"><slot /></div>
 </template>
 
 <style>
-.ButtonSmall {
+.button-small {
   display: inline-grid;
   align-items: center;
   justify-content: center;
@@ -22,7 +22,7 @@
   background: var(--bg);
   color: var(--fg);
 }
-.ButtonSmall:hover {
+.button-mediumsmall:hover {
   background: var(--bglighter);
 }
 </style>

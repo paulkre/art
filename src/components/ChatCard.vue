@@ -1,20 +1,20 @@
 <script setup>
+import { formatMarkdown } from "../lib";
 defineProps({ chat: { type: Object } });
 </script>
 
 <template>
-  <Vertical style="gap: 4px">
-    <Smaller style="opacity: 0.5">
+  <vertical style="gap: 4px">
+    <smaller style="opacity: 0.5">
       {{ chat.userName }}
-    </Smaller>
-    <Small
+    </smaller>
+    <small
       style="
         border: 2px solid var(--fgdark);
         border-radius: 4px;
         padding: 8px 12px;
       "
-    >
-      {{ chat.value }}
-    </Small>
-  </Vertical>
+      v-html="formatMarkdown(chat.value)"
+    />
+  </vertical>
 </template>

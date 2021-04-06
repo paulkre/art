@@ -6,7 +6,7 @@ export const replaceYoutube = (str) => {
   return str.replace(pattern, `\n\n<lite-youtube videoid="$1" />\n\n`);
 };
 
-export const formatText = (text) =>
+export const formatMarkdown = (text) =>
   marked(replaceYoutube(text), {
     breaks: true,
   });

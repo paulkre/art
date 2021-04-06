@@ -20,14 +20,14 @@ defineProps({
         align-items: center;
       "
     >
-      <Small v-if="muted" @click="muted = !muted" style="cursor: pointer"
-        >Unmute&ensp;</Small
+      <small v-if="muted" @click="muted = !muted" style="cursor: pointer"
+        >Unmute&ensp;</small
       >
-      <IconMute v-if="!muted" @click="muted = !muted" />
-      <IconUnmute v-if="muted" @click="muted = !muted" />
+      <icon-mute v-if="!muted" @click="muted = !muted" />
+      <icon-unmute v-if="muted" @click="muted = !muted" />
       &emsp;
-      <IconFullscreen v-if="!isFullscreen" @click="enter" />
-      <IconUnfullscreen v-if="isFullscreen" @click="exit" />
+      <icon-fullscreen v-if="!isFullscreen" @click="enter" />
+      <icon-unfullscreen v-if="isFullscreen" @click="exit" />
     </div>
   </transition>
 </template>

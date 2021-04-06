@@ -3,31 +3,31 @@ import { config } from "../lib";
 </script>
 
 <template>
-  <div class="Social">
+  <div class="social">
     <a v-if="config.facebookUrl" :href="config.facebookUrl" target="_blank">
-      <IconFacebook />
+      <icon-facebook />
     </a>
     <a v-if="config.instagramUrl" :href="config.instagramUrl" target="_blank">
-      <IconInstagram />
+      <icon-instagram />
     </a>
     <a v-if="config.twitterUrl" :href="config.twitterUrl" target="_blank">
-      <IconTwitter />
+      <icon-twitter />
     </a>
     <a v-if="config.youtubeUrl" :href="config.youtubeUrl" target="_blank">
-      <IconYoutube />
+      <icon-youtube />
     </a>
     <a v-if="config.emailUrl" :href="config.emailUrl" target="_blank">
-      <IconEmail />
+      <icon-email />
     </a>
   </div>
 </template>
 
-<style scoped>
-.Social {
+<style>
+.social {
   display: flex;
   justify-content: center;
 }
-.Social > a {
+.social > a {
   display: grid;
   place-items: center;
   background: var(--fg);
@@ -37,10 +37,10 @@ import { config } from "../lib";
   border-radius: 10000px;
   margin-right: 8px;
 }
-.Social > a:last-child {
+.social > a:last-child {
   margin-right: 0;
 }
-.Social > a > svg {
+.social > a > svg {
   transform: scale(1.3);
 }
 </style>

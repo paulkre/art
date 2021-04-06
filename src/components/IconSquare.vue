@@ -5,7 +5,7 @@
     viewBox="0 0 20 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    class="Icon"
+    class="icon"
   >
     <path
       d="M19 1H1V19H19V1Z"

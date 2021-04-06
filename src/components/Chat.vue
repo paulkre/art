@@ -18,14 +18,14 @@ const { chats, newMessage, onNewMessage, scrollRef, textareaRef } = useChat(
 </script>
 
 <template>
-  <Vertical style="grid-template-rows: 1fr auto auto; height: 80vh">
-    <div class="ChatCards" ref="scrollRef">
-      <ChatCard v-for="(chat, i) in chats" :key="i" :chat="chat" />
+  <vertical class="chat">
+    <div class="chat-cards" ref="scrollRef">
+      <chat-card v-for="(chat, i) in chats" :key="i" :chat="chat" />
     </div>
     <div
       style="font-size: 0.8em; line-height: 1.5em; transform: translateY(6px)"
     >
-      <span style="opacity: 0.5">My name is {{ userName }}</span>
+      <span style="opacity: 0.5">Your name is {{ userName }}</span>
       &ensp;
       <span @click="onUserNameChange" style="cursor: pointer">Change</span>
     </div>
@@ -35,18 +35,16 @@ const { chats, newMessage, onNewMessage, scrollRef, textareaRef } = useChat(
       v-model="newMessage"
       placeholder="Write a chat message here"
     ></textarea>
-    <Button @click="onNewMessage">Send chat message</Button>
-  </Vertical>
+    <button-medium @click="onNewMessage">Send chat message</button-medium>
+  </vertical>
 </template>
 
-<style scoped>
-.Chat {
-  display: grid;
-  gap: 8px;
+<style>
+.chat {
   grid-template-rows: 1fr auto auto;
   height: 80vh;
 }
-.ChatCards {
+.chat-cards {
   display: grid;
   grid-auto-rows: min-content;
   gap: 8px;

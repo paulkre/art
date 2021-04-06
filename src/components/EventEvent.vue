@@ -22,9 +22,9 @@ const page = computed(() => {
 const isOpen = ref(false);
 </script>
 <template>
-  <Vertical style="gap: 4px">
+  <vertical style="gap: 4px">
     <div>
-      <Vertical style="gap: 4px">
+      <vertical style="gap: 4px">
         <h3>
           <badge v-if="event.urgency === 'now' && event.postponed !== 'TRUE'"
             >live</badge
@@ -38,51 +38,39 @@ const isOpen = ref(false);
           </badge>
           {{ event.title }}
         </h3>
-        <EventDate :event="event" />
-      </Vertical>
-      <Flex style="gap: 16px; margin: 16px 0 8px 0">
-        <Button style="opacity: 0.8" v-if="!isOpen" @click="isOpen = true"
-          >More info</Button
+        <event-date :event="event" />
+      </vertical>
+      <flex style="gap: 16px; margin: 16px 0 8px 0">
+        <button-medium
+          style="opacity: 0.8"
+          v-if="!isOpen"
+          @click="isOpen = true"
+          >More info</button-medium
         >
-        <Button style="opacity: 0.8" v-if="isOpen" @click="isOpen = false"
-          >Less info</Button
+        <button-medium
+          style="opacity: 0.8"
+          v-if="isOpen"
+          @click="isOpen = false"
+          >Less info</button-medium
         >
-        <RouterLink v-if="!page.isPage" class="EventCard" :to="page.link">
-          <Button
+        <router-link v-if="!page.isPage" class="event-card" :to="page.link">
+          <button-medium
             :style="{
               background: event.urgency.value === 'now' ? 'red' : '',
               border: event.urgency.value === 'now' ? 'red' : '',
             }"
           >
             Go to event ➜
-          </Button>
-        </RouterLink>
-      </Flex>
-      <Vertical>
-        <Vertical
+          </button-medium>
+        </router-link>
+      </flex>
+      <vertical>
+        <vertical
           v-if="description && isOpen"
           class="EventIntro"
           v-html="event.description"
         />
-      </Vertical>
+      </vertical>
     </div>
-  </Vertical>
+  </vertical>
 </template>
-
-<style scoped>
-.EventCard {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 16px;
-}
-.EventCard > .Icon {
-  transform: scale(1.4) translateY(0.4ch);
-}
-.EventContent {
-  display: grid;
-  gap: 4px;
-}
-.EventIntro {
-  word-wrap: break-word;
-}
-</style>

@@ -1,16 +1,15 @@
 <template>
-  <div class="Button"><slot /></div>
+  <div class="button-medium"><slot /></div>
 </template>
 
 <style>
-.Button {
+.button-medium {
   display: inline-grid;
   place-items: center;
   border-radius: 100px;
   padding: 0 16px;
   font-family: "Nunito Sans", sans-serif;
   font-size: 16px;
-  font-weight: bold;
   height: 32px;
   background: none;
   outline: none;

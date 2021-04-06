@@ -1,21 +1,21 @@
 <template>
   <div>
     <slot style="clamp(1.5rem, 5vw, 3rem)" />
-    <div class="Top">
-      <Flex><slot name="top-left" /></Flex>
-      <Flex><slot name="top-center" /></Flex>
-      <Flex><slot name="top-right" /></Flex>
+    <div class="layout-top">
+      <flex><slot name="top-left" /></flex>
+      <flex><slot name="top-center" /></flex>
+      <flex><slot name="top-right" /></flex>
     </div>
-    <div class="Bottom">
-      <Flex><slot name="bottom-left" /></Flex>
-      <Flex><slot name="bottom-center" /></Flex>
-      <Flex><slot name="bottom-right" /></Flex>
+    <div class="layout-bottom">
+      <flex><slot name="bottom-left" /></flex>
+      <flex><slot name="bottom-center" /></flex>
+      <flex><slot name="bottom-right" /></flex>
     </div>
   </div>
 </template>
 
 <style>
-.Top {
+.layout-top {
   position: fixed;
   top: 12px;
   left: 12px;
@@ -24,7 +24,7 @@
   align-items: flex-start;
   justify-content: space-between;
 }
-.Bottom {
+.layout-bottom {
   position: fixed;
   bottom: 12px;
   left: 12px;
@@ -33,8 +33,8 @@
   align-items: flex-end;
   justify-content: space-between;
 }
-.Top > *,
-.Bottom > * {
+.layout-top > *,
+.layout-bottom > * {
   min-width: 32px;
 }
 </style>

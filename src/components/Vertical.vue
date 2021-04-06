@@ -1,16 +1,16 @@
 <template>
-  <div class="Vertical">
+  <div class="vertical">
     <slot />
   </div>
 </template>
 
 <style>
-.Vertical {
+.vertical {
   display: grid;
   gap: 16px;
   grid-auto-rows: min-content;
 }
-.Vertical > * {
+.vertical > * {
   justify-self: flex-start;
 }
 </style>
