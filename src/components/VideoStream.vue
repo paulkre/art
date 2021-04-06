@@ -25,7 +25,7 @@ const statuses = {
   playing: "",
 };
 
-// Snapshot
+/*
 
 const canvasRef = ref(null);
 const context = ref(null);
@@ -56,6 +56,8 @@ emitter.on("SNAPSHOT_REQUEST", () => {
     );
   }
 });
+
+*/
 
 const usePip = (videoRef) => {
   const pipAvailable = "pictureInPictureEnabled" in document;
@@ -99,7 +101,7 @@ const stat = computed(() => {
         aspectRatio: width + ' / ' + height,
       }"
     />
-    <canvas ref="canvasRef" style="display: none" />
+    <!-- <canvas ref="canvasRef" style="display: none" /> -->
     <slot :status="status">
       <Transition name="fade" appear>
         <div v-if="status !== 'playing'">
