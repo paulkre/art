@@ -193,7 +193,7 @@ watch(status, () => {
         placeholder="Type the ticket code"
         style="width: 200px"
       />
-      <button-mediumBig @click="onCheck">Enter to the event</button-mediumBig>
+      <button-medium @click="onCheck">Enter to the event</button-medium>
       <p />
       <div v-if="status === 'USED'">
         This ticket has been used already. We only support using the ticket on a
