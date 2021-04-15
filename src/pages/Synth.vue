@@ -1,7 +1,9 @@
 <script setup>
 import { computed, watch, ref } from "vue";
 import { differenceInMilliseconds } from "date-fns";
-import { Circle, Result } from "collisions";
+import { Circle, Polygon, Result } from "collisions";
+import * as Tone from "tone";
+import { debouncedWatch } from "@vueuse/core";
 
 import {
   ws,
@@ -19,6 +21,8 @@ import {
   useAboutTextarea,
   emitter,
   showMessages,
+  pol2car,
+  distance,
 } from "../lib";
 
 const props = defineProps({
@@ -33,7 +37,7 @@ emitter.on("USERS_OFF", () => {
   showMessages.value = false;
 });
 
-// emitter.emit("USERS_ON");
+emitter.emit("USERS_ON");
 
 const updatedUsers = computed(() =>
   users.value
@@ -62,11 +66,11 @@ const otherUsers = computed(() =>
 );
 
 const { centerX, centerY } = useWindow();
-const onUserDrag2 = ({ x, y }) => {
+
+const onLocalDrag = ({ x, y }) => {
   userData.value = { userX: x - centerX.value, userY: y - centerY.value };
 };
-const onUserDrag = debounce(({ x, y }) => {
-  //userData.value = { userX: x - centerX.value, userY: y - centerY.value };
+const onRemoteDrag = debounce(({ x, y }) => {
   const outgoingMessage = createMessage({
     type: "USER",
     value: {
@@ -105,12 +109,75 @@ const colliding2 = computed(() => {
   return !!myCircle.collides(circle2, result2);
 });
 
-//const colliding = ref(false);
+const a = ref(0);
+
+const onStart = () => {
+  Tone.start().then(() => {
+    console.log("start");
+    const loop = new Tone.Loop((time) => {
+      Tone.Draw.schedule(() => {
+        a.value = time * 60 * 1;
+      });
+    }, 1 / 60).start(0);
+    Tone.Transport.start();
+  });
+};
+
+const linePos = computed(() => pol2car(a.value, 250));
+
+const synth = new Tone.Synth().toDestination();
+
+watch(
+  [userData, a],
+  () => {
+    const myColl = new Circle(userData.value.userX, userData.value.userY, 5);
+    const lineColl = new Polygon(0, 0, [
+      [0, 0],
+      [0, 0],
+      [linePos.value.x, linePos.value.y],
+      [linePos.value.x, linePos.value.y],
+    ]);
+    if (myColl.collides(lineColl, new Result())) {
+      const hz = scale(
+        distance(0, 0, userData.value.userX, userData.value.userY),
+        -250,
+        250,
+        880,
+        440
+      );
+
+      synth.triggerAttackRelease(`${hz}hz`, "8n");
+    }
+  },
+  { immediate: true, debounce: 200 }
+);
 </script>
 
 <template>
   <div>
-    <overlay
+    <button @click="onStart">Start</button>
+    <br />
+    <svg
+      width="500"
+      height="500"
+      viewBox="-250 -250 500 500"
+      style="position: fixed; border: 2px solid white"
+      :style="{ top: centerY - 250 + 'px', left: centerX - 250 + 'px' }"
+    >
+      <circle r="2" cx="0" cy="0" fill="white" />
+      <line :x2="linePos.x" :y2="linePos.y" stroke="white" />
+      <circle
+        r="50"
+        :cx="linePos.x"
+        :cy="linePos.y"
+        fill="none"
+        stroke="white"
+        stroke-width="2"
+      />
+    </svg>
+    <br />
+    {{ linePos }}
+    <!-- <overlay
       v-if="about"
       style="
         position: fixed;
@@ -123,66 +190,7 @@ const colliding2 = computed(() => {
       "
       :style="{ opacity: showMessages ? 0.9 : 0 }"
     />
-    <transition name="fade">
-      <vertical v-show="showMessages && about" class="about-panel">
-        <h3 class="mobilehide">
-          <span
-            style="display: inline-block; color: red; transform: scale(0.8)"
-          >
-            ⬤
-          </span>
-          Let's get together!
-        </h3>
-        <small class="mobilehide" style="opacity: 0.5"
-          >Here's the place the audience can hang out and spend time together.
-          Move your red dot and write messages to each other.</small
-        >
-        <small>
-          <span style="opacity: 0.5">Your name is {{ userName }}</span
-          >&ensp;
-          <span @click="onUserNameChange" style="cursor: pointer"
-            >Change the name</span
-          >
-        </small>
-        <textarea
-          ref="textareaRef"
-          v-model="userAbout"
-          placeholder="Write here a message"
-        />
-      </vertical>
-    </transition>
-    <transition name="fade">
-      <disc
-        v-if="showMessages"
-        style="position: fixed; pointer-events: none; border: 2px solid white"
-        :style="{
-          width: '200px',
-          height: '200px',
-          top: centerY - 100 + 'px',
-          left: centerX - 100 + 'px',
-          border: colliding ? '2px solid red' : ' 2px solid var(--fg)',
-          transition: 'all 500ms',
-          transform: colliding ? 'scale(1.1)' : '',
-          animation: colliding ? 'scale 1s infinite' : '',
-        }"
-      />
-    </transition>
-    <transition name="fade">
-      <disc
-        v-if="showMessages"
-        style="position: fixed; pointer-events: none; border: 2px solid white"
-        :style="{
-          width: '100px',
-          height: '100px',
-          top: centerY - 50 - 200 + 'px',
-          left: centerX - 50 - 200 + 'px',
-          border: colliding2 ? '2px solid red' : ' 2px solid var(--fg)',
-          transition: 'all 500ms',
-          transform: colliding2 ? 'scale(1.1)' : '',
-          animation: colliding2 ? 'scale 1s infinite' : '',
-        }"
-      />
-    </transition>
+
     <div
       v-for="otherUser in otherUsers"
       :key="otherUser.userId"
@@ -219,13 +227,14 @@ const colliding2 = computed(() => {
         </transition>
       </div>
     </div>
+    -->
     <draggable
       :x="userData.userX + centerX"
       :y="userData.userY + centerY"
       @drag="
         (drag) => {
-          onUserDrag2(drag);
-          onUserDrag(drag);
+          onLocalDrag(drag);
+          onRemoteDrag(drag);
         }
       "
     >
@@ -250,8 +259,8 @@ const colliding2 = computed(() => {
             </div>
           </div>
         </transition>
-      </div>
-    </draggable>
+      </div> </draggable
+    ><!--
     <audio-file
       v-if="showMessages"
       :muted="!colliding"
@@ -261,29 +270,6 @@ const colliding2 = computed(() => {
       v-if="showMessages"
       :muted="!colliding2"
       src="https://elektron.fra1.digitaloceanspaces.com/assets/music3.mp3"
-    />
+    /> -->
   </div>
 </template>
-
-<style>
-.about-panel {
-  position: fixed;
-  left: 16px;
-  bottom: 40px;
-  padding: 16px;
-  background: var(--bglight);
-  border-radius: 6px;
-  display: grid;
-  grid-auto-rows: max-height;
-  gap: 8px;
-  width: 300px;
-}
-@media (max-width: 800px) {
-  .about-panel {
-    width: calc(100vw - 16px - 16px);
-  }
-  .mobilehide {
-    display: none;
-  }
-}
-</style>
