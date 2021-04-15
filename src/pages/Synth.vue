@@ -136,17 +136,19 @@ const tom = new Tone.MembraneSynth({
 const colliding3 = ref(false);
 
 watch(
-  [userData, a],
+  [userData, otherUsers, a],
   () => {
-    const d = distance(0, 0, userData.value.userX, userData.value.userY);
-    const r = scale(d, 0, 250, 2, 15);
-    const myColl = new Circle(userData.value.userX, userData.value.userY, r);
     const lineColl = new Polygon(0, 0, [
       [0, 0],
       [0, 0],
       [linePos.value.x, linePos.value.y],
       [linePos.value.x, linePos.value.y],
     ]);
+
+    const d = distance(0, 0, userData.value.userX, userData.value.userY);
+    const r = scale(d, 0, 250, 2, 15);
+    const myColl = new Circle(userData.value.userX, userData.value.userY, r);
+
     if (myColl.collides(lineColl, new Result())) {
       const hz = scale(d, -250, 250, 220, 50);
       colliding3.value = true;
@@ -154,6 +156,17 @@ watch(
     } else {
       colliding3.value = false;
     }
+
+    otherUsers.value.forEach((u) => {
+      const d = distance(0, 0, u.value.userX, u.value.userY);
+      const r = scale(d, 0, 250, 2, 15);
+      const userColl = new Circle(u.value.userX, u.value.userY, r);
+      if (userColl.collides(lineColl, new Result())) {
+        console.log("coll");
+        const hz = scale(d, -250, 250, 220, 50);
+        tom.triggerAttackRelease(`${hz}hz`, "16n");
+      }
+    });
   },
   { immediate: true, debounce: 200 }
 );
@@ -211,7 +224,7 @@ watch(
           :opacity="showMessages ? 1 : otherUser.opacity / 2"
         />
         <transition name="fade">
-          <div v-if="showMessages && about && !colliding && !colliding2">
+          <div v-if="showMessages">
             <div
               style="
                 font-size: 0.8em;
@@ -271,17 +284,7 @@ watch(
             </div>
           </div>
         </transition>
-      </div> </draggable
-    ><!--
-    <audio-file
-      v-if="showMessages"
-      :muted="!colliding"
-      src="https://elektron.fra1.digitaloceanspaces.com/assets/music1.mp3"
-    />
-    <audio-file
-      v-if="showMessages"
-      :muted="!colliding2"
-      src="https://elektron.fra1.digitaloceanspaces.com/assets/music3.mp3"
-    /> -->
+      </div>
+    </draggable>
   </div>
 </template>
