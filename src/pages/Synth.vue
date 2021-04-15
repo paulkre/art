@@ -113,8 +113,7 @@ const a = ref(0);
 
 const onStart = () => {
   Tone.start().then(() => {
-    console.log("start");
-    const loop = new Tone.Loop((time) => {
+    new Tone.Loop((time) => {
       Tone.Draw.schedule(() => {
         a.value = time * 60 * 1;
       });
@@ -125,15 +124,13 @@ const onStart = () => {
 
 const linePos = computed(() => pol2car(a.value, 250));
 
-const synth = new Tone.Synth().toDestination();
+const feedbackDelay = new Tone.FeedbackDelay("16n", 0.5).toDestination();
 
-const feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
-const tom = new Tone.MembraneSynth({
-  octaves: 4,
-  pitchDecay: 0.1,
-}).connect(feedbackDelay);
+const tom = new Tone.MonoSynth({}).connect(feedbackDelay);
 
 const colliding3 = ref(false);
+
+const userColliding = ref({});
 
 watch(
   [userData, otherUsers, a],
@@ -150,7 +147,7 @@ watch(
     const myColl = new Circle(userData.value.userX, userData.value.userY, r);
 
     if (myColl.collides(lineColl, new Result())) {
-      const hz = scale(d, -250, 250, 220, 50);
+      const hz = scale(d, -250, 250, 220, 20);
       colliding3.value = true;
       tom.triggerAttackRelease(`${hz}hz`, "16n");
     } else {
@@ -161,11 +158,15 @@ watch(
       const d = distance(0, 0, u.value.userX, u.value.userY);
       const r = scale(d, 0, 250, 2, 15);
       const userColl = new Circle(u.value.userX, u.value.userY, r);
-      if (userColl.collides(lineColl, new Result())) {
-        console.log("coll");
-        const hz = scale(d, -250, 250, 220, 50);
+      const coll = userColl.collides(lineColl, new Result());
+      if (coll) {
+        const hz = scale(d, -250, 250, 220, 20);
         tom.triggerAttackRelease(`${hz}hz`, "16n");
       }
+      userColliding.value = {
+        ...userColliding.value,
+        [u.userId]: { colliding: !!coll },
+      };
     });
   },
   { immediate: true, debounce: 200 }
@@ -174,8 +175,6 @@ watch(
 
 <template>
   <div>
-    <button @click="onStart">Start</button>
-    <br />
     <svg
       width="500"
       height="500"
@@ -194,20 +193,34 @@ watch(
       <line :x2="linePos.x" :y2="linePos.y" stroke="white" stroke-width="2" />
     </svg>
     <br />
-    <!-- <overlay
-      v-if="about"
-      style="
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        pointer-events: none;
-        transition: opacity 600ms;
-      "
-      :style="{ opacity: showMessages ? 0.9 : 0 }"
-    />
-    -->
+    <transition name="fade">
+      <vertical v-show="showMessages" class="about-panel">
+        <h3 class="mobilehide">
+          <span
+            style="display: inline-block; color: red; transform: scale(0.8)"
+          >
+            ⬤
+          </span>
+          Let's make music!
+        </h3>
+        <button-big style="justify-self: stretch" @click="onStart">
+          Start
+        </button-big>
+
+        <small>
+          <span style="opacity: 0.5">Your name is {{ userName }}</span
+          >&ensp;
+          <span @click="onUserNameChange" style="cursor: pointer"
+            >Change the name</span
+          >
+        </small>
+        <textarea
+          ref="textareaRef"
+          v-model="userAbout"
+          placeholder="Write here a message"
+        />
+      </vertical>
+    </transition>
     <div
       v-for="otherUser in otherUsers"
       :key="otherUser.userId"
@@ -218,11 +231,21 @@ watch(
       }"
     >
       <div style="display: grid; grid-template-columns: auto 300px; gap: 8px">
-        <dot
-          color="#8800FF"
-          style="transition: opacity 1000ms"
-          :opacity="showMessages ? 1 : otherUser.opacity / 2"
-        />
+        <div
+          style="animation-delay: 20ms"
+          trans
+          :style="{
+            animation: userColliding[otherUser.userId]?.colliding
+              ? 'move 1000ms ease'
+              : '',
+          }"
+        >
+          <dot
+            color="#8800FF"
+            style="transition: opacity 1000ms"
+            :opacity="showMessages ? 1 : otherUser.opacity / 2"
+          />
+        </div>
         <transition name="fade">
           <div v-if="showMessages">
             <div
@@ -288,3 +311,26 @@ watch(
     </draggable>
   </div>
 </template>
+
+<style>
+.about-panel {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  padding: 16px;
+  background: var(--bglight);
+  border-radius: 6px;
+  display: grid;
+  grid-auto-rows: max-height;
+  gap: 8px;
+  width: 300px;
+}
+@media (max-width: 800px) {
+  .about-panel {
+    width: calc(100vw - 16px - 16px);
+  }
+  .mobilehide {
+    display: none;
+  }
+}
+</style>
