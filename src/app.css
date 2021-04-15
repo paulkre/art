@@ -135,18 +135,18 @@ blockquote {
 
 @keyframes move {
   0% {
-    transform: scale(1.5);
+    transform: scale(1.2);
   }
 
   25% {
-    transform: scale(1.6);
+    transform: scale(0.7);
   }
 
   50% {
-    transform: scale(1.65);
+    transform: scale(1);
   }
 
   100% {
-    transform: scale(1.655);
+    transform: scale(1.2);
   }
 }

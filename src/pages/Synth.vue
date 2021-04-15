@@ -194,7 +194,7 @@ watch(
       "
       :style="{ opacity: showMessages ? 0.9 : 0 }"
     />
-
+    -->
     <div
       v-for="otherUser in otherUsers"
       :key="otherUser.userId"
@@ -231,7 +231,7 @@ watch(
         </transition>
       </div>
     </div>
-    -->
+
     <draggable
       :x="userData.userX + centerX"
       :y="userData.userY + centerY"
@@ -247,13 +247,13 @@ watch(
           style="animation-delay: 20ms"
           trans
           :style="{
-            animation: colliding3 ? 'move 4000ms ease' : '',
+            animation: colliding3 ? 'move 1000ms ease' : '',
           }"
         >
           <dot color="red" opacity="0.8" />
         </div>
         <transition name="fade">
-          <div v-if="showMessages && about && !colliding && !colliding2">
+          <div v-if="showMessages">
             <div
               style="
                 font-size: 0.8em;
