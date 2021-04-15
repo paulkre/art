@@ -127,10 +127,20 @@ const linePos = computed(() => pol2car(a.value, 250));
 
 const synth = new Tone.Synth().toDestination();
 
+const feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
+const tom = new Tone.MembraneSynth({
+  octaves: 4,
+  pitchDecay: 0.1,
+}).connect(feedbackDelay);
+
+const colliding3 = ref(false);
+
 watch(
   [userData, a],
   () => {
-    const myColl = new Circle(userData.value.userX, userData.value.userY, 5);
+    const d = distance(0, 0, userData.value.userX, userData.value.userY);
+    const r = scale(d, 0, 250, 2, 15);
+    const myColl = new Circle(userData.value.userX, userData.value.userY, r);
     const lineColl = new Polygon(0, 0, [
       [0, 0],
       [0, 0],
@@ -138,15 +148,11 @@ watch(
       [linePos.value.x, linePos.value.y],
     ]);
     if (myColl.collides(lineColl, new Result())) {
-      const hz = scale(
-        distance(0, 0, userData.value.userX, userData.value.userY),
-        -250,
-        250,
-        880,
-        440
-      );
-
-      synth.triggerAttackRelease(`${hz}hz`, "8n");
+      const hz = scale(d, -250, 250, 220, 50);
+      colliding3.value = true;
+      tom.triggerAttackRelease(`${hz}hz`, "16n");
+    } else {
+      colliding3.value = false;
     }
   },
   { immediate: true, debounce: 200 }
@@ -161,22 +167,20 @@ watch(
       width="500"
       height="500"
       viewBox="-250 -250 500 500"
-      style="position: fixed; border: 2px solid white"
+      style="position: fixed"
       :style="{ top: centerY - 250 + 'px', left: centerX - 250 + 'px' }"
     >
-      <circle r="2" cx="0" cy="0" fill="white" />
-      <line :x2="linePos.x" :y2="linePos.y" stroke="white" />
       <circle
-        r="50"
-        :cx="linePos.x"
-        :cy="linePos.y"
-        fill="none"
+        :r="250 - 1"
+        cx="0"
+        cy="0"
         stroke="white"
         stroke-width="2"
+        fill="none"
       />
+      <line :x2="linePos.x" :y2="linePos.y" stroke="white" stroke-width="2" />
     </svg>
     <br />
-    {{ linePos }}
     <!-- <overlay
       v-if="about"
       style="
@@ -239,7 +243,15 @@ watch(
       "
     >
       <div style="display: grid; grid-template-columns: auto 250px; gap: 8px">
-        <dot color="red" opacity="0.8" />
+        <div
+          style="animation-delay: 20ms"
+          trans
+          :style="{
+            animation: colliding3 ? 'move 4000ms ease' : '',
+          }"
+        >
+          <dot color="red" opacity="0.8" />
+        </div>
         <transition name="fade">
           <div v-if="showMessages && about && !colliding && !colliding2">
             <div
