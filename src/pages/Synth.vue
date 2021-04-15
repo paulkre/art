@@ -170,7 +170,7 @@ watch(
       }
       userColliding.value = {
         ...userColliding.value,
-        [user.userId]: { colliding: !!coll, distance: d },
+        [userId]: { colliding: !!coll, distance: d },
       };
     });
   },
