@@ -146,13 +146,18 @@ watch(
     const r = scale(d, 0, 250, 2, 15);
     const myColl = new Circle(userData.value.userX, userData.value.userY, r);
 
-    if (myColl.collides(lineColl, new Result())) {
-      const hz = scale(d, -250, 250, 220, 20);
-      colliding3.value = true;
+    const coll = myColl.collides(lineColl, new Result());
+
+    const hz = scale(d, -250, 250, 220, 20);
+
+    if (coll) {
       tom.triggerAttackRelease(`${hz}hz`, "16n");
-    } else {
-      colliding3.value = false;
     }
+
+    userColliding.value = {
+      ...userColliding.value,
+      [userId.value]: { colliding: !!coll, distance: d },
+    };
 
     otherUsers.value.forEach((u) => {
       const d = distance(0, 0, u.value.userX, u.value.userY);
@@ -165,7 +170,7 @@ watch(
       }
       userColliding.value = {
         ...userColliding.value,
-        [u.userId]: { colliding: !!coll },
+        [user.userId]: { colliding: !!coll, distance: d },
       };
     });
   },
@@ -175,6 +180,7 @@ watch(
 
 <template>
   <div>
+    {{ userColliding }}
     <svg
       width="500"
       height="500"
@@ -190,6 +196,20 @@ watch(
         stroke-width="2"
         fill="none"
       />
+      <g v-for="(user, i) in userColliding" :key="i">
+        <transition name="fade">
+          <circle
+            v-if="user.colliding"
+            :r="user.distance"
+            cx="0"
+            cy="0"
+            stroke="white"
+            stroke-width="2"
+            fill="none"
+            opacity="0.1"
+          />
+        </transition>
+      </g>
       <line :x2="linePos.x" :y2="linePos.y" stroke="white" stroke-width="2" />
     </svg>
     <br />
