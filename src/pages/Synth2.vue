@@ -3,7 +3,7 @@ import { computed, watch, ref } from "vue";
 import * as Tone from "tone";
 import { randomint, randomId, debounce } from "../lib";
 
-const useBuffer = (length = 10, def = null) => {
+const useObjectBuffer = (length = 10, def = null) => {
   const buffer = ref(Array.from({ length }));
   const add = (item) => {
     buffer.value.shift();
@@ -12,7 +12,7 @@ const useBuffer = (length = 10, def = null) => {
   return { buffer, add };
 };
 
-const { buffer, add } = useBuffer(8);
+const { buffer, add } = useObjectBuffer(8);
 
 const onAdd = debounce(({ x, y }) => {
   add({
