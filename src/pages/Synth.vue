@@ -180,7 +180,6 @@ watch(
 
 <template>
   <div>
-    {{ userColliding }}
     <svg
       width="500"
       height="500"
