@@ -8,11 +8,11 @@ import {
   plausible,
 } from "./lib";
 
-loadEvents();
-loadMessages();
-loadPages();
-refreshUser();
-refreshUsers();
+// loadEvents();
+// loadMessages();
+// loadPages();
+// refreshUser();
+// refreshUsers();
 plausible.enableAutoPageviews();
 </script>
 

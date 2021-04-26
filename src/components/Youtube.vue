@@ -5,7 +5,7 @@ import "@justinribeiro/lite-youtube";
 import { replaceYoutube } from "../lib";
 
 defineProps({
-  src: { type: String },
+  src: { type: String, default: "" },
 });
 </script>
 <template>

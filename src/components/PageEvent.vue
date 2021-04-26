@@ -1,25 +1,22 @@
 <script setup>
 import { computed, defineProps, ref } from "vue";
 
-import { replaceYoutube } from "../lib";
-
 const props = defineProps({
   event: { type: Object },
-  description: { type: Boolean, default: true },
 });
 
 const isOpen = ref(false);
 
 const pageLink = computed(() => {
-  let link = "";
-  if (props.event.pageid) {
-    link =
-      props.event.pageid === props.event.streamkey
-        ? props.event.pageid
-        : props.event.eventid;
-  } else {
-    link = props.event.eventid;
-  }
+  let link = props.event.id;
+  // if (props.event.pageid) {
+  //   link =
+  //     props.event.pageid === props.event.streamkey
+  //       ? props.event.pageid
+  //       : props.event.eventid;
+  // } else {
+  //   link = props.event.eventid;
+  // }
   return `/${link}`;
 });
 </script>
@@ -32,16 +29,7 @@ const pageLink = computed(() => {
       <vertical style="gap: 4px">
         <router-link :to="pageLink">
           <h2 style="cursor: pointer">
-            <badge v-if="event.urgency === 'now' && event.postponed !== 'TRUE'"
-              >live</badge
-            >
-
-            <badge
-              style="background: var(--fgdark)"
-              v-if="event.postponed === 'TRUE'"
-            >
-              postponed
-            </badge>
+            <badge v-if="event.urgency === 'now'">live</badge>
             {{ event.title }}
           </h2>
         </router-link>
@@ -63,7 +51,7 @@ const pageLink = computed(() => {
         <router-link class="event-card" :to="pageLink">
           <button-medium
             :style="{
-              background: event.urgency.valuey === 'now' ? 'red' : '',
+              background: event.urgency.value === 'now' ? 'red' : '',
               border: event.urgency.value === 'now' ? 'red' : '',
             }"
           >
@@ -72,7 +60,7 @@ const pageLink = computed(() => {
         </router-link>
       </flex>
 
-      <vertical>
+      <!-- <vertical>
         <vertical v-if="event && event.intro && !isOpen" class="EventIntro"
           >{{ event.intro }}
         </vertical>
@@ -81,7 +69,7 @@ const pageLink = computed(() => {
           class="EventIntro"
           v-html="event.description"
         />
-      </vertical>
+      </vertical> -->
     </div>
   </vertical>
 </template>
