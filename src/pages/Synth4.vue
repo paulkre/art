@@ -148,7 +148,7 @@ const sampler = new Tone.Sampler({
   decay: 0.2,
   sustain: 1,
   release: 1,
-  volume: 0,
+  volume: 10,
   onload: () => (samplerLoaded.value = true),
 })
   .connect(new Tone.Reverb(1))
@@ -170,7 +170,7 @@ const p = new Tone.GrainPlayer({
   reverse: false,
   volume: 0.1,
   // detune: -1000,
-  //loopStart: "1n",
+  loopStart: "20n",
 })
   .connect(filter)
   //.connect(feedbackDelay)
@@ -181,11 +181,11 @@ const p2 = new Tone.GrainPlayer({
   url: "https://elektron.fra1.digitaloceanspaces.com/assets/passageDrums01.mp3",
   loop: true,
   grainSize: 1,
-  overlap: 0.01,
-  reverse: true,
+  overlap: 2,
+  reverse: false,
   volume: 0.1,
   // detune: -1000,
-  //loopEnd: "1n",
+  loopEnd: "10n",
 })
   .connect(filter)
   .connect(feedbackDelay)
