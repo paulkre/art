@@ -26,12 +26,12 @@ const osc = new Tone.Oscillator({ type: "square" }).connect(ampEnv).start();
 //   .connect(new Tone.Reverb(0.1))
 //   .toDestination();
 
-const autoFilter = new Tone.AutoFilter("1n").toDestination().start();
+const autoFilter = new Tone.AutoFilter("0.5n").toDestination().start();
 
 var synth = new Tone.PolySynth(Tone.Synth)
   //.connect(new Tone.FeedbackDelay("1n", 1))
-  .connect(autoFilter)
-  // .connect(new Tone.Reverb(1))
+  //.connect(autoFilter)
+  //.connect(new Tone.Reverb(1))
   .toDestination();
 synth.set({
   oscillator: {
@@ -52,15 +52,42 @@ const sampler = new Tone.Sampler({
   baseUrl: replace(config.corsUrl, {
     url: "http://www.unseen-music.com/yume/loops/trimmed/",
   }),
-  // onload: () => {
-  //   sampler.triggerAttackRelease(["C1", "E1", "G1", "B1"], 0.5);
-  // },
   attack: 0.1,
   decay: 0.2,
   sustain: 0.1,
   release: 1,
 })
   .connect(autoFilter)
+  .connect(new Tone.Reverb(1))
+  .toDestination();
+
+const sampler2 = new Tone.Sampler({
+  urls: {
+    A1: "passageDrums01.mp3",
+  },
+  baseUrl: replace(config.corsUrl, {
+    url: "http://www.unseen-music.com/yume/loops/trimmed/",
+  }),
+  attack: 0.1,
+  decay: 0.2,
+  sustain: 0.1,
+  release: 1,
+})
+  .connect(autoFilter)
+  .connect(new Tone.Reverb(1))
+  .toDestination();
+
+const player = new Tone.GrainPlayer({
+  url: replace(config.corsUrl, {
+    url: "http://www.unseen-music.com/yume/loops/trimmed/passageDrums01.mp3",
+  }),
+  loop: true,
+  grainSize: 0.1,
+  overlap: 0.05,
+  reverse: false,
+  detune: -100,
+})
+  .connect(new Tone.Reverb(1))
   .toDestination();
 
 const onStart = async () => {
@@ -68,10 +95,15 @@ const onStart = async () => {
 };
 
 const onTrigger = () => {
-  sampler.triggerAttackRelease("100hz", 2);
+  synth.triggerAttackRelease("75hz", 1);
 };
+
 const onTrigger2 = () => {
   sampler.triggerAttackRelease("50hz", 10);
+};
+
+const onTrigger3 = () => {
+  player.start();
 };
 
 // http://www.unseen-music.com/yume/loops/trimmed/passageDrums01.mp3
@@ -82,6 +114,7 @@ const onTrigger2 = () => {
     <button-medium @click="onStart">Start</button-medium>
     <button-medium @click="onTrigger">Trigger</button-medium>
     <button-medium @click="onTrigger2">Trigger2</button-medium>
+    <button-medium @click="onTrigger3">Trigger3</button-medium>
   </div>
 </template>
 
