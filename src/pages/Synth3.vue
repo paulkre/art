@@ -90,8 +90,22 @@ const player = new Tone.GrainPlayer({
   .connect(new Tone.Reverb(1))
   .toDestination();
 
+// const p = new Tone.GrainPlayer({
+//   url: replace(config.corsUrl, {
+//     url: "http://www.unseen-music.com/yume/loops/trimmed/passageDrums01.mp3",
+//   }),
+//   loop: true,
+//   grainSize: 0.1,
+//   overlap: 0.05,
+//   reverse: false,
+//   detune: -100,
+// })
+//   .connect(new Tone.Reverb(10))
+//   .toDestination();
+
 const onStart = async () => {
   await Tone.start();
+  // p.start();
 };
 
 const onTrigger = () => {
