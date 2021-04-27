@@ -122,12 +122,13 @@ const onStart = () => {
     }, 1 / 60).start(0);
     Tone.Transport.start();
     p.start();
+    p2.start();
   });
 };
 
 const linePos = computed(() => pol2car(a.value, 250));
 
-const feedbackDelay = new Tone.FeedbackDelay("16n", 0.5).toDestination();
+const feedbackDelay = new Tone.FeedbackDelay("16n", 0.1).toDestination();
 
 const tom = new Tone.MonoSynth({}).connect(feedbackDelay);
 
@@ -135,38 +136,106 @@ const colliding3 = ref(false);
 
 const userColliding = ref({});
 
+const samplerLoaded = ref(false);
+const samplerLoaded2 = ref(false);
+
 const sampler = new Tone.Sampler({
   urls: {
     A1: "floaty01.mp3",
   },
-  baseUrl: replace(config.corsUrl, {
-    url: "http://www.unseen-music.com/yume/loops/trimmed/",
-  }),
+  baseUrl: "https://elektron.fra1.digitaloceanspaces.com/assets/",
   attack: 0.1,
   decay: 0.2,
   sustain: 1,
   release: 1,
+  volume: 0,
+  onload: () => (samplerLoaded.value = true),
 })
   .connect(new Tone.Reverb(1))
   .toDestination();
 
-const filter = new Tone.Filter(2000, "lowpass").toDestination();
-filter.frequency.rampTo(500, 1);
+const filter = new Tone.Filter(20000, "highpass");
+
+const filterOsc = new Tone.Oscillator({
+  volume: 0,
+  type: "sine",
+  frequency: "E4",
+}).connect(filter);
 
 const p = new Tone.GrainPlayer({
-  url: replace(config.corsUrl, {
-    url: "http://www.unseen-music.com/yume/loops/trimmed/drums01.mp3",
-  }),
+  url: "https://elektron.fra1.digitaloceanspaces.com/assets/passageDrums01.mp3",
   loop: true,
   grainSize: 0.1,
-  overlap: 0.05,
+  overlap: 0.01,
   reverse: false,
-  detune: -1000,
+  volume: 0.1,
+  // detune: -1000,
   //loopStart: "1n",
 })
   .connect(filter)
+  //.connect(feedbackDelay)
   .connect(new Tone.Reverb(10))
   .toDestination();
+
+const p2 = new Tone.GrainPlayer({
+  url: "https://elektron.fra1.digitaloceanspaces.com/assets/passageDrums01.mp3",
+  loop: true,
+  grainSize: 1,
+  overlap: 0.01,
+  reverse: true,
+  volume: 0.1,
+  // detune: -1000,
+  //loopEnd: "1n",
+})
+  .connect(filter)
+  .connect(feedbackDelay)
+  .connect(new Tone.Reverb(10))
+  .toDestination();
+
+const circles = range(0, 150, 5).map((a) => pol2car(a - 75, 200));
+
+const cColl = ref([]);
+
+const average = (arr) => {
+  const avg = arr.reduce((p, c) => p + c, 0) / arr.length;
+  return avg || null;
+};
+
+watch(cColl, () => {
+  if (cColl.value) {
+    p.mute = false;
+    p2.mute = false;
+    filter.frequency.rampTo(1000000 - cColl.value * 10000, 10);
+    if (cColl.value < 2) {
+      p.reverse = true;
+    } else {
+      p.reverse = false;
+    }
+    //
+    p.grainSize = cColl.value * 0.5;
+    p.grainSize = cColl.value * 0.25;
+    p.detune = cColl.value * 100 - 1000;
+    p2.detune = cColl.value * 100;
+
+    //p.loopEnd = Math.minscale(cColl.value, 0, 21, 0, 2.5);
+  } else {
+    p.mute = true;
+    p2.mute = true;
+  }
+});
+
+// debouncedWatch(
+//   cColl,
+//   () => {
+//     if (cColl.value) {
+//       const hz = scale(cColl.value, 1, 31, 50, 300);
+//       if (samplerLoaded2.value) {
+//         p2.triggerAttackRelease(`${hz}hz`, "1n");
+//       }
+//     }
+//   },
+//   { immediate: true, debounce: 1000 }
+// );
 
 watch(
   [userData, otherUsers, a],
@@ -186,7 +255,7 @@ watch(
 
     const hz = scale(d, -250, 250, 100, 10);
 
-    if (coll) {
+    if (coll && samplerLoaded.value) {
       sampler.triggerAttackRelease(`${hz}hz`, 10);
     }
 
@@ -200,7 +269,7 @@ watch(
       const r = scale(d, 0, 250, 2, 15);
       const userColl = new Circle(u.value.userX, u.value.userY, r);
       const coll = userColl.collides(lineColl, new Result());
-      if (coll) {
+      if (coll && samplerLoaded.value) {
         const hz = scale(d, -250, 250, 100, 10);
         sampler.triggerAttackRelease(`${hz}hz`, 10);
       }
@@ -209,6 +278,21 @@ watch(
         [userId]: { colliding: !!coll, distance: d },
       };
     });
+
+    cColl.value = average(
+      [userData.value, ...otherUsers.value]
+        .map((u) => {
+          const uCircle = new Circle(u.userX, u.userY);
+          const cCollisions = circles
+            .map((c, i) => new Circle(c.x, c.y, 20))
+            .map((c, i) => {
+              return c.collides(uCircle) ? i + 1 : null;
+            });
+          return cCollisions;
+        })
+        .flat()
+        .filter((v) => v)
+    );
   },
   { immediate: true, debounce: 200 }
 );
@@ -216,7 +300,7 @@ watch(
 
 <template>
   <div>
-    <!-- {{ circles }} -->
+    {{ cColl }}
     <svg
       width="500"
       height="500"
