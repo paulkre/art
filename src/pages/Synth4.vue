@@ -24,6 +24,7 @@ import {
   pol2car,
   distance,
   replace,
+  range,
 } from "../lib";
 
 const props = defineProps({
@@ -215,6 +216,7 @@ watch(
 
 <template>
   <div>
+    <!-- {{ circles }} -->
     <svg
       width="500"
       height="500"
@@ -227,6 +229,16 @@ watch(
         cx="0"
         cy="0"
         stroke="white"
+        stroke-width="2"
+        fill="none"
+      />
+      <circle
+        v-for="(c, i) in circles"
+        :key="i"
+        r="10"
+        :cx="c.x"
+        :cy="c.y"
+        stroke="red"
         stroke-width="2"
         fill="none"
       />
