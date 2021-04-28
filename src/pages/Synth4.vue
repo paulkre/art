@@ -226,7 +226,12 @@ const p2 = new Tone.GrainPlayer({
   .connect(new Tone.Reverb(10))
   .toDestination();
 
-const circles = range(0, 150, 5).map((a) => pol2car(a - 75, 300));
+const circlesR = 300;
+const circlesRange = 100;
+
+const circles = range(0, circlesRange, 5).map((a) =>
+  pol2car(a - circlesRange / 2, circlesR)
+);
 
 const cColl = ref([]);
 const cColl2 = ref([]);
@@ -331,22 +336,6 @@ watch(
         .flat()
         .filter((v) => v)
     );
-    cColl2.value = [...otherUsers.value]
-      .map((u) => {
-        const uCircle = new Circle(
-          u.userX || u.value?.userX,
-          u.userY || u.value?.userY
-        );
-        const cCollisions = circles
-          .map((c, i) => new Circle(c.x, c.y, 20))
-          .map((c, i) => {
-            return c.collides(uCircle) ? i + 1 : null;
-          });
-        console.log(uCircle);
-        return cCollisions;
-      })
-      .flat()
-      .filter((v) => v);
   },
   { immediate: true, debounce: 200 }
 );
@@ -354,22 +343,23 @@ watch(
 
 <template>
   <div>
+    {{ cColl }}
     <svg
       width="700"
       height="700"
       viewBox="-350 -350 700 700"
-      style="position: fixed; border: 2px solid red"
+      style="position: fixed"
       :style="{ top: centerY - 350 + 'px', left: centerX - 350 + 'px' }"
     >
       <circle
         :r="250 - 1"
         cx="0"
         cy="0"
-        stroke="white"
+        stroke="#777"
         stroke-width="2"
         fill="none"
       />
-      <circle
+      <!-- <circle
         v-for="(c, i) in circles"
         :key="i"
         r="10"
@@ -378,16 +368,27 @@ watch(
         stroke="#777"
         stroke-width="2"
         fill="none"
-      />
-      <path :d="arc(-75, 75, 300)" stroke="#777" stroke-width="3" fill="none" />
+      /> -->
       <path
-        :d="arc(-75, scale(cColl, 0, 31, -75, 75), 300)"
+        :d="arc(circlesRange / -2, circlesRange / 2, circlesR)"
+        stroke="#777"
+        stroke-width="3"
+        fill="none"
+      />
+      <path
+        :d="
+          arc(
+            circlesRange / -2,
+            scale(cColl, 0, 21, circlesRange / -2, circlesRange / 2),
+            circlesR
+          )
+        "
         stroke="white"
         stroke-width="3"
         fill="none"
       />
       <g v-for="(user, i) in userColliding" :key="i">
-        <transition name="fade">
+        <transition name="fade-long">
           <circle
             v-if="user.colliding"
             :r="user.distance"

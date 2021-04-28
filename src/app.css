@@ -94,6 +94,16 @@ blockquote {
   opacity: 0;
 }
 
+.fade-long-enter-active,
+.fade-long-leave-active {
+  transition: all 2s ease;
+}
+
+.fade-long-enter-from,
+.fade-long-leave-to {
+  opacity: 0;
+}
+
 .slide-enter-active {
   transition: all 1s ease;
 }
