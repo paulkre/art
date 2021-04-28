@@ -144,9 +144,11 @@ const colliding2 = computed(() => {
 });
 
 const a = ref(0);
+const started = ref(false);
 
 const onStart = () => {
   Tone.start().then(() => {
+    started.value = true;
     new Tone.Loop((time) => {
       Tone.Draw.schedule(() => {
         a.value = time * 60 * 1;
@@ -155,7 +157,16 @@ const onStart = () => {
     Tone.Transport.start();
     p.start();
     p2.start();
+    sampler.toDestination();
   });
+};
+
+const onStop = () => {
+  Tone.Transport.cancel();
+  p.stop();
+  p2.stop();
+  sampler.disconnect();
+  started.value = false;
 };
 
 const linePos = computed(() => pol2car(a.value, 250));
@@ -343,7 +354,6 @@ watch(
 
 <template>
   <div>
-    {{ cColl }}
     <svg
       width="700"
       height="700"
@@ -414,8 +424,19 @@ watch(
           </span>
           Let's make music!
         </h3>
-        <button-big style="justify-self: stretch" @click="onStart">
+        <button-big
+          v-if="!started"
+          style="justify-self: stretch"
+          @click="onStart"
+        >
           Start
+        </button-big>
+        <button-big
+          v-if="started"
+          style="justify-self: stretch"
+          @click="onStop"
+        >
+          Stop
         </button-big>
 
         <small>
