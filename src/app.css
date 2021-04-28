@@ -94,6 +94,16 @@ blockquote {
   opacity: 0;
 }
 
+.fade-long-enter-active,
+.fade-long-leave-active {
+  transition: all 2s ease;
+}
+
+.fade-long-enter-from,
+.fade-long-leave-to {
+  opacity: 0;
+}
+
 .slide-enter-active {
   transition: all 1s ease;
 }
@@ -133,43 +143,20 @@ blockquote {
   }
 }
 
-@keyframes scale-xl {
-  0%,
-  100% {
-    transform: scale(1);
-    animationtimingfunction: cubic-bezier(0.8, 0, 1, 1);
+@keyframes move {
+  0% {
+    transform: scale(1.2);
   }
+
+  25% {
+    transform: scale(0.7);
+  }
+
   50% {
-    transform: scale(1.3);
-    animationtimingfunction: cubic-bezier(0, 0, 0.2, 1);
-  }
-}
-
-@keyframes fastscale {
-  0%,
-  100% {
     transform: scale(1);
-    animationtimingfunction: cubic-bezier(0.8, 0, 1, 1);
   }
-  50% {
-    transform: scale(1.05);
-    animationtimingfunction: cubic-bezier(0, 0, 0.2, 1);
+
+  100% {
+    transform: scale(1.2);
   }
-}
-
-/* icons */
-
-.icon {
-  cursor: pointer;
-  display: block;
-}
-
-/* Other */
-
-[v-cloak] {
-  display: none;
-}
-
-.debug {
-  border: 2px solid red;
 }

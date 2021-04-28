@@ -33,6 +33,8 @@ emitter.on("USERS_OFF", () => {
   showMessages.value = false;
 });
 
+// emitter.emit("USERS_ON");
+
 const updatedUsers = computed(() =>
   users.value
     .map((user) => {
