@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch, ref } from "vue";
+import { computed, watch, ref, isRef } from "vue";
 import { differenceInMilliseconds } from "date-fns";
 import { Circle, Polygon, Result } from "collisions";
 import * as Tone from "tone";
@@ -26,6 +26,38 @@ import {
   replace,
   range,
 } from "../lib";
+
+// function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+//   var angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
+
+//   return {
+//     x: centerX + radius * Math.cos(angleInRadians),
+//     y: centerY + radius * Math.sin(angleInRadians),
+//   };
+// }
+
+const arc = (startAngle, endAngle, radius) => {
+  var start = pol2car(endAngle, radius);
+  var end = pol2car(startAngle, radius);
+
+  const arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+
+  const d = [
+    "M",
+    start.x,
+    start.y,
+    "A",
+    radius,
+    radius,
+    0,
+    arcSweep,
+    0,
+    end.x,
+    end.y,
+  ].join(" ");
+
+  return d;
+};
 
 const props = defineProps({
   about: { type: Boolean, default: true },
@@ -169,10 +201,11 @@ const p = new Tone.GrainPlayer({
   overlap: 0.01,
   reverse: false,
   volume: 0.1,
+  playbackRate: 0.1,
   // detune: -1000,
-  loopStart: "20n",
+  //loopStart: "20n",
 })
-  .connect(filter)
+  //.connect(filter)
   //.connect(feedbackDelay)
   .connect(new Tone.Reverb(10))
   .toDestination();
@@ -185,7 +218,8 @@ const p2 = new Tone.GrainPlayer({
   reverse: false,
   volume: 0.1,
   // detune: -1000,
-  loopEnd: "10n",
+  loopEnd: "2n",
+  mute: true,
 })
   .connect(filter)
   .connect(feedbackDelay)
@@ -195,6 +229,7 @@ const p2 = new Tone.GrainPlayer({
 const circles = range(0, 150, 5).map((a) => pol2car(a - 75, 200));
 
 const cColl = ref([]);
+const cColl2 = ref([]);
 
 const average = (arr) => {
   const avg = arr.reduce((p, c) => p + c, 0) / arr.length;
@@ -204,8 +239,8 @@ const average = (arr) => {
 watch(cColl, () => {
   if (cColl.value) {
     p.mute = false;
-    p2.mute = false;
-    filter.frequency.rampTo(1000000 - cColl.value * 10000, 10);
+    //p2.mute = false;
+    //filter.frequency.rampTo(1000000 - cColl.value * 10000, 10);
     if (cColl.value < 2) {
       p.reverse = true;
     } else {
@@ -213,9 +248,9 @@ watch(cColl, () => {
     }
     //
     p.grainSize = cColl.value * 0.5;
-    p.grainSize = cColl.value * 0.25;
     p.detune = cColl.value * 100 - 1000;
     p2.detune = cColl.value * 100;
+    p.playbackRate = cColl.value * 2;
 
     //p.loopEnd = Math.minscale(cColl.value, 0, 21, 0, 2.5);
   } else {
@@ -282,7 +317,10 @@ watch(
     cColl.value = average(
       [userData.value, ...otherUsers.value]
         .map((u) => {
-          const uCircle = new Circle(u.userX, u.userY);
+          const uCircle = new Circle(
+            u.userX || u.value?.userX,
+            u.userY || u.value?.userY
+          );
           const cCollisions = circles
             .map((c, i) => new Circle(c.x, c.y, 20))
             .map((c, i) => {
@@ -293,6 +331,22 @@ watch(
         .flat()
         .filter((v) => v)
     );
+    cColl2.value = [...otherUsers.value]
+      .map((u) => {
+        const uCircle = new Circle(
+          u.userX || u.value?.userX,
+          u.userY || u.value?.userY
+        );
+        const cCollisions = circles
+          .map((c, i) => new Circle(c.x, c.y, 20))
+          .map((c, i) => {
+            return c.collides(uCircle) ? i + 1 : null;
+          });
+        console.log(uCircle);
+        return cCollisions;
+      })
+      .flat()
+      .filter((v) => v);
   },
   { immediate: true, debounce: 200 }
 );
@@ -300,7 +354,6 @@ watch(
 
 <template>
   <div>
-    {{ cColl }}
     <svg
       width="500"
       height="500"
@@ -316,14 +369,21 @@ watch(
         stroke-width="2"
         fill="none"
       />
-      <circle
+      <!-- <circle
         v-for="(c, i) in circles"
         :key="i"
         r="10"
         :cx="c.x"
         :cy="c.y"
-        stroke="red"
+        stroke="#777"
         stroke-width="2"
+        fill="none"
+      /> -->
+      <path :d="arc(-75, 75, 200)" stroke="#777" stroke-width="3" fill="none" />
+      <path
+        :d="arc(-75, scale(cColl, 0, 31, -75, 75), 200)"
+        stroke="white"
+        stroke-width="3"
         fill="none"
       />
       <g v-for="(user, i) in userColliding" :key="i">
