@@ -24,14 +24,7 @@ const onAdd = debounce(({ x, y }) => {
 
 <template>
   <div>
-    <div
-      style="
-        position: relative;
-        border: 2px solid red;
-        width: 500px;
-        height: 500px;
-      "
-    >
+    <div style="position: relative; width: 500px; height: 500px">
       <div
         v-for="b in buffer.filter((b) => b)"
         :key="b.key"

@@ -20,14 +20,6 @@ const routes = [
     component: () => import(`./pages/Synth2.vue`),
   },
   {
-    path: "/synth3",
-    component: () => import(`./pages/Synth3.vue`),
-  },
-  {
-    path: "/synth4",
-    component: () => import(`./pages/Synth4.vue`),
-  },
-  {
     path: "/page/:pageid",
     component: () => import("./pages/Page.vue"),
   },
