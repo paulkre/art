@@ -226,7 +226,7 @@ const p2 = new Tone.GrainPlayer({
   .connect(new Tone.Reverb(10))
   .toDestination();
 
-const circles = range(0, 150, 5).map((a) => pol2car(a - 75, 200));
+const circles = range(0, 150, 5).map((a) => pol2car(a - 75, 300));
 
 const cColl = ref([]);
 const cColl2 = ref([]);
@@ -355,11 +355,11 @@ watch(
 <template>
   <div>
     <svg
-      width="500"
-      height="500"
-      viewBox="-250 -250 500 500"
-      style="position: fixed"
-      :style="{ top: centerY - 250 + 'px', left: centerX - 250 + 'px' }"
+      width="700"
+      height="700"
+      viewBox="-350 -350 700 700"
+      style="position: fixed; border: 2px solid red"
+      :style="{ top: centerY - 350 + 'px', left: centerX - 350 + 'px' }"
     >
       <circle
         :r="250 - 1"
@@ -369,7 +369,7 @@ watch(
         stroke-width="2"
         fill="none"
       />
-      <!-- <circle
+      <circle
         v-for="(c, i) in circles"
         :key="i"
         r="10"
@@ -378,10 +378,10 @@ watch(
         stroke="#777"
         stroke-width="2"
         fill="none"
-      /> -->
-      <path :d="arc(-75, 75, 200)" stroke="#777" stroke-width="3" fill="none" />
+      />
+      <path :d="arc(-75, 75, 300)" stroke="#777" stroke-width="3" fill="none" />
       <path
-        :d="arc(-75, scale(cColl, 0, 31, -75, 75), 200)"
+        :d="arc(-75, scale(cColl, 0, 31, -75, 75), 300)"
         stroke="white"
         stroke-width="3"
         fill="none"
