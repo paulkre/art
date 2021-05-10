@@ -49,7 +49,7 @@ const pageLink = computed(() => {
           <icon-creditcard />
           It is a paid event
         </flex>
-        <horizontal style="gap: 0">
+        <flex style="gap: 16px">
           <event-date :event="event" />
           <router-link
             v-if="event.page"
@@ -58,15 +58,19 @@ const pageLink = computed(() => {
           >
             {{ event.page?.title }}
           </router-link>
-        </horizontal>
+        </flex>
       </vertical>
       <Youtube :src="event.youtube" style="margin-bottom: 8px" />
 
       <flex style="gap: 16px; margin-bottom: 8px">
-        <button-medium v-if="!isOpen" @click="isOpen = true"
+        <!-- <button-medium
+          v-if="!isOpen && event.description"
+          @click="isOpen = true"
           >More info</button-medium
-        >
-        <button-medium v-if="isOpen" @click="isOpen = false"
+        > -->
+        <button-medium
+          v-if="isOpen && event.description"
+          @click="isOpen = false"
           >Less info</button-medium
         >
         <router-link class="event-card" :to="pageLink">
@@ -82,14 +86,14 @@ const pageLink = computed(() => {
       </flex>
 
       <vertical>
-        <vertical v-if="event && event.intro && !isOpen" class="EventIntro"
+        <vertical v-if="event && event.intro" class="EventIntro"
           >{{ event.intro }}
         </vertical>
-        <vertical
+        <!-- <vertical
           v-if="description && isOpen"
           class="EventIntro"
           v-html="event.description"
-        />
+        /> -->
       </vertical>
     </div>
   </vertical>

@@ -1,11 +1,19 @@
 <script setup>
-import { defineProps, ref, computed } from "vue";
+import { defineProps } from "vue";
 const props = defineProps({
   page: { type: Object },
 });
 </script>
 <template>
-  <horizontal style="grid-template-columns: auto 1fr; gap: 16px">
+  <Link
+    :src="
+      page.link
+        ? page.link
+        : page.event?.eventid
+        ? '/' + page.event?.eventid
+        : '/page/' + page.pageid
+    "
+  >
     <disc
       :style="{
         width: '192px',
@@ -20,5 +28,5 @@ const props = defineProps({
         {{ page.title }}
       </h3>
     </disc>
-  </horizontal>
+  </Link>
 </template>

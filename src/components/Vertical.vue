@@ -11,6 +11,6 @@
   grid-auto-rows: min-content;
 }
 .vertical > * {
-  /* justify-self: flex-start; */
+  justify-self: flex-start;
 }
 </style>

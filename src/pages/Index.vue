@@ -56,7 +56,7 @@ const pageStyle = (page) =>
   <layout>
     <horizontal style="--cols: 1fr 2fr">
       <vertical style="padding: 32px 0 32px 48px; gap: 0px">
-        <h1 style="font-size: clamp(72px, 14vw, 100px)">eˉlektron</h1>
+        <h1 style="font-size: clamp(72px, 14vw, 96px)">eˉlektron</h1>
         <Social style="pointer-events: auto" />
         <div style="height: 32px" />
         <horizontal
@@ -78,8 +78,6 @@ const pageStyle = (page) =>
           />
         </horizontal>
         <div style="height: 32px" />
-        <horizontal style="grid-template-columns: 128px 128px 128px; gap: 8px">
-        </horizontal>
       </vertical>
       <vertical style="padding: 60px 48px 32px 32px; gap: 48px">
         <page-event

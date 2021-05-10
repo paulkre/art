@@ -5,7 +5,15 @@ const props = defineProps({
 });
 </script>
 <template>
-  <horizontal style="grid-template-columns: auto 1fr; gap: 16px">
+  <Link
+    :src="
+      festival.link
+        ? festival.link
+        : festival.event?.eventid
+        ? '/' + festival.event?.eventid
+        : '/page/' + festival.pageid
+    "
+  >
     <disc
       :style="{
         width: '192px',
@@ -20,10 +28,5 @@ const props = defineProps({
         backgroundSize: 'cover',
       }"
     />
-    <!-- <vertical style="gap: 4px">
-      <h3>
-        {{ festival.title }}
-      </h3>
-    </vertical> -->
-  </horizontal>
+  </Link>
 </template>
