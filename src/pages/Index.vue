@@ -7,6 +7,7 @@ import {
   useCountdown,
   useWindow,
   activeTheme,
+  sortEvents,
 } from "../lib";
 
 const pagesWithEvents = computed(() =>
@@ -32,21 +33,22 @@ const eventsWithPages = computed(() =>
       return event;
     })
     .filter((event) => event.urgency !== "past")
+    .sort(sortEvents)
 );
 
 const countdown = useCountdown(config.perfStart);
 const { centerX, centerY } = useWindow();
 const pageStyle = (page) =>
   computed(() => ({
-    left: `${parseFloat(page.x) + centerX.value}px`,
+    left: `${parseFloat(page.x) + centerX.value / 2}px`,
     top: `${parseFloat(page.y) + centerY.value}px`,
   }));
 </script>
 <template>
   <layout>
-    <!-- <horizontal>
+    <horizontal>
       &nbsp;
-      <vertical style="padding: 60px 0; gap: 32px">
+      <vertical style="padding: 60px 32px 32px 32px; gap: 32px">
         <page-event
           v-for="(event, i) in eventsWithPages"
           :key="i"
@@ -54,7 +56,7 @@ const pageStyle = (page) =>
           :description="false"
         />
       </vertical>
-    </horizontal> -->
+    </horizontal>
     <Link
       v-for="(page, i) in pagesWithEvents"
       :key="i"
@@ -98,7 +100,7 @@ const pageStyle = (page) =>
         top: 0;
         bottom: 0;
         left: 0;
-        width: 100vw;
+        width: 50vw;
         display: flex;
         align-items: center;
         justify-content: center;
