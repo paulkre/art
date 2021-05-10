@@ -49,7 +49,16 @@ const pageLink = computed(() => {
           <icon-creditcard />
           It is a paid event
         </flex>
-        <event-date :event="event" />
+        <horizontal style="gap: 0">
+          <event-date :event="event" />
+          <router-link
+            v-if="event.page"
+            :to="'/page/' + event.pageid"
+            style="text-decoration: underline"
+          >
+            {{ event.page?.title }}
+          </router-link>
+        </horizontal>
       </vertical>
       <Youtube :src="event.youtube" style="margin-bottom: 8px" />
 
