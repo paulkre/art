@@ -25,15 +25,15 @@ import { config } from "../lib";
 <style>
 .social {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
 }
 .social > a {
   display: grid;
   place-items: center;
   background: var(--fg);
   color: var(--bg);
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 10000px;
   margin-right: 8px;
 }
@@ -41,6 +41,6 @@ import { config } from "../lib";
   margin-right: 0;
 }
 .social > a > svg {
-  transform: scale(1.3);
+  transform: scale(1.1);
 }
 </style>
