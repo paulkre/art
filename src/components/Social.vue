@@ -30,17 +30,18 @@ import { config } from "../lib";
 .social > a {
   display: grid;
   place-items: center;
-  background: var(--fg);
   color: var(--bg);
   width: 42px;
   height: 42px;
   border-radius: 10000px;
   margin-right: 8px;
+  border: 0.1em solid var(--fg);
 }
 .social > a:last-child {
   margin-right: 0;
 }
 .social > a > svg {
   transform: scale(1.1);
+  stroke: var(--fg);
 }
 </style>

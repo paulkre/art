@@ -28,6 +28,10 @@ const festivals = computed(() =>
   pages.value.filter((page) => page.festival === "TRUE")
 );
 
+const nonFestivals = computed(() =>
+  pages.value.filter((page) => page.festival !== "TRUE")
+);
+
 const eventsWithPages = computed(() =>
   events.value
     .map((event) => {
@@ -50,19 +54,34 @@ const pageStyle = (page) =>
 </script>
 <template>
   <layout>
-    <horizontal class="debug">
+    <horizontal style="--cols: 1fr 2fr">
       <vertical style="padding: 32px 0 32px 48px; gap: 0px">
-        <h1 style="font-size: clamp(32px, 12vw, 100px)">eˉlektron</h1>
+        <h1 style="font-size: clamp(72px, 14vw, 100px)">eˉlektron</h1>
         <Social style="pointer-events: auto" />
         <div style="height: 32px" />
-
-        <festival-card
-          v-for="(festival, i) in festivals"
-          :key="i"
-          :festival="festival"
-        />
+        <horizontal
+          style="
+            grid-template-columns: 192px 192px;
+            gap: 8px;
+            transform: translateX(-16px);
+          "
+        >
+          <festival-card
+            v-for="(festival, i) in festivals"
+            :key="'f' + i"
+            :festival="festival"
+          />
+          <page-card
+            v-for="(page, i) in nonFestivals"
+            :key="'p' + i"
+            :page="page"
+          />
+        </horizontal>
+        <div style="height: 32px" />
+        <horizontal style="grid-template-columns: 128px 128px 128px; gap: 8px">
+        </horizontal>
       </vertical>
-      <vertical style="padding: 60px 48px 32px 32px; gap: 32px">
+      <vertical style="padding: 60px 48px 32px 32px; gap: 48px">
         <page-event
           v-for="(event, i) in eventsWithPages"
           :key="i"

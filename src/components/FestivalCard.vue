@@ -8,8 +8,8 @@ const props = defineProps({
   <horizontal style="grid-template-columns: auto 1fr; gap: 16px">
     <disc
       :style="{
-        width: '128px',
-        height: '128px',
+        width: '192px',
+        height: '192px',
         color: festival.color !== '' ? festival.color : 'var(--fg)',
         backgroundColor: festival.background || 'var(--bglight)',
         backgroundImage: festival.image

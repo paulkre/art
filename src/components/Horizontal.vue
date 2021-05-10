@@ -7,7 +7,7 @@
 <style>
 .horizontal {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: var(--cols, 1fr 1fr);
   gap: clamp(8px, 5vw, 64px);
 }
 
