@@ -24,6 +24,14 @@ const pagesWithEvents = computed(() =>
     .filter((event) => event.urgency !== "past")
 );
 
+const festivals = computed(() =>
+  pages.value.filter((page) => page.festival === "TRUE")
+);
+
+const nonFestivals = computed(() =>
+  pages.value.filter((page) => page.festival !== "TRUE")
+);
+
 const eventsWithPages = computed(() =>
   events.value
     .map((event) => {
@@ -46,9 +54,32 @@ const pageStyle = (page) =>
 </script>
 <template>
   <layout>
-    <horizontal>
-      &nbsp;
-      <vertical style="padding: 60px 32px 32px 32px; gap: 32px">
+    <horizontal style="--cols: 1fr 2fr">
+      <vertical style="padding: 32px 0 32px 48px; gap: 0px">
+        <h1 style="font-size: clamp(72px, 14vw, 96px)">eˉlektron</h1>
+        <Social style="pointer-events: auto" />
+        <div style="height: 32px" />
+        <horizontal
+          style="
+            grid-template-columns: 192px 192px;
+            gap: 8px;
+            transform: translateX(-16px);
+          "
+        >
+          <festival-card
+            v-for="(festival, i) in festivals"
+            :key="'f' + i"
+            :festival="festival"
+          />
+          <page-card
+            v-for="(page, i) in nonFestivals"
+            :key="'p' + i"
+            :page="page"
+          />
+        </horizontal>
+        <div style="height: 32px" />
+      </vertical>
+      <vertical style="padding: 60px 48px 32px 32px; gap: 48px">
         <page-event
           v-for="(event, i) in eventsWithPages"
           :key="i"
@@ -57,7 +88,7 @@ const pageStyle = (page) =>
         />
       </vertical>
     </horizontal>
-    <Link
+    <!-- <Link
       v-for="(page, i) in pagesWithEvents"
       :key="i"
       :src="
@@ -119,8 +150,8 @@ const pageStyle = (page) =>
           eˉlektron
         </h1>
         <Social style="pointer-events: auto" />
-      </div>
-    </div>
+      </div> 
+    </div>-->
     <users />
     <template #top-center>
       <update-button />
