@@ -82,6 +82,13 @@ blockquote {
   font-size: 1.3em;
   line-height: 1.6em;
 }
+
+.icon {
+  cursor: pointer;
+}
+.icon:hover {
+  filter: brightness(80%);
+}
 /* Transitions */
 
 .fade-enter-active,

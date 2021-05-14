@@ -70,7 +70,7 @@ const page = computed(() => {
 <style>
 .page {
   padding: clamp(1.5rem, 5vw, 3rem);
-  padding-top: clamp(5rem, 10vw, 10rem);
+  padding-top: clamp(22rem, 20vw, 45rem);
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: clamp(8px, 5vw, 64px);
