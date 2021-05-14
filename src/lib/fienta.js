@@ -34,12 +34,12 @@ export const fienta = ky.extend({
 const tickets = useStorage("elektron_data", []);
 
 const checkLocalTicketWithoutCode = (event) => {
-  const status = tickets.value?.find(
+  const ticket = tickets.value?.find(
     (ticket) =>
       ticket.fientaid == event.value.fientaid ||
       ticket.fientaid == event.value.page?.fientaid
   );
-  return status;
+  return ticket;
 };
 
 const checkLocalTicket = (code, event) => {
@@ -51,13 +51,13 @@ const checkLocalTicket = (code, event) => {
   );
 };
 
-const storeLocalTicket = (code, event) => {
+const storeLocalTicket = (code, fientaid) => {
   tickets.value = uniqueCollection(
     [
       ...tickets.value,
       {
         code: code.value,
-        fientaid: event.value.fientaid,
+        fientaid,
       },
     ],
     "code"
@@ -69,10 +69,17 @@ const checkRemoteTicket = (code, event) =>
     .get(`tickets/${code.value}`)
     .json()
     .then((res) => {
-      if (res?.ticket?.event_id == event.value.fientaid) {
-        return res?.ticket?.status;
+      if (
+        res?.ticket?.event_id == event.value.fientaid ||
+        res?.ticket?.event_id == event.value?.page.fientaid
+      ) {
+        // @TODO do not pass fientaid when there is no res.ticket?
+        return {
+          remoteStatus: res?.ticket?.status,
+          fientaid: res?.ticket?.event_id,
+        };
       } else {
-        return "REMOTE_CHECK_ERROR";
+        return { remoteStatus: "REMOTE_CHECK_ERROR" };
       }
     });
 
@@ -100,7 +107,6 @@ export const checkTicket = (code, event) => {
 
   whenever(event, () => {
     if (checkLocalTicketWithoutCode(event)) {
-      console.log("check");
       status.value = "CHECKED";
     }
   });
@@ -117,18 +123,20 @@ export const checkTicket = (code, event) => {
           status.value = "CHECKED";
         } else {
           checkRemoteTicket(code, event)
-            .then((checkStatus) => {
-              storeLocalTicket(code, event);
-              status.value = "CHECKED";
-              // if (checkStatus === "UNUSED") {
+            .then(({ remoteStatus, fientaid }) => {
+              if (fientaid) {
+                storeLocalTicket(code, fientaid);
+                status.value = "CHECKED";
+              }
+              // if (remoteStatus === "UNUSED") {
               //   useTicket(code)
               //     .then((_) => {
-              //       storeLocalTicket(code, event);
+              //       storeLocalTicket(code, fientaid);
               //       status.value = "CHECKED";
               //     })
               //     .catch((e) => (status.value = "ERROR"));
               // }
-              // if (checkStatus === "USED") {
+              // if (remoteStatus === "USED") {
               //   status.value = "USED";
               // }
               // @TODO Handle REFUND_REQUESTED ?
