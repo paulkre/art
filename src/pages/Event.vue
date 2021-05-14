@@ -221,7 +221,9 @@ watch(status, () => {
 
     <layout>
       <template #top-left>
-        <back-button :to="event?.pageid ? '/page/' + event.pageid : null" />
+        <back-button
+          :to="event?.page?.pageid ? '/page/' + event?.page?.pageid : '/'"
+        />
       </template>
       <template #top-center>
         <update-button />
@@ -262,12 +264,7 @@ watch(status, () => {
   grid-auto-rows: max-content;
   gap: 16px;
 }
-@media (max-width: 800px) {
-  .event-content {
-    height: calc(50vh);
-    overflow: auto;
-  }
-}
+
 .event-panels {
   position: fixed;
   top: 0;

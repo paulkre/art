@@ -7,15 +7,15 @@ defineProps({ page: { type: Object } });
   <disc
     :style="{
       position: 'absolute',
-      top: '-150px',
-      left: '100px',
+      top: '-125px',
+      left: '50px',
       backgroundColor: page?.background,
       backgroundImage: page?.image ? 'url(' + page.image + ')' : '',
       backgroundSize: 'cover',
       color: 'white',
       textAlign: 'center',
-      width: '400px',
-      height: '400px',
+      width: '450px',
+      height: '450px',
       pointerEvents: 'none',
       zIndex: -1000,
     }"
