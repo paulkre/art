@@ -111,6 +111,8 @@ watch(status, () => {
     router.push({ path: `/${params.value.eventid}` });
   }
 });
+
+watch(event, () => console.log(event.value));
 </script>
 
 <template>

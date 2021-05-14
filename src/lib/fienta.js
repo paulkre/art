@@ -35,14 +35,18 @@ const tickets = useStorage("elektron_data", []);
 
 const checkLocalTicketWithoutCode = (event) => {
   return tickets.value?.find(
-    (ticket) => ticket.fientaid == event.value.fientaid
+    (ticket) =>
+      ticket.fientaid == event.value.fientaid ||
+      ticket.fientaid == event.value.page?.fientaid
   );
 };
 
 const checkLocalTicket = (code, event) => {
   return tickets.value?.find(
     (ticket) =>
-      ticket.code == code.value && ticket.fientaid == event.value.fientaid
+      ticket.code == code.value &&
+      (ticket.fientaid == event.value.fientaid ||
+        ticket.fientaid == event.value.page?.fientaid)
   );
 };
 
@@ -93,7 +97,7 @@ const statuses = {
 export const checkTicket = (code, event) => {
   const status = ref("UNCHECKED");
   watch(
-    [code, event],
+    code,
     () => {
       if (!code.value && event.value) {
         if (checkLocalTicketWithoutCode(event)) {

@@ -12,14 +12,14 @@ const isOpen = ref(false);
 
 const pageLink = computed(() => {
   let link = "";
-  if (props.event.pageid) {
-    link =
-      props.event.pageid === props.event.streamkey
-        ? props.event.pageid
-        : props.event.eventid;
-  } else {
-    link = props.event.eventid;
-  }
+  // if (props.event.pageid) {
+  //   link =
+  //     props.event.pageid === props.event.streamkey
+  //       ? props.event.pageid
+  //       : props.event.eventid;
+  // } else {
+  link = props.event.eventid;
+  //}
   return `/${link}`;
 });
 </script>
