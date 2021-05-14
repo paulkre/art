@@ -1,5 +1,5 @@
 import { computed, ref, watch } from "vue";
-import { useStorage } from "@vueuse/core";
+import { useStorage, whenever } from "@vueuse/core";
 import ky from "ky";
 
 import { config, uniqueCollection } from "./";
@@ -34,11 +34,12 @@ export const fienta = ky.extend({
 const tickets = useStorage("elektron_data", []);
 
 const checkLocalTicketWithoutCode = (event) => {
-  return tickets.value?.find(
+  const status = tickets.value?.find(
     (ticket) =>
       ticket.fientaid == event.value.fientaid ||
       ticket.fientaid == event.value.page?.fientaid
   );
+  return status;
 };
 
 const checkLocalTicket = (code, event) => {
@@ -96,6 +97,14 @@ const statuses = {
 
 export const checkTicket = (code, event) => {
   const status = ref("UNCHECKED");
+
+  whenever(event, () => {
+    if (checkLocalTicketWithoutCode(event)) {
+      console.log("check");
+      status.value = "CHECKED";
+    }
+  });
+
   watch(
     code,
     () => {

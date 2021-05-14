@@ -112,7 +112,7 @@ watch(status, () => {
   }
 });
 
-watch(event, () => console.log(event.value));
+// watch(event, () => console.log(event.value));
 </script>
 
 <template>
