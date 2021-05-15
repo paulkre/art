@@ -19,6 +19,7 @@ export const config = {
   fientaTicketUrl: import.meta.env.VITE_FIENTA_TICKET_URL || "",
   fientaToken: import.meta.env.VITE_FIENTA_TOKEN || "",
   plausibleDomain: import.meta.env.VITE_PLAUSIBLE_DOMAIN || "localhost",
+  strapiUrl: import.meta.env.VITE_STRAPI_URL || "",
   // @TODO:remove these two
   theme: import.meta.env.VITE_THEME || 0,
   userUpdateRate: 30 * 1000,

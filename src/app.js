@@ -12,6 +12,10 @@ const routes = [
     component: () => import(`./pages/Index.vue`),
   },
   {
+    path: "/strapi",
+    component: () => import(`./pages/Strapi.vue`),
+  },
+  {
     path: "/synth",
     component: () => import(`./pages/Synth.vue`),
   },
