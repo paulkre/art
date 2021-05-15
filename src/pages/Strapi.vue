@@ -38,6 +38,10 @@ const processEvents = (event) => {
 const sortEvents = (a, b) =>
   compareDesc(new Date(b.start_at), new Date(a.start_at));
 
+const filterUpcomingEvents = (event) => event.urgency !== "past";
+
+const filterPastEvents = (event) => event.urgency === "past";
+
 const events = ref([]);
 
 strapi
