@@ -36,6 +36,7 @@ const festivalRoute = computed(() => `/strapi/${festival.value?.slug}`);
         :src="src"
         :streamkey="event?.streamkeys?.[0]"
       />
+      {{ event?.streamkeys }}
     </vertical>
     <layout>
       <template #top-left>

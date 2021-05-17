@@ -34,12 +34,11 @@ const processEvents = (event) => {
     ? formatMarkdown(event.description_english)
     : null;
   event.urgency = dateUrgency(new Date(event.start_at), new Date(event.end_at));
-  event.streamurls = event.streamkey
-    ? event.streamkey
-        .split(",")
-        .map((s) => s.trim())
-        .map(formatStreamUrl)
+  event.streamkeys = event.streamkey
+    ? event.streamkey.split(",").map((s) => s.trim())
     : [];
+  event.streamurls = event.streamkeys.map(formatStreamUrl);
+
   if (event.fienta_id) {
     event.fienta_url = replace(config.fientaTicketUrl, {
       fientaid: event.fienta_id,

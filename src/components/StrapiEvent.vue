@@ -18,7 +18,7 @@ const eventRoute = computed(
         <h2>{{ event.title }}</h2>
       </vertical>
     </router-link>
-    <!-- <strapi-fienta :festival="festival" :event="event" /> -->
+    <strapi-fienta :festival="festival" :event="event" />
   </div>
 </template>
 
