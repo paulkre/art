@@ -16,6 +16,7 @@ import { strapiEvents, strapiFestivals } from "../lib";
         v-for="(event, i) in strapiEvents"
         :key="i"
         :event="event"
+        :festival="event.festival"
       />
     </vertical>
   </horizontal>

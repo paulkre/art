@@ -13,15 +13,15 @@ const routes = [
   },
   {
     path: "/strapi/:festival_slug/:event_slug",
-    component: () => import(`./pages/StrapiEvent.vue`),
+    component: () => import(`./pages/StrapiEventPage.vue`),
   },
   {
     path: "/strapi/:festival_slug",
-    component: () => import(`./pages/StrapiFestival.vue`),
+    component: () => import(`./pages/StrapiFestivalPage.vue`),
   },
   {
     path: "/strapi",
-    component: () => import(`./pages/Strapi.vue`),
+    component: () => import(`./pages/StrapiPage.vue`),
   },
   {
     path: "/synth",

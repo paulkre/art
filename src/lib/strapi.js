@@ -57,7 +57,13 @@ export const getStrapi = () => {
   strapi
     .get("festivals")
     .json()
-    .then((results) => (strapiFestivals.value = results));
+    .then(
+      (results) =>
+        (strapiFestivals.value = results.map((f) => {
+          f.events = f.events.sort(sortEvents);
+          return f;
+        }))
+    );
 
   strapi
     .get("pages")
