@@ -12,11 +12,14 @@ const eventRoute = computed(
 </script>
 
 <template>
-  <router-link :to="eventRoute">
-    <vertical>
-      <h2>{{ event.title }}</h2>
-    </vertical>
-  </router-link>
+  <div>
+    <router-link :to="eventRoute">
+      <vertical>
+        <h2>{{ event.title }}</h2>
+      </vertical>
+    </router-link>
+    <!-- <strapi-fienta :festival="festival" :event="event" /> -->
+  </div>
 </template>
 
 <style scoped></style>

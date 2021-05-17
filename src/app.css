@@ -73,6 +73,7 @@ b {
 }
 img {
   display: block;
+  width: 100%;
 }
 code {
   background: var(--fg-lighter);

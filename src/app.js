@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import App from "./App.vue";
 
-const components = import.meta.glob("./components/*.vue");
+const components = import.meta.globEager("./components/*.vue");
 const routes = [
   {
     path: "/",
@@ -48,7 +48,7 @@ app.use(router);
 
 Object.entries(components).forEach(([path, component]) => {
   const name = path.match(/\.\/components\/(.*)\.vue$/)[1];
-  app.component(name, defineAsyncComponent(component));
+  app.component(name, component.default);
 });
 
 app.mount("#app");

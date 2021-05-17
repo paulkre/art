@@ -17,6 +17,7 @@ const festivalRoute = computed(() => `/strapi/${festival.value?.slug}`);
   <horizontal style="padding: 48px">
     <vertical>
       <h1>{{ event?.title }}</h1>
+      <strapi-fienta :festival="festival" :event="event" />
       <vertical v-html="event?.description_estonian" />
       <h3 v-if="event?.description_english">In English</h3>
       <vertical v-html="event?.description_english" />
@@ -27,7 +28,15 @@ const festivalRoute = computed(() => `/strapi/${festival.value?.slug}`);
         :event="event"
       />
     </vertical>
-    <vertical />
+    <vertical>
+      <component
+        v-for="(src, i) in event?.streamurls"
+        :key="i"
+        :is="event?.is_360 === 'TRUE' ? 'video-stream-three' : 'video-stream'"
+        :src="src"
+        :streamkey="event?.streamkeys?.[0]"
+      />
+    </vertical>
     <layout>
       <template #top-left>
         <back-button :to="festivalRoute" />

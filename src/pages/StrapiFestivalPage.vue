@@ -12,13 +12,9 @@ const festival = computed(() =>
   <horizontal style="padding: 48px">
     <vertical>
       <h1>{{ festival?.title }}</h1>
-      <vertical>
-        {{ festival?.description_estonian }}
-      </vertical>
-      <h3>In English</h3>
-      <vertical>
-        {{ festival?.description_english }}
-      </vertical>
+      <vertical v-html="festival?.description_estonian" />
+      <h3 v-if="festival?.description_english">In English</h3>
+      <vertical v-html="festival?.description_english" />
     </vertical>
     <vertical>
       <strapi-event
