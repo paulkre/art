@@ -12,6 +12,10 @@ const routes = [
     component: () => import(`./pages/Index.vue`),
   },
   {
+    path: "/fienta",
+    component: () => import(`./pages/Fienta.vue`),
+  },
+  {
     path: "/strapi/page/:page_slug",
     component: () => import(`./pages/StrapiPage.vue`),
   },

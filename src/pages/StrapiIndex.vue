@@ -20,8 +20,8 @@ import {
       <div />
       <strapi-page v-for="(page, i) in strapiPages" :key="i" :page="page" />
     </vertical>
-    <vertical>
-      <div style="height: 16px" />
+    <vertical style="gap: 32px">
+      <div style="height: 8px" />
       <strapi-event
         v-for="(event, i) in strapiEvents.filter(filterUpcomingEvents)"
         :key="i"

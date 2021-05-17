@@ -1,10 +1,22 @@
 <script setup>
 import { defineProps, computed } from "vue";
+import { useStorage } from "@vueuse/core";
 
 const props = defineProps({
   festival: { type: Object },
   event: { type: Object },
 });
+
+const tickets = useStorage("elektron_data", []);
+
+const hasLocalTicket = computed(() =>
+  tickets.value?.find(
+    (ticket) =>
+      (props.festival?.fienta_id &&
+        ticket.fientaid == props.festival.fienta_id) ||
+      (props.event?.fienta_id && ticket.fientaid == props.event.fienta_id)
+  )
+);
 </script>
 
 <template>
@@ -12,7 +24,7 @@ const props = defineProps({
     style="color: var(--ticket); gap: 16px"
     v-if="festival?.fienta_url || event?.fienta_url"
   >
-    <icon-creditcard />
+    <icon-creditcard /> {{ hasLocalTicket ? "yeps" : "nope" }}
     <a v-if="festival?.fienta_url" :href="festival?.fienta_url" target="_black">
       Get the festival ticket
     </a>

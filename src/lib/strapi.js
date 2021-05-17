@@ -4,7 +4,7 @@ import { compareDesc, differenceInMinutes } from "date-fns";
 import { useNow } from "@vueuse/core";
 import { formatMarkdown, config, formatStreamUrl, replace } from "../lib";
 
-const strapi = ky.extend({
+export const strapi = ky.extend({
   prefixUrl: config.strapiUrl,
 });
 
@@ -38,6 +38,12 @@ const processEvents = (event) => {
     ? event.streamkey.split(",").map((s) => s.trim())
     : [];
   event.streamurls = event.streamkeys.map(formatStreamUrl);
+
+  if (event.festival?.fienta_id) {
+    event.festival.fienta_url = replace(config.fientaTicketUrl, {
+      fientaid: event.festival.fienta_id,
+    });
+  }
 
   if (event.fienta_id) {
     event.fienta_url = replace(config.fientaTicketUrl, {
