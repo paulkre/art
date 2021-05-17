@@ -2,16 +2,16 @@
 import { defineProps, computed } from "vue";
 
 const props = defineProps({
-  festival: { type: Object },
+  page: { type: Object },
 });
 
-const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
+const pageRoute = computed(() => `/strapi/page/${props.page.slug}`);
 </script>
 
 <template>
-  <router-link :to="festivalRoute">
+  <router-link :to="pageRoute">
     <vertical>
-      <h1>{{ festival.title }}</h1>
+      <h2>{{ page.title }}</h2>
     </vertical>
   </router-link>
 </template>

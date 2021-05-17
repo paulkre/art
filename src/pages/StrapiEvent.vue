@@ -32,7 +32,7 @@ const festivalRoute = computed(() => `/strapi/${festival.value?.slug}`);
       <component
         v-for="(src, i) in event?.streamurls"
         :key="i"
-        :is="event?.is_360 === 'TRUE' ? 'video-stream-three' : 'video-stream'"
+        :is="event?.is_360 ? 'video-stream-three' : 'video-stream'"
         :src="src"
         :streamkey="event?.streamkeys?.[0]"
       />

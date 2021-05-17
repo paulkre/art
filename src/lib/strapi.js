@@ -62,6 +62,17 @@ const processFestivals = (festival) => {
   return festival;
 };
 
+const processPages = (page) => {
+  page.description_estonian = page.description_estonian
+    ? formatMarkdown(page.description_estonian)
+    : null;
+  page.description_english = page.description_english
+    ? formatMarkdown(page.description_english)
+    : null;
+
+  return page;
+};
+
 const sortEvents = (a, b) =>
   compareDesc(new Date(b.start_at), new Date(a.start_at));
 
@@ -90,5 +101,5 @@ export const getStrapi = () => {
   strapi
     .get("pages")
     .json()
-    .then((results) => (strapiPages.value = results));
+    .then((results) => (strapiPages.value = results.map(processPages)));
 };

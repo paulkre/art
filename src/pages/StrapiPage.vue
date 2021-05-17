@@ -1,23 +1,26 @@
 <script setup>
-import { strapiEvents, strapiFestivals } from "../lib";
-</script>
+import { toRefs, computed } from "vue";
+import { useRoute } from "vue-router";
+import { strapiPages } from "../lib";
 
+const { params } = toRefs(useRoute());
+const page = computed(() =>
+  strapiPages.value.find((p) => p.slug === params.value.page_slug)
+);
+</script>
 <template>
-  <horizontal style="padding: 48px">
+  <horizontal style="padding: 48px; grid-template-columns: 1fr 5fr 1fr">
+    <div />
     <vertical>
-      <strapi-festival
-        v-for="(festival, i) in strapiFestivals"
-        :key="i"
-        :festival="festival"
-      />
+      <h1>{{ page?.title }}</h1>
+      <vertical v-html="page?.description_estonian" />
+      <h3 v-if="page?.description_english">In English</h3>
+      <vertical v-html="page?.description_english" />
     </vertical>
-    <vertical>
-      <strapi-event
-        v-for="(event, i) in strapiEvents"
-        :key="i"
-        :event="event"
-        :festival="event.festival"
-      />
-    </vertical>
+    <layout>
+      <template #top-left>
+        <back-button to="/strapi" />
+      </template>
+    </layout>
   </horizontal>
 </template>
