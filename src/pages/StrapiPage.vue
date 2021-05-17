@@ -13,6 +13,7 @@ const page = computed(() =>
     <div />
     <vertical>
       <h1>{{ page?.title }}</h1>
+      {{ page }}
       <vertical v-html="page?.description_estonian" />
       <h3 v-if="page?.description_english">In English</h3>
       <vertical v-html="page?.description_english" />

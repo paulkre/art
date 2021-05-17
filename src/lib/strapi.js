@@ -96,7 +96,10 @@ export const getStrapi = () => {
   strapi
     .get("festivals")
     .json()
-    .then((results) => (strapiFestivals.value = results.map(processFestivals)));
+    .then((results) => {
+      strapiFestivals.value = results.map(processFestivals);
+      strapiFestivals.value.push(strapiFestivals.value.shift());
+    });
 
   strapi
     .get("pages")

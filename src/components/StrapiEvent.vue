@@ -12,7 +12,7 @@ const eventRoute = computed(
 </script>
 
 <template>
-  <div>
+  <div :style="{ opacity: event?.urgency === 'past' ? 0.5 : 1 }">
     <router-link :to="eventRoute">
       <vertical>
         <h2>{{ event.title }}</h2>

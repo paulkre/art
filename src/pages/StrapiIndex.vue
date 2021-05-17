@@ -1,5 +1,11 @@
 <script setup>
-import { strapiEvents, strapiFestivals, strapiPages } from "../lib";
+import {
+  strapiEvents,
+  strapiFestivals,
+  strapiPages,
+  filterUpcomingEvents,
+  filterPastEvents,
+} from "../lib";
 </script>
 
 <template>
@@ -11,12 +17,21 @@ import { strapiEvents, strapiFestivals, strapiPages } from "../lib";
         :key="i"
         :festival="festival"
       />
+      <div />
       <strapi-page v-for="(page, i) in strapiPages" :key="i" :page="page" />
     </vertical>
     <vertical>
       <div style="height: 16px" />
       <strapi-event
-        v-for="(event, i) in strapiEvents"
+        v-for="(event, i) in strapiEvents.filter(filterUpcomingEvents)"
+        :key="i"
+        :event="event"
+        :festival="event.festival"
+      />
+      <div style="height: 32px" />
+      <h1>Past events</h1>
+      <strapi-event
+        v-for="(event, i) in strapiEvents.filter(filterPastEvents).reverse()"
         :key="i"
         :event="event"
         :festival="event.festival"
