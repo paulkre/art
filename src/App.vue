@@ -6,6 +6,7 @@ import {
   refreshUser,
   refreshUsers,
   plausible,
+  getStrapi,
 } from "./lib";
 
 loadEvents();
@@ -14,6 +15,8 @@ loadPages();
 refreshUser();
 refreshUsers();
 plausible.enableAutoPageviews();
+
+getStrapi();
 </script>
 
 <template>

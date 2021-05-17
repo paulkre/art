@@ -12,6 +12,14 @@ const routes = [
     component: () => import(`./pages/Index.vue`),
   },
   {
+    path: "/strapi/:festival_slug/:event_slug",
+    component: () => import(`./pages/StrapiEvent.vue`),
+  },
+  {
+    path: "/strapi/:festival_slug",
+    component: () => import(`./pages/StrapiFestival.vue`),
+  },
+  {
     path: "/strapi",
     component: () => import(`./pages/Strapi.vue`),
   },
