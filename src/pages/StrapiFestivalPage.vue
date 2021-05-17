@@ -12,10 +12,17 @@ const festival = computed(() =>
   <horizontal style="padding: 48px">
     <vertical>
       <h1>{{ festival?.title }}</h1>
+      <vertical>
+        {{ festival?.description_estonian }}
+      </vertical>
+      <h3>In English</h3>
+      <vertical>
+        {{ festival?.description_english }}
+      </vertical>
     </vertical>
     <vertical>
       <strapi-event
-        v-for="(event, i) in festival.events"
+        v-for="(event, i) in festival?.events"
         :key="i"
         :festival="festival"
         :event="event"

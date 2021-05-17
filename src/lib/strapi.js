@@ -27,10 +27,16 @@ const dateUrgency = (startAtDate, endAtDate) =>
   });
 
 const processEvents = (event) => {
-  if (event.description) {
-    event.description = formatMarkdown(event.description_estonian);
-  }
+  event.description_estonian = event.description_estonian
+    ? formatMarkdown(event.description_estonian)
+    : null;
+  event.description_english = event.description_english
+    ? formatMarkdown(event.description_english)
+    : null;
   event.urgency = dateUrgency(new Date(event.start_at), new Date(event.end_at));
+  event.streamkeys = event.streamkey
+    ? event.streamkey.split(",").map((s) => s.trim())
+    : [];
   return event;
 };
 
@@ -60,7 +66,7 @@ export const getStrapi = () => {
     .then(
       (results) =>
         (strapiFestivals.value = results.map((f) => {
-          f.events = f.events.sort(sortEvents);
+          f.events = f.events.map(processEvents).sort(sortEvents);
           return f;
         }))
     );

@@ -17,9 +17,9 @@ const festivalRoute = computed(() => `/strapi/${festival.value?.slug}`);
   <horizontal style="padding: 48px">
     <vertical>
       <h1>{{ event?.title }}</h1>
-      <vertical>
-        {{ event?.description_estonian }}
-      </vertical>
+      <vertical v-html="event?.description_estonian" />
+      <h3 v-if="event?.description_english">In English</h3>
+      <vertical v-html="event?.description_english" />
       <strapi-event
         v-for="(event, i) in festival?.events"
         :key="i"
