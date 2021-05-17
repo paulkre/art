@@ -21,9 +21,7 @@ const formatDate = (str) =>
   <vertical
     style="gap: 4px"
     :style="{ opacity: event.urgency === 'past' ? 0.25 : 1 }"
-    class="debug"
   >
-    <pre>{{ event }}</pre>
     <div>
       <vertical style="gap: 4px">
         <router-link :to="''">

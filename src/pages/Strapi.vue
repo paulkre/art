@@ -67,8 +67,16 @@ strapi
 </script>
 
 <template>
-  <div>
-    <pre>{{ festivals }}</pre>
-    <!-- <strapi-event v-for="(event, i) in events" :key="i" :event="event" /> -->
-  </div>
+  <horizontal style="padding: 48px">
+    <vertical>
+      <strapi-festival
+        v-for="(festival, i) in festivals"
+        :key="i"
+        :festival="festival"
+      />
+    </vertical>
+    <vertical>
+      <strapi-event v-for="(event, i) in events" :key="i" :event="event" />
+    </vertical>
+  </horizontal>
 </template>
