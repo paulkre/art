@@ -48,13 +48,27 @@ strapi
   .get("events")
   .json()
   .then(
-    (fetchedEvents) =>
-      (events.value = fetchedEvents.map(processEvents).sort(sortEvents))
+    (results) => (events.value = results.map(processEvents).sort(sortEvents))
   );
+
+const festivals = ref([]);
+
+strapi
+  .get("festivals")
+  .json()
+  .then((results) => (festivals.value = results));
+
+const pages = ref([]);
+
+strapi
+  .get("pages")
+  .json()
+  .then((results) => (pages.value = results));
 </script>
 
 <template>
   <div>
-    <strapi-event v-for="(event, i) in events" :key="i" :event="event" />
+    <pre>{{ festivals }}</pre>
+    <!-- <strapi-event v-for="(event, i) in events" :key="i" :event="event" /> -->
   </div>
 </template>
