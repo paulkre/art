@@ -54,7 +54,7 @@ const formatDate = (str) =>
         <router-link class="event-card" :to="''">
           <button-medium
             :style="{
-              background: event.urgency.valuey === 'now' ? 'red' : '',
+              background: event.urgency.value === 'now' ? 'red' : '',
               border: event.urgency.value === 'now' ? 'red' : '',
             }"
           >

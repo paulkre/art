@@ -76,7 +76,7 @@ const pageLink = computed(() => {
         <router-link class="event-card" :to="pageLink">
           <button-medium
             :style="{
-              background: event.urgency.valuey === 'now' ? 'red' : '',
+              background: event.urgency.value === 'now' ? 'red' : '',
               border: event.urgency.value === 'now' ? 'red' : '',
             }"
           >
