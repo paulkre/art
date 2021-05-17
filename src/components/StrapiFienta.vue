@@ -21,14 +21,25 @@ const hasLocalTicket = computed(() =>
 
 <template>
   <flex
-    style="color: var(--ticket); gap: 16px"
+    :style="{
+      color: hasLocalTicket ? '#2ECC40' : 'var(--ticket)',
+    }"
     v-if="festival?.fienta_url || event?.fienta_url"
   >
-    <icon-creditcard /> {{ hasLocalTicket ? "yeps" : "nope" }}
-    <a v-if="festival?.fienta_url" :href="festival?.fienta_url" target="_black">
+    <icon-creditcard />
+    <div v-if="hasLocalTicket">You have a ticket</div>
+    <a
+      v-if="!hasLocalTicket && festival?.fienta_url"
+      :href="festival?.fienta_url"
+      target="_black"
+    >
       Get the festival ticket
     </a>
-    <a v-if="event?.fienta_url" :href="event?.fienta_url" target="_black">
+    <a
+      v-if="!hasLocalTicket && event?.fienta_url"
+      :href="event?.fienta_url"
+      target="_black"
+    >
       Get the event ticket
     </a>
   </flex>
