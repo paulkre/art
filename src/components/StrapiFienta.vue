@@ -24,7 +24,6 @@ const needsTicket = computed(
 </script>
 
 <template>
-  {{ event.fienta_id }}
   <div v-if="!needsTicket" style="opacity: 0.3">Free event</div>
   <flex
     :style="{
