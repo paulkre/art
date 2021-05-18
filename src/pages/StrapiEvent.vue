@@ -2,12 +2,7 @@
 import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useStorage, whenever } from "@vueuse/core";
-import {
-  strapiFestivals,
-  strapiEvents,
-  useTicket,
-  sortNewerFirst,
-} from "../lib";
+import { strapiFestivals, strapiEvents, useTicket } from "../lib";
 
 const route = useRoute();
 
