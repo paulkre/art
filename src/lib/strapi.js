@@ -1,7 +1,7 @@
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import ky from "ky";
 import { compareDesc, differenceInMinutes } from "date-fns";
-import { useNow } from "@vueuse/core";
+import { useNow, useStorage } from "@vueuse/core";
 import { formatMarkdown, config, formatStreamUrl, replace } from "../lib";
 
 export const strapi = ky.extend({
@@ -111,4 +111,36 @@ export const getStrapi = () => {
     .get("pages")
     .json()
     .then((results) => (strapiPages.value = results.map(processPages)));
+};
+
+const tickets = useStorage("elektron_data", []);
+
+export const useTicket = (festival, event) => {
+  const status = ref("NO_DATA");
+  watch(
+    [festival, event, tickets],
+    () => {
+      if (event.value && festival.value) {
+        if (event.value.fienta_id || festival.value.fienta_id) {
+          status.value = "REQUIRES_TICKET";
+          const eventTicket = tickets.value?.find(
+            (t) => t.fientaid == event.value.fienta_id
+          );
+          const festivalTicket = tickets.value?.find(
+            (t) => t.fientaid == festival.value?.fienta_id
+          );
+          if (festivalTicket) {
+            status.value = "HAS_FESTIVAL_TICKET";
+          }
+          if (eventTicket) {
+            status.value = "HAS_EVENT_TICKET";
+          }
+        } else {
+          status.value = "FREE";
+        }
+      }
+    },
+    { immediate: true }
+  );
+  return { status };
 };
