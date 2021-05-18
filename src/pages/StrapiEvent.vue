@@ -17,19 +17,25 @@ const event = computed(() =>
 const festivalRoute = computed(() => `/strapi/${festival.value?.slug}`);
 
 const { status } = useTicket(festival, event);
+
+const hasTicketOrFree = computed(() =>
+  ["HAS_FESTIVAL_TICKET", "HAS_EVENT_TICKET", "FREE"].includes(status.value)
+);
 </script>
 
 <template>
-  <horizontal style="padding: 48px; grid-template-columns: 5fr 1fr">
+  <horizontal style="padding: 48px; grid-template-columns: 4fr 1fr">
     <vertical>
-      <component
-        v-for="(src, i) in event?.streamurls"
-        :key="i"
-        :is="event?.is_360 ? 'video-stream-three' : 'video-stream'"
-        :src="src"
-        :streamkey="event?.streamkeys?.[0]"
-        style="width: 100%"
-      />
+      <div v-if="hasTicketOrFree">
+        <component
+          v-for="(src, i) in event?.streamurls"
+          :key="i"
+          :is="event?.is_360 ? 'video-stream-three' : 'video-stream'"
+          :src="src"
+          :streamkey="event?.streamkeys?.[0]"
+          style="width: 100%"
+        />
+      </div>
       <h1>{{ event?.title }}</h1>
       <strapi-fienta :festival="festival" :event="event" />
       <vertical v-html="event?.description_estonian" />
