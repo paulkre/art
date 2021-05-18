@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, computed } from "vue";
 import { format } from "date-fns";
-import { useTimeAgo } from "@vueuse/core";
+import { useTimeAgo, whenever } from "@vueuse/core";
 import { timezoneShortname } from "../lib";
 
 const startedAt = props.event?.start_at

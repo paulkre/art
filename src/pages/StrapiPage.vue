@@ -5,7 +5,7 @@ import { strapiPages } from "../lib";
 
 const { params } = toRefs(useRoute());
 const page = computed(() =>
-  strapiPages.value.find((p) => p.slug === params.value.page_slug)
+  (strapiPages.value || []).find((p) => p.slug === params.value.page_slug)
 );
 </script>
 <template>
@@ -13,7 +13,6 @@ const page = computed(() =>
     <div />
     <vertical>
       <h1>{{ page?.title }}</h1>
-      {{ page }}
       <vertical v-html="page?.description_estonian" />
       <h3 v-if="page?.description_english">In English</h3>
       <vertical v-html="page?.description_english" />
@@ -22,6 +21,9 @@ const page = computed(() =>
       <template #top-left>
         <back-button to="/strapi" />
       </template>
+    </layout>
+    <layout>
+      <template #top-left> <back-button to="/strapi" /> </template>
     </layout>
   </horizontal>
 </template>

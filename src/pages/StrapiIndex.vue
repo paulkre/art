@@ -42,5 +42,10 @@ import {
         :festival="event.festival"
       />
     </vertical>
+    <layout>
+      <template #top-right>
+        <theme-button />
+      </template>
+    </layout>
   </horizontal>
 </template>

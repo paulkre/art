@@ -32,6 +32,9 @@ const festival = computed(() =>
       <template #top-left>
         <back-button to="/strapi" />
       </template>
+      <template #top-right>
+        <theme-button />
+      </template>
     </layout>
   </horizontal>
 </template>
