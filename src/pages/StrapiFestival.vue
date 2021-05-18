@@ -1,7 +1,7 @@
 <script setup>
 import { toRefs, computed } from "vue";
 import { useRoute } from "vue-router";
-import { strapiFestivals } from "../lib";
+import { strapiFestivals, sortEvents, filterUpcomingEvents } from "../lib";
 
 const { params } = toRefs(useRoute());
 const festival = computed(() =>
@@ -18,7 +18,9 @@ const festival = computed(() =>
     </vertical>
     <vertical>
       <strapi-event
-        v-for="(event, i) in festival?.events"
+        v-for="(event, i) in festival?.events
+          .filter(filterUpcomingEvents)
+          .sort(sortEvents)"
         :key="i"
         :festival="festival"
         :event="event"

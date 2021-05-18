@@ -17,14 +17,20 @@ const hasLocalTicket = computed(() =>
       (props.event?.fienta_id && ticket.fientaid == props.event.fienta_id)
   )
 );
+
+const needsTicket = computed(
+  () => props.festival?.fienta_url || props.event?.fienta_url
+);
 </script>
 
 <template>
+  {{ event.fienta_id }}
+  <div v-if="!needsTicket" style="opacity: 0.3">Free event</div>
   <flex
     :style="{
       color: hasLocalTicket ? '#2ECC40' : 'var(--ticket)',
     }"
-    v-if="festival?.fienta_url || event?.fienta_url"
+    v-if="needsTicket && event.urgency !== 'past'"
   >
     <icon-creditcard />
     <div v-if="hasLocalTicket">You have a ticket</div>

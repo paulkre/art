@@ -47,7 +47,8 @@ export const formatDate = (str, fromTime = true) => {
   }
 };
 
-export const sortEvents = (a, b) => compareDesc(b.fromDatetime, a.fromDatetime);
+export const sortEvents = (a, b) =>
+  compareDesc(new Date(b.start_at), new Date(a.start_at));
 
 const dateRangeUrgency = (fromDatetime, toDatetime) =>
   computed(() => {
