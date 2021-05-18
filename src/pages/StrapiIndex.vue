@@ -40,9 +40,13 @@ import {
         :festival="event.festival"
       />
     </vertical>
+    <users />
     <layout>
       <template #top-right>
         <theme-button />
+      </template>
+      <template #bottom-left>
+        <users-button />
       </template>
     </layout>
   </horizontal>

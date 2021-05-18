@@ -16,13 +16,14 @@ const page = computed(() =>
       <vertical v-html="page?.description_estonian" />
       <vertical v-html="page?.description_english" />
     </vertical>
+    <users />
     <layout>
       <template #top-left>
         <back-button to="/strapi" />
       </template>
-    </layout>
-    <layout>
-      <template #top-left> <back-button to="/strapi" /> </template>
+      <template #bottom-left>
+        <users-button />
+      </template>
     </layout>
   </horizontal>
 </template>

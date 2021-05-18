@@ -47,12 +47,16 @@ const pastEvents = computed(() =>
         :event="event"
       />
     </vertical>
+    <users />
     <layout>
       <template #top-left>
         <back-button to="/strapi" />
       </template>
       <template #top-right>
         <theme-button />
+      </template>
+      <template #bottom-left>
+        <users-button />
       </template>
     </layout>
   </horizontal>

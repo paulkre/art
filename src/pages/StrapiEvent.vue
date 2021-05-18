@@ -59,12 +59,16 @@ const hasTicketOrFree = computed(() =>
     >
       <chat :channel="route.params.event_slug" />
     </event-panel>
+    <users />
     <layout>
       <template #top-left>
         <back-button :to="festivalRoute" />
       </template>
       <template #top-right>
         <theme-button />
+      </template>
+      <template #bottom-left>
+        <users-button />
       </template>
     </layout>
   </horizontal>
