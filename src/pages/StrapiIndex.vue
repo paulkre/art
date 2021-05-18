@@ -18,7 +18,7 @@ import {
         :key="i"
         :festival="festival"
       />
-      <div />
+      <div style="height: 8px" />
       <strapi-page v-for="(page, i) in strapiPages" :key="i" :page="page" />
     </vertical>
     <vertical style="gap: 32px">

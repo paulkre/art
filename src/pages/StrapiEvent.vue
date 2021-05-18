@@ -24,8 +24,8 @@ const hasTicketOrFree = computed(() =>
 </script>
 
 <template>
-  <horizontal style="padding: 48px; grid-template-columns: 4fr 1fr">
-    <vertical>
+  <horizontal style="--cols: 3.5fr 1fr; gap: 0">
+    <vertical style="padding: 48px">
       <div v-if="hasTicketOrFree" style="width: 100%">
         <component
           v-for="(src, i) in event?.streamurls"
@@ -35,6 +35,7 @@ const hasTicketOrFree = computed(() =>
           :streamkey="event?.streamkeys?.[0]"
         />
       </div>
+      <div v-if="hasTicketOrFree" />
       <h1>{{ event?.title }}</h1>
       <strapi-fienta :festival="festival" :event="event" />
       <vertical v-html="event?.description_estonian" />
@@ -51,7 +52,13 @@ const hasTicketOrFree = computed(() =>
         />
       </vertical>
     </vertical>
-    <vertical> </vertical>
+    <event-panel
+      v-if="hasTicketOrFree"
+      title="Chat"
+      style="background: var(--bglighter)"
+    >
+      <chat :channel="route.params.event_slug" />
+    </event-panel>
     <layout>
       <template #top-left>
         <back-button :to="festivalRoute" />

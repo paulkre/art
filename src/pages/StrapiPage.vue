@@ -9,7 +9,7 @@ const page = computed(() =>
 );
 </script>
 <template>
-  <horizontal style="padding: 48px; grid-template-columns: 1fr 5fr 1fr">
+  <horizontal style="padding: 48px; --cols: 1fr 5fr 1fr">
     <div />
     <vertical>
       <h1>{{ page?.title }}</h1>

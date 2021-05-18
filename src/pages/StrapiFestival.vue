@@ -5,6 +5,7 @@ import {
   strapiFestivals,
   filterUpcomingEvents,
   filterPastEvents,
+  sortOlderFirst,
 } from "../lib";
 
 const { params } = toRefs(useRoute());
@@ -12,6 +13,14 @@ const festival = computed(() =>
   (strapiFestivals.value || []).find(
     (f) => f.slug === params.value.festival_slug
   )
+);
+
+const upcomingEvents = computed(() =>
+  festival.value?.events.filter(filterUpcomingEvents)
+);
+
+const pastEvents = computed(() =>
+  festival.value?.events.filter(filterPastEvents).sort(sortOlderFirst)
 );
 </script>
 <template>
@@ -22,17 +31,17 @@ const festival = computed(() =>
       <vertical v-html="festival?.description_estonian" />
       <vertical v-html="festival?.description_english" />
     </vertical>
-    <vertical>
+    <vertical style="gap: 32px">
       <strapi-event
-        v-for="(event, i) in festival?.events.filter(filterUpcomingEvents)"
+        v-for="(event, i) in upcomingEvents"
         :key="i"
         :festival="festival"
         :event="event"
       />
-      <div style="height: 32px" />
-      <h1 style="opacity: 0.6">Past events</h1>
+      <div v-if="upcomingEvents" style="height: 32px" />
+      <h1 v-if="festival?.events" style="opacity: 0.6">Past events</h1>
       <strapi-event
-        v-for="(event, i) in festival?.events.filter(filterPastEvents)"
+        v-for="(event, i) in pastEvents"
         :key="i"
         :festival="festival"
         :event="event"
