@@ -26,14 +26,13 @@ const hasTicketOrFree = computed(() =>
 <template>
   <horizontal style="padding: 48px; grid-template-columns: 4fr 1fr">
     <vertical>
-      <div v-if="hasTicketOrFree">
+      <div v-if="hasTicketOrFree" style="width: 100%">
         <component
           v-for="(src, i) in event?.streamurls"
           :key="i"
           :is="event?.is_360 ? 'video-stream-three' : 'video-stream'"
           :src="src"
           :streamkey="event?.streamkeys?.[0]"
-          style="width: 100%"
         />
       </div>
       <h1>{{ event?.title }}</h1>
