@@ -5,7 +5,9 @@ import { strapiFestivals, sortEvents, filterUpcomingEvents } from "../lib";
 
 const { params } = toRefs(useRoute());
 const festival = computed(() =>
-  strapiFestivals.value.find((f) => f.slug === params.value.festival_slug)
+  (strapiFestivals.value || []).find(
+    (f) => f.slug === params.value.festival_slug
+  )
 );
 </script>
 <template>

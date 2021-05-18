@@ -65,6 +65,16 @@ const processFestivals = (festival) => {
       fientaid: festival.fienta_id,
     });
   }
+  festival.events = festival.events
+    ? festival.events.map((event) => {
+        if (event.fienta_id) {
+          event.fienta_url = replace(config.fientaTicketUrl, {
+            fientaid: event.fienta_id,
+          });
+        }
+        return event;
+      })
+    : festival.events;
   return festival;
 };
 
@@ -118,7 +128,7 @@ const tickets = useStorage("elektron_data", []);
 export const useTicket = (festival, event) => {
   const status = ref("NO_DATA");
   watch(
-    [festival, event, tickets],
+    [festival, event.value, tickets],
     () => {
       if (event.value && festival.value) {
         if (event.value.fienta_id || festival.value.fienta_id) {
