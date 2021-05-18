@@ -5,7 +5,7 @@ import {
   strapiPages,
   filterUpcomingEvents,
   filterPastEvents,
-  sortEvents,
+  sortNewerFirst,
 } from "../lib";
 </script>
 
@@ -26,7 +26,7 @@ import {
       <strapi-event
         v-for="(event, i) in (strapiEvents || [])
           .filter(filterUpcomingEvents)
-          .sort(sortEvents)"
+          .sort(sortNewerFirst)"
         :key="i"
         :event="event"
         :festival="event.festival"
@@ -36,7 +36,7 @@ import {
       <strapi-event
         v-for="(event, i) in (strapiEvents || [])
           .filter(filterPastEvents)
-          .reverse()"
+          .sort(sortNewerFirst)"
         :key="i"
         :event="event"
         :festival="event.festival"

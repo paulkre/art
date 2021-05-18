@@ -2,15 +2,22 @@
 import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useStorage, whenever } from "@vueuse/core";
-import { strapiFestivals, strapiEvents, useTicket } from "../lib";
+import {
+  strapiFestivals,
+  strapiEvents,
+  useTicket,
+  sortNewerFirst,
+} from "../lib";
 
-const r = useRoute();
+const route = useRoute();
 
 const festival = computed(() =>
-  (strapiFestivals.value || []).find((f) => f.slug === r.params.festival_slug)
+  (strapiFestivals.value || []).find(
+    (f) => f.slug === route.params.festival_slug
+  )
 );
 const event = computed(() =>
-  (strapiEvents.value || []).find((e) => e.slug === r.params.event_slug)
+  (strapiEvents.value || []).find((e) => e.slug === route.params.event_slug)
 );
 const festivalRoute = computed(() => `/strapi/${festival.value?.slug}`);
 
@@ -33,14 +40,16 @@ const { status } = useTicket(festival, event);
       <vertical v-html="event?.description_estonian" />
       <h3 v-if="event?.description_english">In English</h3>
       <vertical v-html="event?.description_english" />
-      <div style="height: 32px" />
-      <h1 v-if="festival?.events">Other events</h1>
-      <strapi-event
-        v-for="(event, i) in festival?.events"
-        :key="i"
-        :festival="festival"
-        :event="event"
-      />
+      <vertical v-if="festival?.events">
+        <div style="height: 32px" />
+        <h1>Other events</h1>
+        <strapi-event
+          v-for="(event, i) in festival?.events"
+          :key="i"
+          :festival="festival"
+          :event="event"
+        />
+      </vertical>
     </vertical>
     <vertical> </vertical>
     <layout>

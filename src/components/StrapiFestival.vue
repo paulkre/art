@@ -11,7 +11,7 @@ const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
 <template>
   <router-link :to="festivalRoute">
     <vertical>
-      <h1>{{ festival.title }}</h1>
+      <h2>{{ festival.title }}</h2>
     </vertical>
   </router-link>
 </template>

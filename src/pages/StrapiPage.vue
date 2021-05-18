@@ -14,7 +14,6 @@ const page = computed(() =>
     <vertical>
       <h1>{{ page?.title }}</h1>
       <vertical v-html="page?.description_estonian" />
-      <h3 v-if="page?.description_english">In English</h3>
       <vertical v-html="page?.description_english" />
     </vertical>
     <layout>

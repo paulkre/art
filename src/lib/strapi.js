@@ -1,6 +1,6 @@
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, toRef } from "vue";
 import ky from "ky";
-import { compareDesc, differenceInMinutes } from "date-fns";
+import { compareDesc, compareAsc, differenceInMinutes } from "date-fns";
 import { useNow, useStorage } from "@vueuse/core";
 import { formatMarkdown, config, formatStreamUrl, replace } from "../lib";
 
@@ -66,14 +66,20 @@ const processFestivals = (festival) => {
     });
   }
   festival.events = festival.events
-    ? festival.events.map((event) => {
-        if (event.fienta_id) {
-          event.fienta_url = replace(config.fientaTicketUrl, {
-            fientaid: event.fienta_id,
-          });
-        }
-        return event;
-      })
+    ? festival.events
+        .map((event) => {
+          if (event.fienta_id) {
+            event.fienta_url = replace(config.fientaTicketUrl, {
+              fientaid: event.fienta_id,
+            });
+          }
+          event.urgency = dateUrgency(
+            new Date(event.start_at),
+            new Date(event.end_at)
+          );
+          return event;
+        })
+        .sort(sortNewerFirst)
     : festival.events;
   return festival;
 };
@@ -89,8 +95,11 @@ const processPages = (page) => {
   return page;
 };
 
-const sortEvents = (a, b) =>
+export const sortNewerFirst = (a, b) =>
   compareDesc(new Date(b.start_at), new Date(a.start_at));
+
+export const sortOlderFirst = (a, b) =>
+  compareAsc(new Date(b.start_at), new Date(a.start_at));
 
 export const filterUpcomingEvents = (event) => event.urgency !== "past";
 
@@ -106,7 +115,7 @@ export const getStrapi = () => {
     .json()
     .then(
       (results) =>
-        (strapiEvents.value = results.map(processEvents).sort(sortEvents))
+        (strapiEvents.value = results.map(processEvents).sort(sortNewerFirst))
     );
 
   strapi
@@ -125,10 +134,12 @@ export const getStrapi = () => {
 
 const tickets = useStorage("elektron_data", []);
 
-export const useTicket = (festival, event) => {
+export const useTicket = (f, e) => {
   const status = ref("NO_DATA");
+  const festival = ref(f);
+  const event = ref(e);
   watch(
-    [festival, event.value, tickets],
+    [festival, event, tickets],
     () => {
       if (event.value && festival.value) {
         if (event.value.fienta_id || festival.value.fienta_id) {
