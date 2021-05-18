@@ -24,7 +24,7 @@ import {
     <vertical style="gap: 32px">
       <div style="height: 8px" />
       <strapi-event
-        v-for="(event, i) in strapiEvents
+        v-for="(event, i) in (strapiEvents || [])
           .filter(filterUpcomingEvents)
           .sort(sortEvents)"
         :key="i"
@@ -34,7 +34,9 @@ import {
       <div style="height: 32px" />
       <h1>Past events</h1>
       <strapi-event
-        v-for="(event, i) in strapiEvents.filter(filterPastEvents).reverse()"
+        v-for="(event, i) in (strapiEvents || [])
+          .filter(filterPastEvents)
+          .reverse()"
         :key="i"
         :event="event"
         :festival="event.festival"

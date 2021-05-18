@@ -86,9 +86,9 @@ export const filterUpcomingEvents = (event) => event.urgency !== "past";
 
 export const filterPastEvents = (event) => event.urgency === "past";
 
-export const strapiEvents = ref([]);
-export const strapiFestivals = ref([]);
-export const strapiPages = ref([]);
+export const strapiEvents = ref(null);
+export const strapiFestivals = ref(null);
+export const strapiPages = ref(null);
 
 export const getStrapi = () => {
   strapi
