@@ -21,9 +21,9 @@ const imageUrl = computed(() => {
 <template>
   <vertical
     style="gap: 4px"
-    :style="{ opacity: event?.urgency === 'past' ? 0.5 : 1 }"
+    :style="{ opacity: event?.urgency === 'past' ? 0.3 : 1 }"
   >
-    <img v-if="imageUrl" :src="imageUrl" style="border-radius: 4px" />
+    <img v-if="imageUrl" :src="imageUrl" style="border-radius: 2px" />
     <div style="height: 8px" />
     <router-link :to="eventRoute">
       <badge v-if="event.urgency === 'now'">live</badge>

@@ -2,7 +2,13 @@
 import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useStorage, whenever } from "@vueuse/core";
-import { strapiFestivals, strapiEvents, useTicket } from "../lib";
+import {
+  strapiFestivals,
+  strapiEvents,
+  filterUpcomingEvents,
+  filterPastEvents,
+  useTicket,
+} from "../lib";
 
 const route = useRoute();
 
@@ -47,9 +53,39 @@ const hasTicketOrFree = computed(() =>
           <vertical v-html="event?.description_english" />
         </vertical>
         <vertical v-if="festival?.events">
-          <h1>Other events in the series</h1>
+          <h1
+            style="
+              text-transform: uppercase;
+              font-size: 22px;
+              letter-spacing: 0.075em;
+              line-height: 1.5em;
+              color: var(--fgdark);
+            "
+          >
+            <icon-zap />
+            Upcoming events in the series
+          </h1>
           <strapi-event
-            v-for="(event, i) in festival?.events"
+            v-for="(event, i) in festival?.events.filter(filterUpcomingEvents)"
+            :key="i"
+            :festival="festival"
+            :event="event"
+          />
+          <div style="height: 32px" />
+          <h1
+            style="
+              text-transform: uppercase;
+              font-size: 22px;
+              letter-spacing: 0.075em;
+              line-height: 1.5em;
+              color: var(--fgdark);
+            "
+          >
+            <icon-zap />
+            Past events in the series
+          </h1>
+          <strapi-event
+            v-for="(event, i) in festival?.events.filter(filterPastEvents)"
             :key="i"
             :festival="festival"
             :event="event"
@@ -59,7 +95,7 @@ const hasTicketOrFree = computed(() =>
     </vertical>
     <div>
       <event-panel
-        title="Chat"
+        :title="hasTicketOrFree ? 'Chat' : ''"
         style="
           background: var(--bglighter);
           position: sticky;
@@ -68,9 +104,6 @@ const hasTicketOrFree = computed(() =>
         "
       >
         <chat v-if="hasTicketOrFree" :channel="route.params.event_slug" />
-        <div v-if="!hasTicketOrFree" style="opacity: 0.5">
-          Chat will be available when the stream starts
-        </div>
       </event-panel>
     </div>
     <users />

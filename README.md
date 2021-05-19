@@ -9,4 +9,7 @@ npm install
 npm run dev
 ```
 
-.
+### Icons
+
+https://feathericons.com/
+https://remixicon.com

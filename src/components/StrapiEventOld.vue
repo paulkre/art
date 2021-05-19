@@ -32,14 +32,14 @@ const eventRoute = computed(() => `/strapi/aaa`);
       <vertical style="gap: 4px">
         <router-link :to="''">
           <h2 style="cursor: pointer">
-            <badge v-if="event.urgency === 'now' && event.postponed !== 'TRUE'"
-              >live</badge
-            >
+            <badge v-if="event.urgency === 'now' && event.postponed !== 'TRUE'">
+              live
+            </badge>
             {{ event.title }}
           </h2>
         </router-link>
         <flex v-if="event.fientaid" style="color: var(--ticket)">
-          <icon-creditcard />
+          <icon-ticket />
           It is a paid event
         </flex>
         <flex style="gap: 16px">

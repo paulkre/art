@@ -6,16 +6,10 @@ import {
   strapiFestivals,
   strapiPages,
   filterUpcomingEvents,
-  filterPastEvents,
-  sortOlderFirst,
 } from "../lib";
 
 const upcomingEvents = computed(() =>
-  (strapiEvents.value || []).filter(filterUpcomingEvents).sort(sortNewerFirst)
-);
-
-const pastEvents = computed(() =>
-  (strapiEvents.value || []).filter(filterPastEvents).sort(sortNewerFirst)
+  (strapiEvents.value || []).filter(filterUpcomingEvents)
 );
 </script>
 
@@ -37,20 +31,9 @@ const pastEvents = computed(() =>
         />
       </horizontal>
     </vertical>
-    <vertical
-      style="gap: 32px"
-      v-if="upcomingEvents.length || pastEvents.length"
-    >
+    <vertical style="gap: 32px" v-if="upcomingEvents.length">
       <strapi-event
         v-for="(event, i) in upcomingEvents"
-        :key="i"
-        :event="event"
-        :festival="event.festival"
-      />
-      <div style="height: 32px" />
-      <h1 v-if="pastEvents.length">Past events</h1>
-      <strapi-event
-        v-for="(event, i) in pastEvents"
         :key="i"
         :event="event"
         :festival="event.festival"

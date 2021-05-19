@@ -19,9 +19,19 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "font-medium-rotalic";
+  src: url("/fonts/font-medium-rotalic.woff") format("woff"),
+    url("/fonts/font-medium-rotalic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 * {
   box-sizing: border-box;
   transition: background 300ms;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
 }
 body {
   background: var(--bg);

@@ -20,7 +20,7 @@ const bgImageStyle = computed(() => {
   <router-link
     :to="festivalRoute"
     class="strapi-festival"
-    style="background-size: cover; width: 100%; border-radius: 4px"
+    style="background-size: cover; width: 100%; border-radius2"
     :style="bgImageStyle"
   >
     <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival.title" />
@@ -36,7 +36,7 @@ const bgImageStyle = computed(() => {
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 0px;
+  border-radius: 10000px;
   aspect-ratio: 1;
 }
 .strapi-festival > * {

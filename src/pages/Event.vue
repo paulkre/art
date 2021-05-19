@@ -184,7 +184,7 @@ watch(status, () => {
       :event="event"
       style="position: fixed; top: 0; right: 0; bottom: 0; left: 0"
     >
-      <icon-creditcard style="transform: scale(3); color: var(--ticket)" />
+      <icon-ticket style="transform: scale(3); color: var(--ticket)" />
       <p />
       <p />
       <h1>{{ event.title }}</h1>
@@ -239,7 +239,7 @@ watch(status, () => {
           title="I have a ticket"
           v-if="event && event.fientaid && status === 'CHECKED'"
         >
-          <icon-creditcard style="color: var(--ticket)" />
+          <icon-ticket style="color: var(--ticket)" />
         </a>
       </template>
     </layout>

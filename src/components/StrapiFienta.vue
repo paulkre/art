@@ -41,15 +41,17 @@ const { status } = useTicket(festival, event);
   <vertical v-if="festival && event" style="gap: 4px">
     <flex
       v-if="status !== 'FREE'"
-      style="gap: 16px"
+      style="gap: 12px"
       :style="{
         color:
-          status === 'HAS_FESTIVAL_TICKET' || status === 'HAS_EVENT_TICKET'
+          event.urgency === 'past'
+            ? 'var(--fgdark)'
+            : status === 'HAS_FESTIVAL_TICKET' || status === 'HAS_EVENT_TICKET'
             ? '#2ECC40'
             : 'var(--ticket)',
       }"
     >
-      <icon-creditcard />
+      <icon-ticket />
       <div v-if="status === 'HAS_FESTIVAL_TICKET'">
         You have a festival ticket
       </div>
@@ -59,14 +61,14 @@ const { status } = useTicket(festival, event);
         :href="festival?.fienta_url"
         target="_black"
       >
-        Get the festival ticket
+        Get festival ticket
       </a>
       <a
         v-if="status === 'REQUIRES_TICKET' && event?.fienta_url"
         :href="event?.fienta_url"
         target="_black"
       >
-        Get the event ticket
+        Get event ticket
       </a>
     </flex>
     <flex style="opacity: 0.66">

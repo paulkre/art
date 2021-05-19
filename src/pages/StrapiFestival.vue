@@ -37,9 +37,11 @@ const imageUrl = computed(() => {
       :src="imageUrl"
       style="
         width: 250px;
+        height: 250px;
         aspect-ratio: 1;
         object-fit: cover;
-        border-radius: 4px;
+        border-radius: 10000px;
+        transform: translate(-30px, 0) scale(1.5);
       "
     />
     <vertical>

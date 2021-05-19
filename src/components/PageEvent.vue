@@ -46,7 +46,7 @@ const pageLink = computed(() => {
           </h2>
         </router-link>
         <flex v-if="event.fientaid" style="color: var(--ticket)">
-          <icon-creditcard />
+          <icon-ticket />
           It is a paid event
         </flex>
         <flex style="gap: 16px">
