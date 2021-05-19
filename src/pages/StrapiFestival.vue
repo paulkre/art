@@ -20,9 +20,23 @@ const upcomingEvents = computed(() =>
 const pastEvents = computed(() =>
   festival.value?.events.filter(filterPastEvents).sort(sortOlderFirst)
 );
+
+const imageUrl = computed(() => {
+  return festival.value?.images[0]
+    ? festival.value.images[0].formats.small.url
+    : "";
+});
 </script>
 <template>
-  <horizontal style="padding: 48px">
+  <horizontal
+    style="padding: 48px; --cols: 300px 1fr 1fr"
+    :style="{ '--cols': imageUrl ? '300px 1fr 1fr' : '1fr 1.5fr' }"
+  >
+    <img
+      v-if="imageUrl"
+      :src="imageUrl"
+      style="aspect-ratio: 1; object-fit: cover; border-radius: 0px"
+    />
     <vertical>
       <h1 style="font-size: 80px; line-height: 1em">
         {{ festival?.title }}

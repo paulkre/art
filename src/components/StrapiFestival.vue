@@ -6,11 +6,24 @@ const props = defineProps({
 });
 
 const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
+
+const bgImageStyle = computed(() => {
+  return props.festival?.images[0]
+    ? {
+        backgroundImage: `url(${props.festival.images[0].formats.small.url})`,
+      }
+    : null;
+});
 </script>
 
 <template>
-  <router-link :to="festivalRoute" class="strapi-festival">
-    <div><h2 v-html="festival.title" /></div>
+  <router-link
+    :to="festivalRoute"
+    class="strapi-festival"
+    style="background-size: cover; width: 100%"
+    :style="bgImageStyle"
+  >
+    <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival.title" />
   </router-link>
 </template>
 
@@ -18,13 +31,13 @@ const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
 .strapi-festival {
   display: grid;
   aspect-ratio: 1;
-  background: red;
+  background: var(--bglight);
   width: 100%;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 0 32px;
-  border-radius: 5000px;
+  border-radius: 0px;
 }
 .strapi-festival > * {
   width: 100%;
