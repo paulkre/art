@@ -23,7 +23,7 @@ const imageUrl = computed(() => {
     style="gap: 4px"
     :style="{ opacity: event?.urgency === 'past' ? 0.5 : 1 }"
   >
-    <img v-if="imageUrl" :src="imageUrl" />
+    <img v-if="imageUrl" :src="imageUrl" style="border-radius: 4px" />
     <div style="height: 8px" />
     <router-link :to="eventRoute">
       <badge v-if="event.urgency === 'now'">live</badge>

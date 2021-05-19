@@ -2,7 +2,6 @@
 import { computed } from "vue";
 import { sortNewerFirst } from "../lib";
 import {
-  getStrapi,
   strapiEvents,
   strapiFestivals,
   strapiPages,
@@ -10,8 +9,6 @@ import {
   filterPastEvents,
   sortOlderFirst,
 } from "../lib";
-
-getStrapi();
 
 const upcomingEvents = computed(() =>
   (strapiEvents.value || []).filter(filterUpcomingEvents).sort(sortNewerFirst)

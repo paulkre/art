@@ -1,9 +1,8 @@
 <script setup>
 import { toRefs, computed } from "vue";
 import { useRoute } from "vue-router";
-import { getStrapi, strapiPages } from "../lib";
+import { strapiPages } from "../lib";
 
-getStrapi();
 const { params } = toRefs(useRoute());
 const page = computed(() =>
   (strapiPages.value || []).find((p) => p.slug === params.value.page_slug)

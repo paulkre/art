@@ -2,14 +2,11 @@
 import { toRefs, computed } from "vue";
 import { useRoute } from "vue-router";
 import {
-  getStrapi,
   strapiFestivals,
   filterUpcomingEvents,
   filterPastEvents,
   sortOlderFirst,
 } from "../lib";
-
-getStrapi();
 
 const { params } = toRefs(useRoute());
 const festival = computed(() =>
@@ -42,7 +39,7 @@ const imageUrl = computed(() => {
         width: 250px;
         aspect-ratio: 1;
         object-fit: cover;
-        border-radius: 10px;
+        border-radius: 4px;
       "
     />
     <vertical>
