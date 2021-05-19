@@ -15,8 +15,6 @@ loadPages();
 refreshUser();
 refreshUsers();
 plausible.enableAutoPageviews();
-
-getStrapi();
 </script>
 
 <template>

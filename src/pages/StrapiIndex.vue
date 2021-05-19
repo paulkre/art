@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { sortNewerFirst } from "../lib";
 import {
+  getStrapi,
   strapiEvents,
   strapiFestivals,
   strapiPages,
@@ -9,6 +10,8 @@ import {
   filterPastEvents,
   sortOlderFirst,
 } from "../lib";
+
+getStrapi();
 
 const upcomingEvents = computed(() =>
   (strapiEvents.value || []).filter(filterUpcomingEvents).sort(sortNewerFirst)
@@ -29,7 +32,7 @@ const pastEvents = computed(() =>
       <strapi-page v-for="(page, i) in strapiPages" :key="i" :page="page" />
     </vertical>
     <vertical>
-      <horizontal style="--cols: 1fr 1fr; gap: 16px">
+      <horizontal style="--cols: 1fr 1fr; gap: 16px" v-if="strapiFestivals">
         <strapi-festival
           v-for="(festival, i) in strapiFestivals"
           :key="i"
@@ -37,7 +40,10 @@ const pastEvents = computed(() =>
         />
       </horizontal>
     </vertical>
-    <vertical style="gap: 32px">
+    <vertical
+      style="gap: 32px"
+      v-if="upcomingEvents.length || pastEvents.length"
+    >
       <strapi-event
         v-for="(event, i) in upcomingEvents"
         :key="i"
@@ -45,7 +51,7 @@ const pastEvents = computed(() =>
         :festival="event.festival"
       />
       <div style="height: 32px" />
-      <h1 v-if="pastEvents">Past events</h1>
+      <h1 v-if="pastEvents.length">Past events</h1>
       <strapi-event
         v-for="(event, i) in pastEvents"
         :key="i"

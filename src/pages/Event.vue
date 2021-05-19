@@ -232,7 +232,7 @@ watch(status, () => {
         <theme-button />
       </template>
       <template #bottom-left>
-        <users-button v-if="showUsers" />
+        <users-button />
       </template>
       <template #bottom-right>
         <a

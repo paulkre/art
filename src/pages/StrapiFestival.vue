@@ -2,11 +2,14 @@
 import { toRefs, computed } from "vue";
 import { useRoute } from "vue-router";
 import {
+  getStrapi,
   strapiFestivals,
   filterUpcomingEvents,
   filterPastEvents,
   sortOlderFirst,
 } from "../lib";
+
+getStrapi();
 
 const { params } = toRefs(useRoute());
 const festival = computed(() =>
@@ -39,7 +42,7 @@ const imageUrl = computed(() => {
         width: 250px;
         aspect-ratio: 1;
         object-fit: cover;
-        border-radius: 0px;
+        border-radius: 10px;
       "
     />
     <vertical>
@@ -47,7 +50,7 @@ const imageUrl = computed(() => {
       <vertical v-html="festival?.description_estonian" />
       <vertical v-html="festival?.description_english" />
     </vertical>
-    <vertical style="gap: 48px">
+    <vertical style="gap: 36px">
       <strapi-event
         v-for="(event, i) in upcomingEvents"
         :key="i"

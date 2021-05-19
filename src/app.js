@@ -16,8 +16,8 @@ const routes = [
     component: () => import(`./pages/Fienta.vue`),
   },
   {
-    path: "/streamkey/:streamkey",
-    component: () => import(`./pages/StrapiStreamkey.vue`),
+    path: "/stream/:streamkey",
+    component: () => import(`./pages/StrapiStream.vue`),
   },
   {
     path: "/strapi/page/:page_slug",
