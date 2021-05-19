@@ -24,7 +24,7 @@ const hasTicketOrFree = computed(() =>
 </script>
 
 <template>
-  <horizontal style="--cols: 3.5fr 300px; gap: 0">
+  <horizontal style="--cols: 3.5fr 350px; gap: 0">
     <vertical style="padding: 48px">
       <div v-if="hasTicketOrFree" style="width: 100%">
         <component
@@ -36,33 +36,41 @@ const hasTicketOrFree = computed(() =>
         />
       </div>
       <div v-if="hasTicketOrFree" />
-      <h1 v-html="event?.title" />
+      <h1 style="font-size: 60px; line-height: 1.2em" v-html="event?.title" />
       <strapi-fienta :festival="festival" :event="event" />
-      <div />
-      <vertical style="max-width: 80ch">
-        <vertical v-html="event?.description_estonian" />
-        <div style="height: 16px" />
-        <h3 v-if="event?.description_english">In English</h3>
-        <vertical v-html="event?.description_english" />
-      </vertical>
-      <vertical v-if="festival?.events">
-        <div style="height: 32px" />
-        <h1>Other events</h1>
-        <strapi-event
-          v-for="(event, i) in festival?.events"
-          :key="i"
-          :festival="festival"
-          :event="event"
-        />
-      </vertical>
+      <div style="height: 32px" />
+      <horizontal style="--cols: 1fr 1fr">
+        <vertical>
+          <vertical v-html="event?.description_estonian" />
+          <div style="height: 16px" />
+          <h3 v-if="event?.description_english">In English</h3>
+          <vertical v-html="event?.description_english" />
+        </vertical>
+        <vertical v-if="festival?.events">
+          <h1>Other events in the series</h1>
+          <strapi-event
+            v-for="(event, i) in festival?.events"
+            :key="i"
+            :festival="festival"
+            :event="event"
+          />
+        </vertical>
+      </horizontal>
     </vertical>
     <div>
       <event-panel
-        v-if="hasTicketOrFree"
         title="Chat"
-        style="background: var(--bglighter); position: sticky; top: 0"
+        style="
+          background: var(--bglighter);
+          position: sticky;
+          top: 0;
+          height: 100vh;
+        "
       >
-        <chat :channel="route.params.event_slug" />
+        <chat v-if="hasTicketOrFree" :channel="route.params.event_slug" />
+        <div v-if="!hasTicketOrFree" style="opacity: 0.5">
+          Chat will be available when the stream starts
+        </div>
       </event-panel>
     </div>
     <users />
