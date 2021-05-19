@@ -47,6 +47,7 @@ const pastEvents = computed(() =>
         :festival="event.festival"
       />
     </vertical>
+    <users />
     <layout>
       <template #top-right>
         <theme-button />

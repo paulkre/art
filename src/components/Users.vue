@@ -21,10 +21,6 @@ import {
   showMessages,
 } from "../lib";
 
-const props = defineProps({
-  about: { type: Boolean, default: true },
-});
-
 emitter.on("USERS_ON", () => {
   showMessages.value = true;
 });
@@ -111,7 +107,6 @@ const colliding2 = computed(() => {
 <template>
   <div>
     <overlay
-      v-if="about"
       style="
         position: fixed;
         top: 0;
@@ -124,7 +119,7 @@ const colliding2 = computed(() => {
       :style="{ opacity: showMessages ? 0.9 : 0 }"
     />
     <transition name="fade">
-      <vertical v-show="showMessages && about" class="about-panel">
+      <vertical v-show="showMessages" class="about-panel">
         <h3 class="mobilehide">
           <span
             style="display: inline-block; color: red; transform: scale(0.8)"
@@ -134,8 +129,8 @@ const colliding2 = computed(() => {
           Let's get together!
         </h3>
         <small class="mobilehide" style="opacity: 0.5"
-          >Here's the place the audience can hang out and spend time together.
-          Move your red dot and write messages to each other.</small
+          >Here's the place the audience can hang out together. Move your red
+          dot and write messages to each other.</small
         >
         <small>
           <span style="opacity: 0.5">Your name is {{ userName }}</span
@@ -199,7 +194,7 @@ const colliding2 = computed(() => {
           :opacity="showMessages ? 1 : otherUser.opacity / 2"
         />
         <transition name="fade">
-          <div v-if="showMessages && about && !colliding && !colliding2">
+          <div v-if="showMessages && !colliding && !colliding2">
             <div
               style="
                 font-size: 0.8em;
@@ -220,6 +215,7 @@ const colliding2 = computed(() => {
       </div>
     </div>
     <draggable
+      v-if="showMessages"
       :x="userData.userX + centerX"
       :y="userData.userY + centerY"
       @drag="
@@ -232,7 +228,7 @@ const colliding2 = computed(() => {
       <div style="display: grid; grid-template-columns: auto 250px; gap: 8px">
         <dot color="red" opacity="0.8" />
         <transition name="fade">
-          <div v-if="showMessages && about && !colliding && !colliding2">
+          <div v-if="showMessages && !colliding && !colliding2">
             <div
               style="
                 font-size: 0.8em;
@@ -269,7 +265,7 @@ const colliding2 = computed(() => {
 .about-panel {
   position: fixed;
   left: 16px;
-  bottom: 40px;
+  bottom: 48px;
   padding: 16px;
   background: var(--bglight);
   border-radius: 6px;
