@@ -37,8 +37,6 @@ const pastEvents = computed(() =>
         :festival="festival"
         :event="event"
       />
-      <div v-if="upcomingEvents" style="height: 32px" />
-      <h1 v-if="festival?.events" style="opacity: 0.6">Past events</h1>
       <strapi-event
         v-for="(event, i) in pastEvents"
         :key="i"

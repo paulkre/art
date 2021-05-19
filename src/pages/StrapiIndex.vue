@@ -20,16 +20,22 @@ const pastEvents = computed(() =>
 </script>
 
 <template>
-  <horizontal style="padding: 48px; --cols: 1fr 6fr 6fr">
-    <vertical><logo /><strapi-social /></vertical>
+  <horizontal style="padding: 48px; --cols: auto 1fr 1fr; gap: 72px">
     <vertical>
-      <strapi-festival
-        v-for="(festival, i) in strapiFestivals"
-        :key="i"
-        :festival="festival"
-      />
-      <div style="height: 8px" />
+      <logo />
+      <div />
+      <strapi-social />
+      <div />
       <strapi-page v-for="(page, i) in strapiPages" :key="i" :page="page" />
+    </vertical>
+    <vertical>
+      <horizontal style="--cols: 1fr 1fr; gap: 16px">
+        <strapi-festival
+          v-for="(festival, i) in strapiFestivals"
+          :key="i"
+          :festival="festival"
+        />
+      </horizontal>
     </vertical>
     <vertical style="gap: 32px">
       <strapi-event

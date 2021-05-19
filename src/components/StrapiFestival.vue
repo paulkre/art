@@ -10,9 +10,7 @@ const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
 
 <template>
   <router-link :to="festivalRoute" class="strapi-festival">
-    <vertical>
-      <h2>{{ festival.title }}</h2>
-    </vertical>
+    <div><h2 v-html="festival.title" /></div>
   </router-link>
 </template>
 
@@ -25,6 +23,11 @@ const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 0 32px;
+  border-radius: 5000px;
+}
+.strapi-festival > * {
+  width: 100%;
 }
 </style>
 

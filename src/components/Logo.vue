@@ -6,7 +6,7 @@
 <style scoped>
 .desktop {
   display: block;
-  font-size: 150px;
+  font-size: 190px;
   line-height: 0.75em;
 }
 .mobile {

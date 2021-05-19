@@ -4,11 +4,11 @@ import { config } from "../lib";
 
 <template>
   <div class="strapi-social">
-    <a v-if="config.instagramUrl" :href="config.instagramUrl" target="_blank">
-      <icon-instagram />
-    </a>
     <a v-if="config.youtubeUrl" :href="config.youtubeUrl" target="_blank">
       <icon-youtube />
+    </a>
+    <a v-if="config.instagramUrl" :href="config.instagramUrl" target="_blank">
+      <icon-instagram />
     </a>
     <a v-if="config.emailUrl" :href="config.emailUrl" target="_blank">
       <icon-email />

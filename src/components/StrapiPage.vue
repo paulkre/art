@@ -11,7 +11,7 @@ const pageRoute = computed(() => `/strapi/page/${props.page.slug}`);
 <template>
   <router-link :to="pageRoute">
     <vertical>
-      <h2>{{ page.title }}</h2>
+      <h2 v-html="page.title" />
     </vertical>
   </router-link>
 </template>
