@@ -1,13 +1,21 @@
 <script setup>
 import { ref } from "vue";
-import { whenever, useStorage } from "@vueuse/core";
-import { useRouter } from "vue-router";
+import { whenever, useStorage, until } from "@vueuse/core";
+import { onBeforeRouteUpdate, useRouter } from "vue-router";
 import { useRouteQuery } from "@vueuse/router";
-import { strapi, fienta, uniqueCollection, config } from "../lib";
+import {
+  tickets,
+  getStrapi,
+  strapi,
+  fienta,
+  uniqueCollection,
+  config,
+  strapiFestivals,
+  strapiEvents,
+} from "../lib";
 
 const router = useRouter();
 const code = useRouteQuery("code");
-const tickets = useStorage("elektron_data", []);
 
 const getLocalTicket = (code) => {
   const ticket = tickets.value?.find((ticket) => ticket.code == code);
@@ -15,9 +23,16 @@ const getLocalTicket = (code) => {
 };
 
 const getEventOrFestivalRoute = async (fienta_id) => {
-  // @TODO Consider when(strapiEvents) / when(strapiFestivals)
-  const events = await strapi.get("events").json();
-  const festivals = await strapi.get("festivals").json();
+  // @TODO Consider until(strapiEvents) / until(strapiFestivals)
+  // @TODO Consider
+  // await until(strapiFestivals).toBeTruthy();
+  // await until(strapiEvents).toBeTruthy();
+
+  const [festivals, events] = await Promise.all([
+    strapi.get("festivals").json(),
+    strapi.get("events").json(),
+  ]);
+
   const ticketEvent = events.find(
     (e) => e.fienta_id && e.fienta_id == fienta_id
   );
@@ -65,7 +80,6 @@ whenever(
       // We use "fientaid" for backward compatibility
       const route = await getEventOrFestivalRoute(localTicket.fientaid);
       if (route) {
-        console.log(route);
         router.push(route);
       }
     } else {
@@ -75,7 +89,6 @@ whenever(
         const route = await getEventOrFestivalRoute(remoteTicket.fienta_id);
         if (route) {
           storeLocalTicket(code.value, remoteTicket.fienta_id);
-          console.log(route);
           router.push(route);
         }
       }
@@ -85,7 +98,11 @@ whenever(
 );
 
 const manualCode = ref("");
-const submitCode = () => {};
+const submitCode = () => {
+  if (manualCode.value) {
+    code.value = manualCode.value;
+  }
+};
 </script>
 <template>
   <overlay>

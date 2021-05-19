@@ -4,6 +4,7 @@ import { createApp, defineAsyncComponent } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 import App from "./App.vue";
+import { getStrapi } from "./lib";
 
 const components = import.meta.glob("./components/*.vue");
 const routes = [
@@ -61,6 +62,10 @@ const router = createRouter({
   },
 });
 
+router.beforeEach((to, from) => {
+  getStrapi();
+  return true;
+});
 const app = createApp(App);
 
 app.use(router);

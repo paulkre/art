@@ -1,8 +1,15 @@
-import { ref, computed, watch, toRef } from "vue";
+import { ref, computed, watch, toRef, watchEffect } from "vue";
 import ky from "ky";
 import { compareDesc, compareAsc, differenceInMinutes } from "date-fns";
 import { useNow, useStorage } from "@vueuse/core";
-import { formatMarkdown, config, formatStreamUrl, replace } from "../lib";
+import {
+  tickets,
+  formatMarkdown,
+  config,
+  formatStreamUrl,
+  replace,
+} from "../lib";
+import { onBeforeRouteUpdate } from "vue-router";
 
 export const strapi = ky.extend({
   prefixUrl: config.strapiUrl,
@@ -131,8 +138,6 @@ export const getStrapi = () => {
     .json()
     .then((results) => (strapiPages.value = results.map(processPages)));
 };
-
-const tickets = useStorage("elektron_data", []);
 
 export const useTicket = (f, e) => {
   const status = ref("NO_DATA");
