@@ -24,7 +24,7 @@ const hasTicketOrFree = computed(() =>
 </script>
 
 <template>
-  <horizontal style="--cols: 3.5fr 1fr; gap: 0">
+  <horizontal style="--cols: 3.5fr 300px; gap: 0">
     <vertical style="padding: 48px">
       <div v-if="hasTicketOrFree" style="width: 100%">
         <component
@@ -36,11 +36,14 @@ const hasTicketOrFree = computed(() =>
         />
       </div>
       <div v-if="hasTicketOrFree" />
-      <h1>{{ event?.title }}</h1>
+      <h1 v-html="event?.title" />
       <strapi-fienta :festival="festival" :event="event" />
-      <vertical v-html="event?.description_estonian" />
-      <h3 v-if="event?.description_english">In English</h3>
-      <vertical v-html="event?.description_english" />
+      <vertical style="max-width: 80ch">
+        <vertical v-html="event?.description_estonian" />
+        <div style="height: 16px" />
+        <h3 v-if="event?.description_english">In English</h3>
+        <vertical v-html="event?.description_english" />
+      </vertical>
       <vertical v-if="festival?.events">
         <div style="height: 32px" />
         <h1>Other events</h1>
@@ -52,13 +55,15 @@ const hasTicketOrFree = computed(() =>
         />
       </vertical>
     </vertical>
-    <event-panel
-      v-if="hasTicketOrFree"
-      title="Chat"
-      style="background: var(--bglighter)"
-    >
-      <chat :channel="route.params.event_slug" />
-    </event-panel>
+    <div>
+      <event-panel
+        v-if="hasTicketOrFree"
+        title="Chat"
+        style="background: var(--bglighter); position: sticky; top: 0"
+      >
+        <chat :channel="route.params.event_slug" />
+      </event-panel>
+    </div>
     <users />
     <layout>
       <template #top-left>

@@ -1,9 +1,9 @@
 <script setup>
-import { watch } from "vue";
-import { until, whenever, useStorage } from "@vueuse/core";
+import { ref } from "vue";
+import { whenever, useStorage } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useRouteQuery } from "@vueuse/router";
-import { strapi, fienta, uniqueCollection } from "../lib";
+import { strapi, fienta, uniqueCollection, config } from "../lib";
 
 const router = useRouter();
 const code = useRouteQuery("code");
@@ -83,7 +83,43 @@ whenever(
   },
   { immediate: true }
 );
+
+const manualCode = ref("");
+const submitCode = () => {};
 </script>
 <template>
-  <div></div>
+  <overlay>
+    <img style="height: 96px" src="/favicon.svg" />
+    <div />
+    <h1>
+      Somehow we can not validate your ticket.<br />But lets try to get you in
+    </h1>
+    <div />
+    <p>
+      There is a ticket code in your ticket email,<br />just below the "Sisene
+      üritusele / Enter event" blue button
+    </p>
+    <div />
+    <input
+      v-model="manualCode"
+      placeholder="Enter the ticket code"
+      style="width: 200px"
+    />
+    <button-big @click="submitCode">Submit code</button-big>
+    <div />
+    <a
+      v-if="config.fientaPublicUrl"
+      :href="config.fientaPublicUrl"
+      target="_blank"
+      style="text-decoration: underline"
+    >
+      No tickets yet? Get them here
+    </a>
+    <div />
+    <p v-if="config.phoneUrl">
+      <span style="opacity: 0.5">Having problems with getting in? Call</span>
+      &nbsp;
+      <a :href="config.phoneUrl">{{ config.phoneUrl.replace("tel:", "") }}</a>
+    </p>
+  </overlay>
 </template>

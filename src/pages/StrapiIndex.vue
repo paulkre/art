@@ -21,17 +21,8 @@ const pastEvents = computed(() =>
 
 <template>
   <horizontal style="padding: 48px; --cols: 1fr 6fr 6fr">
-    <h1 style="font-size: 150px; line-height: 0.75em">
-      eˉl<br />ek<br />tr<br />on
-    </h1>
+    <vertical><logo /><strapi-social /></vertical>
     <vertical>
-      <!-- <h1 style="font-size: 150px; line-height: 0.75em">
-        <flex
-          >e
-          <div style="transform: translateX(-0.4em)">ˉlek</div></flex
-        >
-        <br />tron
-      </h1> -->
       <strapi-festival
         v-for="(festival, i) in strapiFestivals"
         :key="i"

@@ -14,11 +14,9 @@ const festival = computed(() =>
     (f) => f.slug === params.value.festival_slug
   )
 );
-
 const upcomingEvents = computed(() =>
   festival.value?.events.filter(filterUpcomingEvents)
 );
-
 const pastEvents = computed(() =>
   festival.value?.events.filter(filterPastEvents).sort(sortOlderFirst)
 );
@@ -27,7 +25,9 @@ const pastEvents = computed(() =>
   <horizontal style="padding: 48px">
     <!-- <pre>{{ festival?.events }}</pre> -->
     <vertical>
-      <h1>{{ festival?.title }}</h1>
+      <h1 style="font-size: 80px; line-height: 1em; word-break: break-all">
+        {{ festival?.title }}
+      </h1>
       <vertical v-html="festival?.description_estonian" />
       <vertical v-html="festival?.description_english" />
     </vertical>

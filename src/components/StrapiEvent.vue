@@ -29,7 +29,8 @@ const eventRoute = computed(
     :style="{ opacity: event?.urgency === 'past' ? 0.5 : 1 }"
   >
     <router-link :to="eventRoute">
-      <h2>{{ event.title }}</h2>
+      <badge v-if="event.urgency === 'now'">live</badge>
+      <h2 v-html="event.title" />
     </router-link>
     <strapi-fienta :festival="festival" :event="event" />
     <flex style="opacity: 0.66">

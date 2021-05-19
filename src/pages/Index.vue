@@ -44,7 +44,7 @@ const eventsWithPages = computed(() =>
     .sort(sortEvents)
 );
 
-const countdown = useCountdown(config.perfStart);
+//const countdown = useCountdown(new Date());
 const { centerX, centerY } = useWindow();
 const pageStyle = (page) =>
   computed(() => ({
