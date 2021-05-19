@@ -38,6 +38,7 @@ const hasTicketOrFree = computed(() =>
       <div v-if="hasTicketOrFree" />
       <h1 v-html="event?.title" />
       <strapi-fienta :festival="festival" :event="event" />
+      <div />
       <vertical style="max-width: 80ch">
         <vertical v-html="event?.description_estonian" />
         <div style="height: 16px" />

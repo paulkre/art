@@ -1,12 +1,22 @@
 <script setup>
 import { defineProps, computed, toRefs } from "vue";
-import { useStorage } from "@vueuse/core";
-import { useTicket } from "../lib";
+import { useStorage, useTimeAgo } from "@vueuse/core";
+import { format } from "date-fns";
+import { useTicket, timezoneShortname } from "../lib";
+
+const formatDate = (str) =>
+  `${format(new Date(str), "d. MMMM y HH:mm")} ${timezoneShortname(
+    new Date()
+  )}`;
 
 const props = defineProps({
   festival: { type: Object },
   event: { type: Object },
 });
+
+const startedAt = props.event?.start_at
+  ? useTimeAgo(new Date(props.event?.start_at))
+  : "";
 
 const tickets = useStorage("elektron_data", []);
 
@@ -28,8 +38,7 @@ const { status } = useTicket(festival, event);
 </script>
 
 <template>
-  <div v-if="festival && event">
-    <div if="status === 'FREE'" style="opacity: 0.3">Free event</div>
+  <vertical v-if="festival && event" style="gap: 4px">
     <flex
       v-if="status !== 'FREE'"
       style="gap: 16px"
@@ -60,5 +69,10 @@ const { status } = useTicket(festival, event);
         Get the event ticket
       </a>
     </flex>
-  </div>
+    <flex style="opacity: 0.66">
+      {{ startedAt }}
+      {{ formatDate(event.start_at) }} →
+      {{ formatDate(event.end_at) }}
+    </flex>
+  </vertical>
 </template>

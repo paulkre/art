@@ -23,9 +23,8 @@ const pastEvents = computed(() =>
 </script>
 <template>
   <horizontal style="padding: 48px">
-    <!-- <pre>{{ festival?.events }}</pre> -->
     <vertical>
-      <h1 style="font-size: 80px; line-height: 1em; word-break: break-all">
+      <h1 style="font-size: 80px; line-height: 1em">
         {{ festival?.title }}
       </h1>
       <vertical v-html="festival?.description_estonian" />
