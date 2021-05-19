@@ -29,27 +29,31 @@ const imageUrl = computed(() => {
 </script>
 <template>
   <horizontal
-    style="padding: 48px; --cols: 300px 1fr 1fr"
-    :style="{ '--cols': imageUrl ? '300px 1fr 1fr' : '1fr 1.5fr' }"
+    style="padding: 48px; --cols: auto 1fr 1fr"
+    :style="{ '--cols': imageUrl ? 'auto 1fr 1fr' : '1fr 1.75fr' }"
   >
     <img
       v-if="imageUrl"
       :src="imageUrl"
-      style="aspect-ratio: 1; object-fit: cover; border-radius: 0px"
+      style="
+        width: 250px;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 0px;
+      "
     />
     <vertical>
-      <h1 style="font-size: 80px; line-height: 1em">
-        {{ festival?.title }}
-      </h1>
+      <h1 style="font-size: 80px; line-height: 1em" v-html="festival?.title" />
       <vertical v-html="festival?.description_estonian" />
       <vertical v-html="festival?.description_english" />
     </vertical>
-    <vertical style="gap: 32px">
+    <vertical style="gap: 48px">
       <strapi-event
         v-for="(event, i) in upcomingEvents"
         :key="i"
         :festival="festival"
         :event="event"
+        :image="true"
       />
       <strapi-event
         v-for="(event, i) in pastEvents"

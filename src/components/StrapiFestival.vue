@@ -30,14 +30,14 @@ const bgImageStyle = computed(() => {
 <style scoped>
 .strapi-festival {
   display: grid;
-  aspect-ratio: 1;
   background: var(--bglight);
-  width: 100%;
+  width: 280px;
+  height: 280px;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 32px;
   border-radius: 0px;
+  aspect-ratio: 1;
 }
 .strapi-festival > * {
   width: 100%;

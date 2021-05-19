@@ -20,7 +20,7 @@ const pastEvents = computed(() =>
 </script>
 
 <template>
-  <horizontal style="padding: 48px; --cols: auto 1fr 1fr; gap: 72px">
+  <horizontal style="padding: 48px; --cols: auto auto 1fr; gap: 72px">
     <vertical>
       <logo />
       <div />
