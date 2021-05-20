@@ -34,7 +34,7 @@ const streamurls = computed(() => streamkeys.value.map(formatStreamUrl));
     <users />
     <layout>
       <template #top-left>
-        <back-button to="/strapi" />
+        <back-button />
       </template>
       <template #top-right>
         <theme-button />

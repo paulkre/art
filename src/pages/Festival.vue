@@ -50,14 +50,14 @@ const imageUrl = computed(() => {
       <vertical v-html="festival?.description_english" />
     </vertical>
     <vertical style="gap: 36px">
-      <strapi-event
+      <event-card
         v-for="(event, i) in upcomingEvents"
         :key="i"
         :festival="festival"
         :event="event"
         :image="true"
       />
-      <strapi-event
+      <event-card
         v-for="(event, i) in pastEvents"
         :key="i"
         :festival="festival"
@@ -67,7 +67,7 @@ const imageUrl = computed(() => {
     <users />
     <layout>
       <template #top-left>
-        <back-button to="/strapi" />
+        <back-button />
       </template>
       <template #top-right>
         <theme-button />

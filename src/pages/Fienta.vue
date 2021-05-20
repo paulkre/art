@@ -40,9 +40,9 @@ const getEventOrFestivalRoute = async (fienta_id) => {
     (f) => f.fienta_id && f.fienta_id == fienta_id
   );
   if (ticketEvent) {
-    return `/strapi/${ticketEvent.festival.slug}/${ticketEvent.slug}`;
+    return `/${ticketEvent.festival.slug}/${ticketEvent.slug}`;
   } else if (ticketFestival) {
-    return `/strapi/${ticketFestival.slug}`;
+    return `/${ticketFestival.slug}`;
   } else {
     return null;
   }

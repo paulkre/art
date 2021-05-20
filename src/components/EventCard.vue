@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 const eventRoute = computed(
-  () => `/strapi/${props.festival.slug}/${props.event.slug}`
+  () => `/${props.festival.slug}/${props.event.slug}`
 );
 
 const imageUrl = computed(() => {
@@ -29,6 +29,6 @@ const imageUrl = computed(() => {
       <badge v-if="event.urgency === 'now'">live</badge>
       <h2 v-html="event.title" />
     </router-link>
-    <strapi-fienta :festival="festival" :event="event" />
+    <event-data :festival="festival" :event="event" />
   </vertical>
 </template>

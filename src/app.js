@@ -13,26 +13,6 @@ const routes = [
     component: () => import(`./pages/Index.vue`),
   },
   {
-    path: "/fienta",
-    component: () => import(`./pages/Fienta.vue`),
-  },
-  {
-    path: "/stream/:streamkey",
-    component: () => import(`./pages/StrapiStream.vue`),
-  },
-  {
-    path: "/strapi/page/:page_slug",
-    component: () => import(`./pages/StrapiPage.vue`),
-  },
-  {
-    path: "/strapi/:festival_slug/:event_slug",
-    component: () => import(`./pages/StrapiEvent.vue`),
-  },
-  {
-    path: "/strapi/:festival_slug",
-    component: () => import(`./pages/StrapiFestival.vue`),
-  },
-  {
     path: "/strapi",
     component: () => import(`./pages/StrapiIndex.vue`),
   },
@@ -41,12 +21,24 @@ const routes = [
     component: () => import(`./pages/Synth.vue`),
   },
   {
-    path: "/page/:pageid",
-    component: () => import("./pages/Page.vue"),
+    path: "/fienta",
+    component: () => import(`./pages/Fienta.vue`),
   },
   {
-    path: "/:eventid",
-    component: () => import("./pages/Event.vue"),
+    path: "/stream/:streamkey",
+    component: () => import(`./pages/Stream.vue`),
+  },
+  {
+    path: "/page/:page_slug",
+    component: () => import(`./pages/Page.vue`),
+  },
+  {
+    path: "/:festival_slug/:event_slug",
+    component: () => import(`./pages/StrapiEvent.vue`),
+  },
+  {
+    path: "/:festival_slug",
+    component: () => import(`./pages/StrapiFestival.vue`),
   },
 ];
 

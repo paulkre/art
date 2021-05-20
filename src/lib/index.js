@@ -20,9 +20,8 @@ export * from "./pages.js";
 export * from "./plausible.js";
 export * from "./sheet.js";
 export * from "./stats.js";
+export * from "./strapi.js";
 export * from "./theme.js";
 export * from "./users.js";
 export * from "./videostream.js";
 export * from "./window.js";
-
-export * from "./strapi.js";

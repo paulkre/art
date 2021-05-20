@@ -1,6 +1,6 @@
 <template>
   <h1 class="desktop">eˉl<br />ek<br />tr<br />on</h1>
-  <h1 class="mobile">eˉle<br />ktron</h1>
+  <h1 class="mobile">eˉ</h1>
 </template>
 
 <style scoped>
@@ -11,8 +11,9 @@
 }
 .mobile {
   display: none;
-  font-size: 125px;
+  font-size: 220px;
   line-height: 0.8em;
+  text-align: center;
 }
 
 @media (max-width: 800px) {

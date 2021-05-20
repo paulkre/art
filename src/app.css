@@ -2,6 +2,7 @@
 :root {
   --bg: black;
   --fg: white;
+  --page-padding: clamp(24px, 5vw, 48px);
 }
 @font-face {
   font-family: "font-medium";
