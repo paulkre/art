@@ -5,12 +5,14 @@ const props = defineProps({
   festival: { type: Object },
 });
 
-const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
+const festivalRoute = computed(() =>
+  props.festival?.slug ? `/strapi/${props.festival.slug}` : ""
+);
 
 const bgImageStyle = computed(() => {
   return props.festival?.images[0]
     ? {
-        backgroundImage: `url(${props.festival.images[0].formats.small.url})`,
+        backgroundImage: `url(${props.festival?.images?.[0].formats.small.url})`,
       }
     : null;
 });
@@ -23,7 +25,7 @@ const bgImageStyle = computed(() => {
     style="background-size: cover; width: 100%; border-radius2"
     :style="bgImageStyle"
   >
-    <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival.title" />
+    <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival?.title" />
   </router-link>
 </template>
 

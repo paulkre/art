@@ -84,24 +84,14 @@ const otherUserStyle = (otherUser) =>
 const textareaRef = useAboutTextarea(showMessages);
 
 const circle = new Circle(0, 0, 100);
-const circle2 = new Circle(-200, -200, 50);
 const myCircle = new Circle(userData.value.userX, userData.value.userY, 10);
 const result = new Result();
-const result2 = new Result();
 
 const colliding = computed(() => {
   myCircle.x = userData.value.userX;
   myCircle.y = userData.value.userY;
   return !!myCircle.collides(circle, result);
 });
-
-const colliding2 = computed(() => {
-  myCircle.x = userData.value.userX;
-  myCircle.y = userData.value.userY;
-  return !!myCircle.collides(circle2, result2);
-});
-
-//const colliding = ref(false);
 </script>
 
 <template>
@@ -162,22 +152,6 @@ const colliding2 = computed(() => {
         }"
       />
     </transition>
-    <transition name="fade">
-      <disc
-        v-if="showMessages"
-        style="position: fixed; pointer-events: none; border: 2px solid white"
-        :style="{
-          width: '100px',
-          height: '100px',
-          top: centerY - 50 - 200 + 'px',
-          left: centerX - 50 - 200 + 'px',
-          border: colliding2 ? '2px solid red' : ' 2px solid var(--fg)',
-          transition: 'all 500ms',
-          transform: colliding2 ? 'scale(1.1)' : '',
-          animation: colliding2 ? 'scale 1s infinite' : '',
-        }"
-      />
-    </transition>
     <div
       v-for="otherUser in otherUsers"
       :key="otherUser.userId"
@@ -194,7 +168,7 @@ const colliding2 = computed(() => {
           :opacity="showMessages ? 1 : otherUser.opacity / 2"
         />
         <transition name="fade">
-          <div v-if="showMessages && !colliding && !colliding2">
+          <div v-if="showMessages && !colliding">
             <div
               style="
                 font-size: 0.8em;
@@ -228,7 +202,7 @@ const colliding2 = computed(() => {
       <div style="display: grid; grid-template-columns: auto 250px; gap: 8px">
         <dot color="red" opacity="0.8" />
         <transition name="fade">
-          <div v-if="showMessages && !colliding && !colliding2">
+          <div v-if="showMessages && !colliding">
             <div
               style="
                 font-size: 0.8em;
@@ -252,11 +226,6 @@ const colliding2 = computed(() => {
       v-if="showMessages"
       :muted="!colliding"
       src="https://elektron.fra1.digitaloceanspaces.com/assets/music1.mp3"
-    />
-    <audio-file
-      v-if="showMessages"
-      :muted="!colliding2"
-      src="https://elektron.fra1.digitaloceanspaces.com/assets/music3.mp3"
     />
   </div>
 </template>
