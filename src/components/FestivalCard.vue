@@ -1,78 +1,67 @@
 <script setup>
-import { toRefs, computed } from "vue";
-import { useRoute } from "vue-router";
-import {
-  strapiFestivals,
-  filterUpcomingEvents,
-  filterPastEvents,
-  sortOlderFirst,
-} from "../lib";
-const { params } = toRefs(useRoute());
-const festival = computed(() =>
-  (strapiFestivals.value || []).find(
-    (f) => f.slug === params.value.festival_slug
-  )
+import { defineProps, computed } from "vue";
+
+const props = defineProps({
+  festival: { type: Object },
+});
+
+const festivalRoute = computed(() =>
+  props.festival?.slug ? `/strapi/${props.festival.slug}` : ""
 );
-const upcomingEvents = computed(() =>
-  festival.value?.events.filter(filterUpcomingEvents)
-);
-const pastEvents = computed(() =>
-  festival.value?.events.filter(filterPastEvents).sort(sortOlderFirst)
-);
-const imageUrl = computed(() => {
-  return festival.value?.images[0]
-    ? festival.value.images[0].formats.small.url
-    : "";
+
+const bgImageStyle = computed(() => {
+  return props.festival?.images[0]
+    ? {
+        backgroundImage: `url(${props.festival?.images?.[0].formats.small.url})`,
+      }
+    : null;
 });
 </script>
+
 <template>
-  <horizontal
-    style="padding: 48px; --cols: auto 1fr 1fr"
-    :style="{ '--cols': imageUrl ? 'auto 1fr 1fr' : '1fr 1.75fr' }"
+  <router-link
+    :to="festivalRoute"
+    class="strapi-festival"
+    style="background-size: cover; width: 100%; border-radius2"
+    :style="bgImageStyle"
   >
-    <img
-      v-if="imageUrl"
-      :src="imageUrl"
-      style="
-        width: 250px;
-        height: 250px;
-        aspect-ratio: 1;
-        object-fit: cover;
-        border-radius: 10000px;
-        transform: translate(-30px, 0) scale(1.5);
-      "
-    />
-    <vertical>
-      <h1 style="font-size: 80px; line-height: 1em" v-html="festival?.title" />
-      <vertical v-html="festival?.description_estonian" />
-      <vertical v-html="festival?.description_english" />
-    </vertical>
-    <vertical style="gap: 36px">
-      <event-card
-        v-for="(event, i) in upcomingEvents"
-        :key="i"
-        :festival="festival"
-        :event="event"
-        :image="true"
-      />
-      <event-card
-        v-for="(event, i) in pastEvents"
-        :key="i"
-        :festival="festival"
-        :event="event"
-      />
-    </vertical>
-    <users />
-    <layout>
-      <template #top-left>
-        <back-button to="/strapi" />
-      </template>
-      <template #top-right>
-        <theme-button />
-      </template>
-      <template #bottom-left>
-        <users-button />
-      </template>
-    </layout>
-  </horizontal>
+    <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival?.title" />
+  </router-link>
 </template>
+
+<style scoped>
+.strapi-festival {
+  display: grid;
+  background: var(--bglight);
+  width: 280px;
+  height: 280px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10000px;
+  aspect-ratio: 1;
+}
+.strapi-festival > * {
+  width: 100%;
+}
+</style>
+
+<!--
+<script setup>
+import { defineProps, computed } from "vue";
+
+const props = defineProps({
+  festival: { type: Object },
+});
+
+const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
+</script>
+
+<template>
+  <router-link :to="festivalRoute">
+    <vertical>
+      <h2>{{ festival.title }}</h2>
+    </vertical>
+  </router-link>
+</template>
+-->
