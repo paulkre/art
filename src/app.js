@@ -13,10 +13,6 @@ const routes = [
     component: () => import(`./pages/Index.vue`),
   },
   {
-    path: "/strapi",
-    component: () => import(`./pages/StrapiIndex.vue`),
-  },
-  {
     path: "/synth",
     component: () => import(`./pages/Synth.vue`),
   },
@@ -34,11 +30,11 @@ const routes = [
   },
   {
     path: "/:festival_slug/:event_slug",
-    component: () => import(`./pages/StrapiEvent.vue`),
+    component: () => import(`./pages/Event.vue`),
   },
   {
     path: "/:festival_slug",
-    component: () => import(`./pages/StrapiFestival.vue`),
+    component: () => import(`./pages/Festival.vue`),
   },
 ];
 

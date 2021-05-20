@@ -6,7 +6,7 @@ const props = defineProps({
 });
 
 const festivalRoute = computed(() =>
-  props.festival?.slug ? `/strapi/${props.festival.slug}` : ""
+  props.festival?.slug ? `/${props.festival.slug}` : ""
 );
 
 const bgImageStyle = computed(() => {
@@ -54,7 +54,7 @@ const props = defineProps({
   festival: { type: Object },
 });
 
-const festivalRoute = computed(() => `/strapi/${props.festival.slug}`);
+const festivalRoute = computed(() => `/${props.festival.slug}`);
 </script>
 
 <template>

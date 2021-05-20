@@ -53,38 +53,16 @@ const hasTicketOrFree = computed(() =>
           <vertical v-html="event?.description_english" />
         </vertical>
         <vertical v-if="festival?.events">
-          <h1
-            style="
-              text-transform: uppercase;
-              font-size: 22px;
-              letter-spacing: 0.075em;
-              line-height: 1.5em;
-              color: var(--fgdark);
-            "
-          >
-            <icon-zap />
-            Upcoming events in the series
-          </h1>
-          <strapi-event
+          <h3 class="subtitle">Upcoming events</h3>
+          <event-card
             v-for="(event, i) in festival?.events.filter(filterUpcomingEvents)"
             :key="i"
             :festival="festival"
             :event="event"
           />
           <div style="height: 32px" />
-          <h1
-            style="
-              text-transform: uppercase;
-              font-size: 22px;
-              letter-spacing: 0.075em;
-              line-height: 1.5em;
-              color: var(--fgdark);
-            "
-          >
-            <icon-zap />
-            Past events in the series
-          </h1>
-          <strapi-event
+          <h3 class="subtitle">Past events</h3>
+          <event-card
             v-for="(event, i) in festival?.events.filter(filterPastEvents)"
             :key="i"
             :festival="festival"
