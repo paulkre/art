@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { sortNewerFirst } from "../lib";
+import { sortNewFirst } from "../lib";
 import {
   strapiEvents,
   strapiFestivals,
@@ -8,8 +8,21 @@ import {
   filterUpcomingEvents,
 } from "../lib";
 
+// const upcomingEvents = computed(() =>
+//   (strapiEvents.value || []).filter(filterUpcomingEvents)
+// );
+
 const upcomingEvents = computed(() =>
-  (strapiEvents.value || []).filter(filterUpcomingEvents)
+  (strapiFestivals.value || [])
+    .map((f) =>
+      f.events.map((e) => {
+        e.festival = f;
+        return e;
+      })
+    )
+    .flat()
+    .filter(filterUpcomingEvents)
+    .sort(sortNewFirst)
 );
 </script>
 

@@ -5,7 +5,7 @@ import {
   strapiFestivals,
   filterUpcomingEvents,
   filterPastEvents,
-  sortOlderFirst,
+  sortOldFirst,
 } from "../lib";
 
 const { params } = toRefs(useRoute());
@@ -18,7 +18,7 @@ const upcomingEvents = computed(() =>
   festival.value?.events.filter(filterUpcomingEvents)
 );
 const pastEvents = computed(() =>
-  festival.value?.events.filter(filterPastEvents).sort(sortOlderFirst)
+  festival.value?.events.filter(filterPastEvents).sort(sortOldFirst)
 );
 
 const imageUrl = computed(() => {

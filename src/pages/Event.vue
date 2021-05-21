@@ -53,7 +53,12 @@ const hasTicketOrFree = computed(() =>
           <vertical v-html="event?.description_english" />
         </vertical>
         <vertical v-if="festival?.events">
-          <h3 class="subtitle">Upcoming events</h3>
+          <h3
+            class="subtitle"
+            v-if="festival?.events.filter(filterUpcomingEvents).length"
+          >
+            Upcoming events
+          </h3>
           <event-card
             v-for="(event, i) in festival?.events.filter(filterUpcomingEvents)"
             :key="i"
@@ -61,7 +66,9 @@ const hasTicketOrFree = computed(() =>
             :event="event"
           />
           <div style="height: 32px" />
-          <h3 class="subtitle">Past events</h3>
+          <h3 class="subtitle" v-if="festival?.events.filter(filterPastEvents)">
+            Past events
+          </h3>
           <event-card
             v-for="(event, i) in festival?.events.filter(filterPastEvents)"
             :key="i"

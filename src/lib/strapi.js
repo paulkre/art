@@ -86,7 +86,7 @@ const processFestivals = (festival) => {
           );
           return event;
         })
-        .sort(sortNewerFirst)
+        .sort(sortNewFirst)
     : festival.events;
   return festival;
 };
@@ -102,28 +102,41 @@ const processPages = (page) => {
   return page;
 };
 
-export const sortNewerFirst = (a, b) =>
+export const sortNewFirst = (a, b) =>
   compareDesc(new Date(b.start_at), new Date(a.start_at));
 
-export const sortOlderFirst = (a, b) =>
+export const sortOldFirst = (a, b) =>
   compareAsc(new Date(b.start_at), new Date(a.start_at));
 
 export const filterUpcomingEvents = (event) => event.urgency !== "past";
 
 export const filterPastEvents = (event) => event.urgency === "past";
 
-export const strapiEvents = ref(null);
-export const strapiFestivals = ref(null);
+// export const strapiEvents = ref(null);
+
+export const strapiFestivals = ref([]);
+export const strapiEvents = computed(() =>
+  strapiFestivals.value
+    .map((f) =>
+      f.events.map((e) => {
+        e.festival = f;
+        return e;
+      })
+    )
+    .flat()
+    .sort(sortNewFirst)
+);
+
 export const strapiPages = ref(null);
 
 export const getStrapi = () => {
-  strapi
-    .get("events")
-    .json()
-    .then(
-      (results) =>
-        (strapiEvents.value = results.map(processEvents).sort(sortNewerFirst))
-    );
+  // strapi
+  //   .get("events")
+  //   .json()
+  //   .then(
+  //     (results) =>
+  //       (strapiEvents.value = results.map(processEvents).sort(sortNewFirst))
+  //   );
 
   strapi
     .get("festivals")
