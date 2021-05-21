@@ -33,35 +33,16 @@ const bgImageStyle = computed(() => {
 .strapi-festival {
   display: grid;
   background: var(--bglight);
-  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
   height: 280px;
   align-items: center;
   justify-content: center;
   text-align: center;
   border-radius: 10000px;
-  aspect-ratio: 1;
+  padding: 16px;
 }
 .strapi-festival > * {
   width: 100%;
 }
 </style>
-
-<!--
-<script setup>
-import { defineProps, computed } from "vue";
-
-const props = defineProps({
-  festival: { type: Object },
-});
-
-const festivalRoute = computed(() => `/${props.festival.slug}`);
-</script>
-
-<template>
-  <router-link :to="festivalRoute">
-    <vertical>
-      <h2>{{ festival.title }}</h2>
-    </vertical>
-  </router-link>
-</template>
--->
