@@ -9,7 +9,7 @@ import {
 } from "../lib";
 
 const upcomingEvents = computed(() =>
-  (strapiEvents.value || []).filter(filterUpcomingEvents)
+  (strapiEvents.value || []).filter(filterUpcomingEvents).sort(sortNewerFirst)
 );
 </script>
 
