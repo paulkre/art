@@ -16,6 +16,11 @@ import {
 
 const router = useRouter();
 const code = useRouteQuery("code");
+const showForm = ref(false);
+
+if (!code.value) {
+  showForm.value = true;
+}
 
 const getLocalTicket = (code) => {
   const ticket = tickets.value?.find((ticket) => ticket.code == code);
@@ -68,11 +73,10 @@ const getRemoteTicket = (code) =>
       };
     });
 
-const showForm = ref(false);
-
 whenever(
   code,
   async () => {
+    showForm.value = false;
     const localTicket = getLocalTicket(code.value);
     if (localTicket) {
       // We use "fientaid" for backward compatibility
