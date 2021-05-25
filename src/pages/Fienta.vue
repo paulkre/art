@@ -122,7 +122,8 @@ const submitCode = () => {
       <img style="height: 96px" src="/favicon.svg" />
       <div />
       <h1>
-        Somehow we can not validate your ticket.<br />But lets try to get you in
+        Somehow we cannot validate your ticket.<br />But let's try to get you
+        in!
       </h1>
       <div />
       <p>
@@ -152,5 +153,10 @@ const submitCode = () => {
         <a :href="config.phoneUrl">{{ config.phoneUrl.replace("tel:", "") }}</a>
       </p>
     </overlay>
+    <layout>
+      <template #top-left>
+        <back-button v-if="showForm" />
+      </template>
+    </layout>
   </div>
 </template>
