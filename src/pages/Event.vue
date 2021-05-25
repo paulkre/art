@@ -1,285 +1,107 @@
 <script setup>
-import { ref, toRefs, computed, watch, watchEffect } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useCssVar } from "@vueuse/core";
-
+import { ref, computed, watch } from "vue";
+import { useRoute } from "vue-router";
+import { useStorage, whenever } from "@vueuse/core";
 import {
-  replace,
-  config,
-  events,
-  pages,
-  activeTheme,
-  checkTicket,
-  users,
-  ws,
-  createMessage,
-  safeJsonParse,
-  formatStreamUrl,
+  strapiFestivals,
+  strapiEvents,
+  filterUpcomingEvents,
+  filterPastEvents,
+  useTicket,
 } from "../lib";
 
-const { params } = toRefs(useRoute());
-const router = useRouter();
-
-const eventsWithPages = computed(() =>
-  events.value.map((event) => {
-    if (event.pageid) {
-      event.page = pages.value.find((page) => page.pageid === event.pageid);
-    }
-    return event;
-  })
-);
-
-const event = computed(() => {
-  const currentEvent = eventsWithPages.value.find(
-    (event) => event.eventid === params.value.eventid
-  );
-  if (currentEvent) {
-    const pageEvents = events.value
-      .filter(
-        (event) =>
-          event.pageid &&
-          currentEvent.pageid &&
-          event.pageid === currentEvent.pageid
-      )
-      .filter((event) => {
-        return event.hidden !== "TRUE" && event.urgency !== "past";
-      });
-    currentEvent.events = pageEvents;
-  }
-  if (currentEvent && currentEvent.pageid && pages.value) {
-    currentEvent.page = pages.value.find(
-      (page) => page.pageid === currentEvent.pageid
-    );
-  }
-  return currentEvent;
-});
-
-const srcs = computed(() => {
-  if (event.value && event.value.streamkeys) {
-    return event.value.streamkeys.map(formatStreamUrl);
-  } else if (params.value.eventid) {
-    return [formatStreamUrl(params.value.eventid)];
-  } else {
-    return [];
-  }
-});
-const channel = computed(() => params.value.eventid);
-
-const eventAudienceWidth = useCssVar("--event-audience-width");
-const eventAudienceColumns = useCssVar("--event-audience-columns");
-
-const audienceColumns = computed(
-  () => {
-    let images = false;
-    let chat = true;
-    if (event.value) {
-      if (event.value.chat === "FALSE") {
-        chat = false;
-      }
-      if (event.value.images === "TRUE") {
-        images = true;
-      }
-    }
-    return { images, chat };
-  },
-  { immediate: true }
-);
-
-watch(
-  audienceColumns,
-  () => {
-    const columns = Object.values(audienceColumns.value).filter((col) => col);
-
-    eventAudienceWidth.value = `${columns.length * 300}px`;
-    eventAudienceColumns.value = columns.map((_) => "1fr").join(" ");
-  },
-  { immediate: true }
-);
-
 const route = useRoute();
-const code = ref(route.query.code);
-const sumittedCode = ref(null);
 
-const { status, statusMessage } = checkTicket(sumittedCode, event);
+const festival = computed(() =>
+  (strapiFestivals.value || []).find(
+    (f) => f.slug === route.params.festival_slug
+  )
+);
+const event = computed(() =>
+  (strapiEvents.value || []).find((e) => e.slug === route.params.event_slug)
+);
+const festivalRoute = computed(() => `/${festival.value?.slug}`);
 
-const onCheck = () => {
-  sumittedCode.value = code.value;
-};
+const { status } = useTicket(festival, event);
 
-watch(status, () => {
-  if (status.value === "CHECKED" && route.query.code) {
-    router.push({ path: `/${params.value.eventid}` });
-  }
-});
-
-// watch(event, () => console.log(event.value));
+const hasTicketOrFree = computed(() =>
+  ["HAS_FESTIVAL_TICKET", "HAS_EVENT_TICKET", "FREE"].includes(status.value)
+);
 </script>
 
 <template>
-  <div>
-    <div class="event">
-      <div class="event-content">
-        <div v-if="event">
-          <component
-            v-for="(src, i) in srcs"
+  <horizontal style="--cols: 3.5fr 350px; gap: 0">
+    <vertical style="padding: 48px">
+      <div v-if="hasTicketOrFree" style="width: 100%">
+        <component
+          v-for="(src, i) in event?.streamurls"
+          :key="i"
+          :is="event?.is_360 ? 'video-stream-three' : 'video-stream'"
+          :src="src"
+          :streamkey="event?.streamkeys?.[0]"
+        />
+      </div>
+      <div v-if="hasTicketOrFree" />
+      <h1 style="font-size: 60px; line-height: 1.2em" v-html="event?.title" />
+      <event-data :festival="festival" :event="event" />
+      <div style="height: 32px" />
+      <horizontal style="--cols: 1fr 1fr">
+        <vertical>
+          <vertical v-html="event?.description_estonian" />
+          <div style="height: 16px" />
+          <h3 v-if="event?.description_english">In English</h3>
+          <vertical v-html="event?.description_english" />
+        </vertical>
+        <vertical v-if="festival?.events">
+          <h3
+            class="subtitle"
+            v-if="festival?.events.filter(filterUpcomingEvents).length"
+          >
+            Upcoming events
+          </h3>
+          <event-card
+            v-for="(event, i) in festival?.events.filter(filterUpcomingEvents)"
             :key="i"
-            :is="
-              event && event.is360 === 'TRUE'
-                ? 'video-stream-three'
-                : 'video-stream'
-            "
-            :src="src"
-            :streamkey="event && event.streamkeys[0]"
+            :festival="festival"
+            :event="event"
           />
-        </div>
-        <div v-else>
-          <video-stream
-            :src="srcs[0]"
-            :streamkey="event?.streamkeys[0] || params.eventid"
-          />
-        </div>
-        <p />
-        <h1 v-if="event?.title">{{ event.title }}</h1>
-        <event-date v-if="event?.fromdate" :event="event" />
-        <vertical v-if="event?.description" v-html="event.description" />
-        <p />
-        <h2 v-if="event?.events?.length">Current and upcoming events</h2>
-        <p />
-
-        <vertical v-if="event?.events" style="gap: 32px">
-          <event-event
-            v-for="(event, i) in event.events"
+          <div style="height: 32px" />
+          <h3 class="subtitle" v-if="festival?.events.filter(filterPastEvents)">
+            Past events
+          </h3>
+          <event-card
+            v-for="(event, i) in festival?.events.filter(filterPastEvents)"
             :key="i"
+            :festival="festival"
             :event="event"
           />
         </vertical>
-      </div>
-    </div>
-    <div
-      v-if="audienceColumns.images || audienceColumns.chat"
-      class="event-panels"
-    >
+      </horizontal>
+    </vertical>
+    <div>
       <event-panel
-        v-if="audienceColumns.images"
-        title="Audience"
-        style="background: var(--bglight)"
+        :title="hasTicketOrFree ? 'Chat' : ''"
+        style="
+          background: var(--bglighter);
+          position: sticky;
+          top: 0;
+          height: 100vh;
+        "
       >
-        <images />
-      </event-panel>
-      <event-panel
-        v-if="audienceColumns.chat"
-        title="Chat"
-        style="background: var(--bglighter)"
-      >
-        <chat
-          :channel="channel"
-          :sendtype="event?.sendtype"
-          :reveivetype="event?.reveivetype"
-        />
+        <chat v-if="hasTicketOrFree" :channel="route.params.event_slug" />
       </event-panel>
     </div>
-
-    <overlay
-      v-if="event && event.fientaid && status !== 'CHECKED'"
-      :event="event"
-      style="position: fixed; top: 0; right: 0; bottom: 0; left: 0"
-    >
-      <icon-creditcard style="transform: scale(3); color: var(--ticket)" />
-      <p />
-      <p />
-      <h1>{{ event.title }}</h1>
-      <div style="color: var(--ticket)">This event requires a ticket</div>
-      <!-- <div>This event has not yet started but you can already enter.</div> -->
-      <input
-        v-model="code"
-        placeholder="Type the ticket code"
-        style="width: 200px"
-      />
-      <button-medium @click="onCheck">Enter to the event</button-medium>
-      <p />
-      <div v-if="status === 'USED'">
-        This ticket has been used already. We only support using the ticket on a
-        single device, sorry.
-      </div>
-      <a
-        v-if="event.ticketUrl"
-        :href="event.ticketUrl"
-        style="border-bottom: 1px solid var(--fg)"
-        target="_blank"
-      >
-        No tickets yet? Get them here
-      </a>
-      <p />
-      <p v-if="config.phoneUrl">
-        <span style="opacity: 0.5">Having problems with getting in? Call</span
-        >&nbsp;
-        <a :href="config.phoneUrl" style="border-bottom: 1px solid var(--fg)">{{
-          config.phoneUrl.replace("tel:", "")
-        }}</a>
-      </p>
-    </overlay>
-
+    <users />
     <layout>
       <template #top-left>
-        <back-button
-          :to="event?.page?.pageid ? '/page/' + event?.page?.pageid : '/'"
-        />
-      </template>
-      <template #top-center>
-        <update-button />
+        <back-button :to="festivalRoute" />
       </template>
       <template #top-right>
         <theme-button />
       </template>
       <template #bottom-left>
-        <users-button v-if="showUsers" />
-      </template>
-      <template #bottom-right>
-        <a
-          title="I have a ticket"
-          v-if="event && event.fientaid && status === 'CHECKED'"
-        >
-          <icon-creditcard style="color: var(--ticket)" />
-        </a>
+        <users-button />
       </template>
     </layout>
-  </div>
+  </horizontal>
 </template>
-
-<style scoped>
-.event {
-  display: grid;
-  grid-template-columns: 1fr var(--event-audience-width);
-  min-height: 100vh;
-  transition: 200ms;
-}
-@media (max-width: 800px) {
-  .event {
-    grid-template-columns: 1fr;
-  }
-}
-.event-content {
-  padding: 64px 32px 32px clamp(1.5rem, 5vw, 3rem);
-  display: grid;
-  grid-auto-rows: max-content;
-  gap: 16px;
-}
-
-.event-panels {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: var(--event-audience-width);
-  display: grid;
-  grid-template-columns: var(--event-audience-columns);
-  transition: 200ms;
-}
-@media (max-width: 800px) {
-  .event-panels {
-    position: static;
-    width: inherit;
-    grid-template-columns: 1fr;
-  }
-}
-</style>

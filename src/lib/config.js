@@ -16,13 +16,14 @@ export const config = {
   phoneUrl: import.meta.env.VITE_PHONE_URL || "",
   newFeatures: import.meta.env.VITE_NEW_FEATURES === "true" || false,
   fientaUrl: import.meta.env.VITE_FIENTA_URL || "",
+  fientaPublicUrl: import.meta.env.VITE_FIENTA_PUBLIC_URL || "",
   fientaTicketUrl: import.meta.env.VITE_FIENTA_TICKET_URL || "",
   fientaToken: import.meta.env.VITE_FIENTA_TOKEN || "",
   plausibleDomain: import.meta.env.VITE_PLAUSIBLE_DOMAIN || "localhost",
+  strapiUrl: import.meta.env.VITE_STRAPI_URL || "",
   // @TODO:remove these two
   theme: import.meta.env.VITE_THEME || 0,
   userUpdateRate: 30 * 1000,
   userUpdatedSinceLimit: 30 * 1000,
   messageDelay: 50,
-  perfStart: "2021-04-01T18:00:00.002Z",
 };

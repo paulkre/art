@@ -11,6 +11,7 @@ const themeVars = {
   fgdark: useCssVar("--fgdark"),
   ticket: useCssVar("--ticket"),
   overlay: useCssVar("--overlay"),
+  accent: useCssVar("--accent"),
 };
 
 const themeValues = [
@@ -22,6 +23,7 @@ const themeValues = [
     fg: "#fff",
     fgdark: "#555",
     ticket: "#ffc107",
+    accent: "#6c3ec1",
     overlay: "hsla(0,0%,0%,0.95)",
   },
   {
@@ -31,6 +33,7 @@ const themeValues = [
     bglighter: "#ddd",
     fg: "#111",
     fgdark: "#ccc",
+    accent: "#6c3ec1",
     ticket: "#f0b400",
     overlay: "hsla(0,0%,100%,0.95)",
   },

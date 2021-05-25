@@ -15,14 +15,13 @@ const { now } = useNow({ options: 1000 });
 
 //const now = ref(new Date());
 
-const timezoneShortname = (date) => {
+export const timezoneShortname = (date) => {
   let dateString = date + "",
     tz =
       dateString.match(/\(([^\)]+)\)$/) ||
       dateString.match(/([A-Z]+) [\d]{4}$/);
 
   if (tz) {
-    // @ts-ignore
     tz = tz[1].match(/[A-Z]/g).join("");
   }
 
@@ -48,7 +47,8 @@ export const formatDate = (str, fromTime = true) => {
   }
 };
 
-export const sortEvents = (a, b) => compareDesc(b.fromDatetime, a.fromDatetime);
+export const sortEvents = (a, b) =>
+  compareDesc(new Date(b.start_at), new Date(a.start_at));
 
 const dateRangeUrgency = (fromDatetime, toDatetime) =>
   computed(() => {

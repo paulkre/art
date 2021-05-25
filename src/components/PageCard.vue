@@ -1,32 +1,17 @@
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, computed } from "vue";
+
 const props = defineProps({
   page: { type: Object },
 });
+
+const pageRoute = computed(() => `/page/${props.page.slug}`);
 </script>
+
 <template>
-  <Link
-    :src="
-      page.link
-        ? page.link
-        : page.event?.eventid
-        ? '/' + page.event?.eventid
-        : '/page/' + page.pageid
-    "
-  >
-    <disc
-      :style="{
-        width: '192px',
-        height: '192px',
-        color: 'var(--fg)',
-        backgroundColor: 'var(--bglight)',
-        backgroundSize: 'cover',
-        textAlign: 'center',
-      }"
-    >
-      <h3>
-        {{ page.title }}
-      </h3>
-    </disc>
-  </Link>
+  <router-link :to="pageRoute">
+    <vertical>
+      <h2 v-html="page.title" />
+    </vertical>
+  </router-link>
 </template>

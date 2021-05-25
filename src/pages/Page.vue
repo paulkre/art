@@ -1,134 +1,29 @@
 <script setup>
-import { computed } from "vue";
+import { toRefs, computed } from "vue";
 import { useRoute } from "vue-router";
-import { pages, events } from "../lib";
+import { strapiPages } from "../lib";
 
-const { params } = useRoute();
-
-// @TODO: Simplify
-const page = computed(() => {
-  let p = { content: "", events: [] };
-  if (params.pageid && pages.value) {
-    const currentPage = pages.value.find(
-      (page) => page.pageid === params.pageid
-    );
-    if (currentPage) {
-      p = currentPage;
-    }
-    if (events.value) {
-      p.events = events.value
-        .filter((event) => event.hidden !== "TRUE" && event.urgency !== "past")
-        .filter((event) => event.pageid == params.pageid);
-      p.pastEvents = events.value
-        .filter((event) => event.hidden !== "TRUE" && event.urgency === "past")
-        .filter((event) => event.pageid == params.pageid);
-    }
-  }
-  return p;
-});
+const { params } = toRefs(useRoute());
+const page = computed(() =>
+  (strapiPages.value || []).find((p) => p.slug === params.value.page_slug)
+);
 </script>
-
 <template>
-  <layout>
-    <page-disc :page="page" />
-    <div class="page">
-      <div v-html="page.content" class="page-content" />
-      <div>
-        <div class="event-cards">
-          <page-event
-            v-for="(event, i) in page.events"
-            :key="i"
-            :event="event"
-          />
-        </div>
-        <h1 style="margin-top: 32px" v-if="page?.events.length">Past events</h1>
-        <div class="event-cards">
-          <page-event
-            v-for="(event, i) in page.pastEvents"
-            :key="i"
-            :event="event"
-          />
-        </div>
-      </div>
-    </div>
+  <horizontal style="padding: 48px; --cols: 1fr 5fr 1fr">
+    <div />
+    <vertical>
+      <h1 style="font-size: 80px; line-height: 1em" v-html="page?.title" />
+      <vertical v-html="page?.description_estonian" />
+      <vertical v-html="page?.description_english" />
+    </vertical>
     <users />
-    <template #top-left>
-      <back-button />
-    </template>
-    <template #top-center>
-      <update-button />
-    </template>
-    <template #top-right>
-      <theme-button />
-    </template>
-    <template #bottom-left>
-      <users-button />
-    </template>
-  </layout>
+    <layout>
+      <template #top-left>
+        <back-button />
+      </template>
+      <template #bottom-left>
+        <users-button />
+      </template>
+    </layout>
+  </horizontal>
 </template>
-
-<style>
-.page {
-  padding: clamp(1.5rem, 5vw, 3rem);
-  padding-top: clamp(22rem, 20vw, 45rem);
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: clamp(8px, 5vw, 64px);
-}
-@media (max-width: 800px) {
-  .page {
-    grid-template-columns: 1fr;
-  }
-}
-.title {
-  margin: 0 0 32px 9;
-  font-family: "font-medium", sans-serif;
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  line-height: 1.2em;
-}
-.title > * {
-  font-weight: normal !important;
-  font-style: normal !important;
-}
-.subtitle {
-  font-size: clamp(1.25rem, 2vw, 3rem);
-  line-height: 1.5em;
-}
-.c5 {
-  font-weight: bold;
-}
-/* .c12 {
-  padding: 4px 4px 4px 20px;
-  border-left: 5px solid var(--fg);
-  font-weight: bold;
-} */
-.page-content {
-  display: grid;
-  grid-auto-rows: max-content;
-  gap: clamp(8px, 1vw, 16px);
-  word-wrap: break-word;
-}
-.page-content > * {
-  grid-column: 1;
-}
-.page-content p {
-  margin: 0;
-}
-.page-content a {
-  text-decoration: underline;
-}
-.page-content hr {
-  display: none;
-}
-.page-content img {
-  width: 100%;
-  display: block;
-  grid-column: ;
-}
-.event-cards {
-  display: grid;
-  grid-auto-rows: max-content;
-  gap: 32px;
-  padding-top: clamp(0.5rem, 1.2vw, 2rem);
-}
-</style>

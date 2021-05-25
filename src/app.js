@@ -4,6 +4,7 @@ import { createApp, defineAsyncComponent } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 import App from "./App.vue";
+import { getStrapi } from "./lib";
 
 const components = import.meta.glob("./components/*.vue");
 const routes = [
@@ -16,20 +17,43 @@ const routes = [
     component: () => import(`./pages/Synth.vue`),
   },
   {
-    path: "/page/:pageid",
-    component: () => import("./pages/Page.vue"),
+    path: "/fienta",
+    component: () => import(`./pages/Fienta.vue`),
   },
   {
-    path: "/:eventid",
-    component: () => import("./pages/Event.vue"),
+    path: "/stream/:streamkey",
+    component: () => import(`./pages/Stream.vue`),
+  },
+  {
+    path: "/page/:page_slug",
+    component: () => import(`./pages/Page.vue`),
+  },
+  {
+    path: "/:festival_slug/:event_slug",
+    component: () => import(`./pages/Event.vue`),
+  },
+  {
+    path: "/:festival_slug",
+    component: () => import(`./pages/Festival.vue`),
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0 };
+    }
+  },
 });
 
+router.beforeEach((to, from) => {
+  getStrapi();
+  return true;
+});
 const app = createApp(App);
 
 app.use(router);

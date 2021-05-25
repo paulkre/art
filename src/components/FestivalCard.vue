@@ -1,32 +1,48 @@
 <script setup>
-import { defineProps, ref, computed } from "vue";
+import { defineProps, computed } from "vue";
+
 const props = defineProps({
   festival: { type: Object },
 });
+
+const festivalRoute = computed(() =>
+  props.festival?.slug ? `/${props.festival.slug}` : ""
+);
+
+const bgImageStyle = computed(() => {
+  return props.festival?.images[0]
+    ? {
+        backgroundImage: `url(${props.festival?.images?.[0].formats.small.url})`,
+      }
+    : null;
+});
 </script>
+
 <template>
-  <Link
-    :src="
-      festival.link
-        ? festival.link
-        : festival.event?.eventid
-        ? '/' + festival.event?.eventid
-        : '/page/' + festival.pageid
-    "
+  <router-link
+    :to="festivalRoute"
+    class="strapi-festival"
+    style="background-size: cover; width: 100%; border-radius2"
+    :style="bgImageStyle"
   >
-    <disc
-      :style="{
-        width: '192px',
-        height: '192px',
-        color: festival.color !== '' ? festival.color : 'var(--fg)',
-        backgroundColor: festival.background || 'var(--bglight)',
-        backgroundImage: festival.image
-          ? 'url(' + festival.image + ')'
-          : festival.event?.image
-          ? 'url(' + festival.event.image + ')'
-          : '',
-        backgroundSize: 'cover',
-      }"
-    />
-  </Link>
+    <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival?.title" />
+  </router-link>
 </template>
+
+<style scoped>
+.strapi-festival {
+  display: grid;
+  background: var(--bglight);
+  min-width: 280px;
+  max-width: 280px;
+  height: 280px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10000px;
+  padding: 16px;
+}
+.strapi-festival > * {
+  width: 100%;
+}
+</style>

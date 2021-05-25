@@ -31,7 +31,7 @@ export const fienta = ky.extend({
 //   })
 // };
 
-const tickets = useStorage("elektron_data", []);
+export const tickets = useStorage("elektron_data", []);
 
 const checkLocalTicketWithoutCode = (event) => {
   const ticket = tickets.value?.find(

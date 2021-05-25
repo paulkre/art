@@ -6,6 +6,7 @@ import {
   refreshUser,
   refreshUsers,
   plausible,
+  getStrapi,
 } from "./lib";
 
 loadEvents();

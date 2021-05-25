@@ -1,166 +1,54 @@
 <script setup>
 import { computed } from "vue";
+import { sortNewerFirst } from "../lib";
 import {
-  config,
-  pages,
-  events,
-  useCountdown,
-  useWindow,
-  activeTheme,
-  sortEvents,
+  strapiEvents,
+  strapiFestivals,
+  strapiPages,
+  filterUpcomingEvents,
 } from "../lib";
 
-const pagesWithEvents = computed(() =>
-  pages.value
-    .filter((page) => page.radius)
-    .map((page) => {
-      if (page.eventid) {
-        page.event = events.value.find(
-          (event) => event.eventid === page.eventid
-        );
-      }
-      return page;
-    })
-    .filter((event) => event.urgency !== "past")
+const upcomingEvents = computed(() =>
+  (strapiEvents.value || []).filter(filterUpcomingEvents).sort(sortNewerFirst)
 );
-
-const festivals = computed(() =>
-  pages.value.filter((page) => page.festival === "TRUE")
-);
-
-const nonFestivals = computed(() =>
-  pages.value.filter((page) => page.festival !== "TRUE")
-);
-
-const eventsWithPages = computed(() =>
-  events.value
-    .map((event) => {
-      if (event.pageid) {
-        event.page = pages.value.find((page) => page.pageid === event.pageid);
-      }
-      return event;
-    })
-    .filter((event) => event.urgency !== "past")
-    .sort(sortEvents)
-);
-
-const countdown = useCountdown(config.perfStart);
-const { centerX, centerY } = useWindow();
-const pageStyle = (page) =>
-  computed(() => ({
-    left: `${parseFloat(page.x) + centerX.value / 2}px`,
-    top: `${parseFloat(page.y) + centerY.value}px`,
-  }));
 </script>
+
 <template>
-  <layout>
-    <horizontal style="--cols: 1fr 2fr">
-      <vertical style="padding: 32px 0 32px 48px; gap: 0px">
-        <h1 style="font-size: clamp(72px, 14vw, 96px)">eˉlektron</h1>
-        <Social style="pointer-events: auto" />
-        <div style="height: 32px" />
-        <horizontal
-          style="
-            grid-template-columns: 192px 192px;
-            gap: 8px;
-            transform: translateX(-16px);
-          "
-        >
-          <festival-card
-            v-for="(festival, i) in festivals"
-            :key="'f' + i"
-            :festival="festival"
-          />
-          <page-card
-            v-for="(page, i) in nonFestivals"
-            :key="'p' + i"
-            :page="page"
-          />
-        </horizontal>
-        <div style="height: 32px" />
-      </vertical>
-      <vertical style="padding: 60px 48px 32px 32px; gap: 48px">
-        <page-event
-          v-for="(event, i) in eventsWithPages"
+  <horizontal
+    style="padding: var(--page-padding); --cols: auto auto 1fr; gap: 72px"
+  >
+    <vertical>
+      <logo />
+      <div />
+      <social />
+      <div />
+      <page-card v-for="(page, i) in strapiPages" :key="i" :page="page" />
+    </vertical>
+    <vertical>
+      <horizontal style="--cols: 1fr 1fr; gap: 16px" v-if="strapiFestivals">
+        <festival-card
+          v-for="(festival, i) in strapiFestivals"
           :key="i"
-          :event="event"
-          :description="false"
+          :festival="festival"
         />
-      </vertical>
-    </horizontal>
-    <!-- <Link
-      v-for="(page, i) in pagesWithEvents"
-      :key="i"
-      :src="
-        page.link
-          ? page.link
-          : page.event?.eventid
-          ? '/' + page.event?.eventid
-          : '/page/' + page.pageid
-      "
-    >
-      <disc
+      </horizontal>
+    </vertical>
+    <vertical style="gap: 32px" v-if="upcomingEvents.length">
+      <event-card
+        v-for="(event, i) in upcomingEvents"
         :key="i"
-        :style="{
-          ...pageStyle(page).value,
-          transform: 'translate(-50%, -50%)',
-          position: 'fixed',
-          color: page.color !== '' ? page.color : 'var(--fg)',
-          backgroundColor: page.background || 'var(--bglight)',
-          backgroundImage: page.image
-            ? 'url(' + page.image + ')'
-            : page.event?.image
-            ? 'url(' + page.event.image + ')'
-            : '',
-          backgroundSize: 'cover',
-          textAlign: 'center',
-          width: page.radius * 2 + 'px',
-          height: page.radius * 2 + 'px',
-          padding: '32px',
-        }"
-      >
-        <h2>{{ page.title }}</h2>
-        <p style="line-height: 1.3em" v-if="page.about">
-          {{ page.about }}
-        </p>
-      </disc>
-    </Link>
-    <div
-      style="
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 50vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        pointer-events: none;
-      "
-    >
-      <div style="display: grid; gap: 16px">
-        <h1
-          style="
-            font-size: clamp(32px, 12vw, 100px);
-            text-align: center;
-            line-height: 1em;
-            white-space: nowrap;
-          "
-        >
-          eˉlektron
-        </h1>
-        <Social style="pointer-events: auto" />
-      </div> 
-    </div>-->
+        :event="event"
+        :festival="event.festival"
+      />
+    </vertical>
     <users />
-    <template #top-center>
-      <update-button />
-    </template>
-    <template #top-right>
-      <theme-button />
-    </template>
-    <template #bottom-left>
-      <users-button />
-    </template>
-  </layout>
+    <layout>
+      <template #top-right>
+        <theme-button />
+      </template>
+      <template #bottom-left>
+        <users-button />
+      </template>
+    </layout>
+  </horizontal>
 </template>
