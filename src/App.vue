@@ -9,9 +9,9 @@ import {
   getStrapi,
 } from "./lib";
 
-loadEvents();
+//loadEvents();
+//loadPages();
 loadMessages();
-loadPages();
 refreshUser();
 refreshUsers();
 plausible.enableAutoPageviews();

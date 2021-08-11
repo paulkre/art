@@ -27,6 +27,12 @@ const { status } = useTicket(festival, event);
 const hasTicketOrFree = computed(() =>
   ["HAS_FESTIVAL_TICKET", "HAS_EVENT_TICKET", "FREE"].includes(status.value)
 );
+
+const imageUrl = computed(() => {
+  return event.value?.images.length
+    ? event.value.images[0].formats.small.url
+    : "";
+});
 </script>
 
 <template>
@@ -47,6 +53,11 @@ const hasTicketOrFree = computed(() =>
       <div style="height: 32px" />
       <horizontal style="--cols: 1fr 1fr">
         <vertical>
+          <img
+            v-if="imageUrl"
+            :src="imageUrl"
+            style="border-radius: 2px; object-fit: cover; aspect-ratio: 3/2"
+          />
           <vertical v-html="event?.description_estonian" />
           <div style="height: 16px" />
           <h3 v-if="event?.description_english">In English</h3>
