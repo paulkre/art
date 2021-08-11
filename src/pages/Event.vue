@@ -72,7 +72,12 @@ const imageUrl = computed(() => {
           <img
             v-if="imageUrl"
             :src="imageUrl"
-            style="border-radius: 2px; object-fit: cover; aspect-ratio: 16/9"
+            style="
+              margin-top: 8px;
+              border-radius: 2px;
+              object-fit: cover;
+              aspect-ratio: 16/9;
+            "
           />
           <vertical v-html="event?.description_estonian" />
           <!-- <div style="height: 16px" /> -->

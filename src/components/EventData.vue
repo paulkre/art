@@ -71,7 +71,7 @@ const { status } = useTicket(festival, event);
         Get event ticket
       </a>
     </flex>
-    <flex style="opacity: 0.66">
+    <flex style="opacity: 0.5; font-size: 0.9em">
       {{ startedAt }}
       {{ formatDate(event.start_at) }} →
       {{ formatDate(event.end_at) }}
