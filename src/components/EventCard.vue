@@ -12,8 +12,8 @@ const eventRoute = computed(
 );
 
 const imageUrl = computed(() => {
-  return props.image && props.event?.images[0]
-    ? props.event?.images[0].formats.medium.url
+  return props.image && props.event?.images.length
+    ? props.event.images[0].formats.small.url
     : "";
 });
 </script>
@@ -23,7 +23,12 @@ const imageUrl = computed(() => {
     style="gap: 4px"
     :style="{ opacity: event?.urgency === 'past' ? 0.3 : 1 }"
   >
-    <img v-if="imageUrl" :src="imageUrl" style="border-radius: 2px" />
+    <router-link v-if="imageUrl" :to="eventRoute">
+      <img
+        :src="imageUrl"
+        style="border-radius: 2px; object-fit: cover; aspect-ratio: 3/2"
+      />
+    </router-link>
     <div style="height: 8px" />
     <router-link :to="eventRoute">
       <badge v-if="event.urgency === 'now'">live</badge>
