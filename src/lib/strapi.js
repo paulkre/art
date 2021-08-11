@@ -118,7 +118,7 @@ export const strapiPages = ref(null);
 
 export const getStrapi = () => {
   strapi
-    .get("events")
+    .get("events?_limit=-1")
     .json()
     .then(
       (results) =>
@@ -126,7 +126,7 @@ export const getStrapi = () => {
     );
 
   strapi
-    .get("festivals")
+    .get("festivals?_limit=-1")
     .json()
     .then((results) => {
       strapiFestivals.value = results.map(processFestivals);
@@ -134,7 +134,7 @@ export const getStrapi = () => {
     });
 
   strapi
-    .get("pages")
+    .get("pages?_limit=-1")
     .json()
     .then((results) => (strapiPages.value = results.map(processPages)));
 };
