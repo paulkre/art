@@ -38,7 +38,7 @@ const imageUrl = computed(() => {
 <template>
   <horizontal
     :style="{
-      '--cols': event.chat === false ? '1fr 0' : '3.5fr 350px',
+      '--cols': event && event.chat === false ? '1fr 0' : '3.5fr 350px',
       gap: 0,
     }"
   >
@@ -53,10 +53,21 @@ const imageUrl = computed(() => {
         />
       </div>
       <div v-if="hasTicketOrFree" />
-      <h1 style="font-size: 60px; line-height: 1.2em" v-html="event?.title" />
+      <h1
+        :style="{
+          fontSize: '60px',
+          lineHeight: '1.2em',
+          paddingRight: event && event.chat === false ? '10vw' : '',
+        }"
+        v-html="event?.title"
+      />
       <event-data :festival="festival" :event="event" />
       <div style="height: 32px" />
-      <horizontal style="--cols: 1fr 1fr">
+      <horizontal
+        :style="{
+          '--cols': event && event.chat === false ? '3fr 2fr' : '1fr 1fr',
+        }"
+      >
         <vertical>
           <img
             v-if="imageUrl"
@@ -64,8 +75,10 @@ const imageUrl = computed(() => {
             style="border-radius: 2px; object-fit: cover; aspect-ratio: 16/9"
           />
           <vertical v-html="event?.description_estonian" />
-          <div style="height: 16px" />
-          <h3 v-if="event?.description_english">In English</h3>
+          <!-- <div style="height: 16px" /> -->
+          <h3 v-if="event?.description_estonian && event?.description_english">
+            In English
+          </h3>
           <vertical v-html="event?.description_english" />
         </vertical>
         <vertical v-if="festival?.events">
@@ -73,13 +86,14 @@ const imageUrl = computed(() => {
             class="subtitle"
             v-if="festival?.events.filter(filterUpcomingEvents).length"
           >
-            Upcoming events
+            Related events
           </h3>
           <event-card
             v-for="(event, i) in festival?.events.filter(filterUpcomingEvents)"
             :key="i"
             :festival="festival"
             :event="event"
+            style="opacity: 0.8"
           />
           <div style="height: 32px" />
           <h3 class="subtitle" v-if="festival?.events.filter(filterPastEvents)">
@@ -94,7 +108,7 @@ const imageUrl = computed(() => {
         </vertical>
       </horizontal>
     </vertical>
-    <div v-if="event.chat !== false">
+    <div v-if="event && event.chat !== false">
       <event-panel
         :title="hasTicketOrFree ? 'Chat' : ''"
         style="
