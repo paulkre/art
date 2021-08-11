@@ -36,7 +36,12 @@ const imageUrl = computed(() => {
 </script>
 
 <template>
-  <horizontal style="--cols: 3.5fr 350px; gap: 0">
+  <horizontal
+    :style="{
+      '--cols': event.chat === false ? '1fr 0' : '3.5fr 350px',
+      gap: 0,
+    }"
+  >
     <vertical style="padding: 48px">
       <div v-if="hasTicketOrFree" style="width: 100%">
         <component
@@ -56,7 +61,7 @@ const imageUrl = computed(() => {
           <img
             v-if="imageUrl"
             :src="imageUrl"
-            style="border-radius: 2px; object-fit: cover; aspect-ratio: 3/2"
+            style="border-radius: 2px; object-fit: cover; aspect-ratio: 16/9"
           />
           <vertical v-html="event?.description_estonian" />
           <div style="height: 16px" />
@@ -89,7 +94,7 @@ const imageUrl = computed(() => {
         </vertical>
       </horizontal>
     </vertical>
-    <div>
+    <div v-if="event.chat !== false">
       <event-panel
         :title="hasTicketOrFree ? 'Chat' : ''"
         style="
