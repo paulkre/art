@@ -105,6 +105,9 @@ const processPages = (page) => {
 export const sortNewerFirst = (a, b) =>
   compareDesc(new Date(b.start_at), new Date(a.start_at));
 
+export const sortNewerCreatedFirst = (a, b) =>
+  compareAsc(new Date(b.created_at), new Date(a.created_at));
+
 export const sortOlderFirst = (a, b) =>
   compareAsc(new Date(b.start_at), new Date(a.start_at));
 
@@ -129,8 +132,9 @@ export const getStrapi = () => {
     .get("festivals?_limit=-1")
     .json()
     .then((results) => {
-      strapiFestivals.value = results.map(processFestivals);
-      strapiFestivals.value.push(strapiFestivals.value.shift());
+      strapiFestivals.value = results
+        .map(processFestivals)
+        .sort(sortNewerCreatedFirst);
     });
 
   strapi

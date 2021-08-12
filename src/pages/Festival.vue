@@ -5,7 +5,7 @@ import {
   strapiFestivals,
   filterUpcomingEvents,
   filterPastEvents,
-  sortOlderFirst,
+  sortNewerFirst,
 } from "../lib";
 
 const { params } = toRefs(useRoute());
@@ -18,7 +18,7 @@ const upcomingEvents = computed(() =>
   festival.value?.events.filter(filterUpcomingEvents)
 );
 const pastEvents = computed(() =>
-  festival.value?.events.filter(filterPastEvents).sort(sortOlderFirst)
+  festival.value?.events.filter(filterPastEvents).sort(sortNewerFirst)
 );
 
 const imageUrl = computed(() => {
@@ -36,32 +36,36 @@ const imageUrl = computed(() => {
       v-if="imageUrl"
       :src="imageUrl"
       style="
-        width: 250px;
-        height: 250px;
+        width: 150px;
+        height: 150px;
         aspect-ratio: 1;
         object-fit: cover;
         border-radius: 10000px;
-        transform: translate(-30px, 0) scale(1.5);
+        transform: translate(-25px, 25px) scale(1.5);
       "
     />
     <vertical>
+      <div style="height: 8px" />
       <h1 style="font-size: 80px; line-height: 1em" v-html="festival?.title" />
       <vertical v-html="festival?.description_estonian" />
       <vertical v-html="festival?.description_english" />
     </vertical>
-    <vertical style="gap: 36px">
+    <vertical style="gap: 24px">
+      <div style="height: 8px" />
+      <h3 class="subtitle">Past events</h3>
+      <event-card
+        v-for="(event, i) in pastEvents"
+        :key="i"
+        :festival="festival"
+        :event="event"
+      />
+      <h3 class="subtitle">Upcoming events</h3>
       <event-card
         v-for="(event, i) in upcomingEvents"
         :key="i"
         :festival="festival"
         :event="event"
         :image="true"
-      />
-      <event-card
-        v-for="(event, i) in pastEvents"
-        :key="i"
-        :festival="festival"
-        :event="event"
       />
     </vertical>
     <users />

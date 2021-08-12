@@ -70,7 +70,7 @@ const imageUrl = computed(() => {
       >
         <vertical>
           <img
-            v-if="imageUrl"
+            v-if="imageUrl && event?.urgency !== 'past'"
             :src="imageUrl"
             style="
               margin-top: 8px;
@@ -87,25 +87,24 @@ const imageUrl = computed(() => {
           <vertical v-html="event?.description_english" />
         </vertical>
         <vertical v-if="festival?.events">
-          <h3
-            class="subtitle"
-            v-if="festival?.events.filter(filterUpcomingEvents).length"
-          >
-            Related events
-          </h3>
-          <event-card
-            v-for="(event, i) in festival?.events.filter(filterUpcomingEvents)"
-            :key="i"
-            :festival="festival"
-            :event="event"
-            style="opacity: 0.8"
-          />
-          <div style="height: 32px" />
           <h3 class="subtitle" v-if="festival?.events.filter(filterPastEvents)">
             Past events
           </h3>
           <event-card
             v-for="(event, i) in festival?.events.filter(filterPastEvents)"
+            :key="i"
+            :festival="festival"
+            :event="event"
+          />
+          <div style="height: 32px" />
+          <h3
+            class="subtitle"
+            v-if="festival?.events.filter(filterUpcomingEvents).length"
+          >
+            Upcoming events
+          </h3>
+          <event-card
+            v-for="(event, i) in festival?.events.filter(filterUpcomingEvents)"
             :key="i"
             :festival="festival"
             :event="event"

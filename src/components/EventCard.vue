@@ -21,7 +21,7 @@ const imageUrl = computed(() => {
 <template>
   <vertical
     style="gap: 4px"
-    :style="{ opacity: event?.urgency === 'past' ? 0.3 : 1 }"
+    :style="{ opacity: event?.urgency === 'past' ? 1 : 1 }"
   >
     <router-link v-if="imageUrl" :to="eventRoute">
       <img
