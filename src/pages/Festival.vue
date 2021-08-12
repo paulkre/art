@@ -41,15 +41,17 @@ const imageUrl = computed(() => {
         aspect-ratio: 1;
         object-fit: cover;
         border-radius: 10000px;
-        transform: translate(-10px, 25px) scale(1.75);
+        transform: translate(-25px, 25px) scale(1.5);
       "
     />
     <vertical>
+      <div style="height: 8px" />
       <h1 style="font-size: 80px; line-height: 1em" v-html="festival?.title" />
       <vertical v-html="festival?.description_estonian" />
       <vertical v-html="festival?.description_english" />
     </vertical>
-    <vertical style="gap: 36px">
+    <vertical style="gap: 24px">
+      <div style="height: 8px" />
       <h3 class="subtitle">Past events</h3>
       <event-card
         v-for="(event, i) in pastEvents"
