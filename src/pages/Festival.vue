@@ -36,12 +36,12 @@ const imageUrl = computed(() => {
       v-if="imageUrl"
       :src="imageUrl"
       style="
-        width: 250px;
-        height: 250px;
+        width: 150px;
+        height: 150px;
         aspect-ratio: 1;
         object-fit: cover;
         border-radius: 10000px;
-        transform: translate(-30px, 0) scale(1.5);
+        transform: translate(-10px, 25px) scale(1.75);
       "
     />
     <vertical>
