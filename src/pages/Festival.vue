@@ -5,7 +5,7 @@ import {
   strapiFestivals,
   filterUpcomingEvents,
   filterPastEvents,
-  sortOlderFirst,
+  sortNewerFirst,
 } from "../lib";
 
 const { params } = toRefs(useRoute());
@@ -18,7 +18,7 @@ const upcomingEvents = computed(() =>
   festival.value?.events.filter(filterUpcomingEvents)
 );
 const pastEvents = computed(() =>
-  festival.value?.events.filter(filterPastEvents).sort(sortOlderFirst)
+  festival.value?.events.filter(filterPastEvents).sort(sortNewerFirst)
 );
 
 const imageUrl = computed(() => {
@@ -50,18 +50,20 @@ const imageUrl = computed(() => {
       <vertical v-html="festival?.description_english" />
     </vertical>
     <vertical style="gap: 36px">
+      <h3 class="subtitle">Past events</h3>
+      <event-card
+        v-for="(event, i) in pastEvents"
+        :key="i"
+        :festival="festival"
+        :event="event"
+      />
+      <h3 class="subtitle">Upcoming events</h3>
       <event-card
         v-for="(event, i) in upcomingEvents"
         :key="i"
         :festival="festival"
         :event="event"
         :image="true"
-      />
-      <event-card
-        v-for="(event, i) in pastEvents"
-        :key="i"
-        :festival="festival"
-        :event="event"
       />
     </vertical>
     <users />
