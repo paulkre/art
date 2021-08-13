@@ -58,6 +58,7 @@ const imageUrl = computed(() => {
         :key="i"
         :festival="festival"
         :event="event"
+        :image="true"
       />
       <h3 class="subtitle">Upcoming events</h3>
       <event-card
