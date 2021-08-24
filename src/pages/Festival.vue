@@ -29,22 +29,15 @@ const imageUrl = computed(() => {
 </script>
 <template>
   <horizontal
-    style="padding: 48px; --cols: auto 1fr 1fr"
-    :style="{ '--cols': imageUrl ? 'auto 1fr 1fr' : '1fr 1.75fr' }"
+    style="padding: 48px; --cols: auto 1fr 2fr"
+    :style="{ '--cols': imageUrl ? 'auto 1fr 2fr' : '1fr 2fr' }"
   >
-    <img
-      v-if="imageUrl"
-      :src="imageUrl"
-      style="
-        width: 150px;
-        height: 150px;
-        aspect-ratio: 1;
-        object-fit: cover;
-        border-radius: 10000px;
-        transform: translate(-25px, 25px) scale(1.5);
-      "
-    />
     <vertical>
+      <img
+        v-if="imageUrl"
+        :src="imageUrl"
+        style="width: 150px; height: 150px; aspect-ratio: 1; object-fit: cover"
+      />
       <div style="height: 8px" />
       <h1 style="font-size: 80px; line-height: 1em" v-html="festival?.title" />
       <vertical v-html="festival?.description_estonian" />

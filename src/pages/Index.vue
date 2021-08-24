@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { sortNewerFirst } from "../lib";
 import {
   strapiEvents,
-  strapiFestivals,
+  strapiPriorities,
   strapiPages,
   filterUpcomingEvents,
 } from "../lib";
@@ -25,9 +25,12 @@ const upcomingEvents = computed(() =>
       <page-card v-for="(page, i) in strapiPages" :key="i" :page="page" />
     </vertical>
     <vertical>
-      <horizontal style="--cols: 1fr 1fr; gap: 16px" v-if="strapiFestivals">
+      <horizontal style="--cols: 1fr 1fr; gap: 24px">
+        <!-- <div v-for="(festival, i) in strapiPriorities" :key="i">
+          {{ festival.title }}
+        </div> -->
         <festival-card
-          v-for="(festival, i) in strapiFestivals"
+          v-for="(festival, i) in strapiPriorities"
           :key="i"
           :festival="festival"
         />

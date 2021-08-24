@@ -19,14 +19,19 @@ const bgImageStyle = computed(() => {
 </script>
 
 <template>
-  <router-link
-    :to="festivalRoute"
-    class="strapi-festival"
-    style="background-size: cover; width: 100%; border-radius2"
-    :style="bgImageStyle"
-  >
-    <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival?.title" />
-  </router-link>
+  <div>
+    <router-link
+      :to="festivalRoute"
+      class="strapi-festival"
+      style="background-size: cover; width: 100%"
+      :style="bgImageStyle"
+    >
+      <h2
+        :style="{ opacity: bgImageStyle ? 0 : 1 }"
+        v-html="festival?.priority"
+      />
+    </router-link>
+  </div>
 </template>
 
 <style scoped>
@@ -39,7 +44,7 @@ const bgImageStyle = computed(() => {
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 10000px;
+  border-radius: 0px;
   padding: 16px;
 }
 .strapi-festival > * {
