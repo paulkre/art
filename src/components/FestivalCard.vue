@@ -5,9 +5,13 @@ const props = defineProps({
   festival: { type: Object },
 });
 
-const festivalRoute = computed(() =>
-  props.festival?.slug ? `/${props.festival.slug}` : ""
-);
+const route = computed(() => {
+  if (props.festival.festival) {
+    return `/${props.festival.festival.slug}/${props.festival.slug}`;
+  } else {
+    return props.festival?.slug ? `/${props.festival.slug}` : "";
+  }
+});
 
 const bgImageStyle = computed(() => {
   return props.festival?.images[0]
@@ -21,14 +25,14 @@ const bgImageStyle = computed(() => {
 <template>
   <div>
     <router-link
-      :to="festivalRoute"
+      :to="route"
       class="strapi-festival"
       style="background-size: cover; width: 100%"
       :style="bgImageStyle"
     >
       <h2
-        :style="{ opacity: bgImageStyle ? 0 : 1 }"
-        v-html="festival?.priority"
+        :style="{ opacity: bgImageStyle ? 1 : 1, mixBlendMode: 'difference' }"
+        v-html="festival?.title"
       />
     </router-link>
   </div>
