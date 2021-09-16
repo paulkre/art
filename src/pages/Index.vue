@@ -25,6 +25,7 @@ const upcomingEvents = computed(() =>
       <page-card v-for="(page, i) in strapiPages" :key="i" :page="page" />
     </vertical>
     <vertical>
+      <!-- <pre>{{ strapiFestivals }}</pre> -->
       <horizontal style="--cols: 1fr 1fr; gap: 16px" v-if="strapiFestivals">
         <festival-card
           v-for="(festival, i) in strapiFestivals"
