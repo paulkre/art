@@ -6,12 +6,12 @@
 <style scoped>
 .desktop {
   display: block;
-  font-size: 190px;
+  font-size: 170px;
   line-height: 0.75em;
 }
 .mobile {
   display: none;
-  font-size: 220px;
+  font-size: 170px;
   line-height: 0.8em;
   text-align: center;
 }

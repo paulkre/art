@@ -115,26 +115,40 @@ export const filterUpcomingEvents = (event) => event.urgency !== "past";
 
 export const filterPastEvents = (event) => event.urgency === "past";
 
-export const strapiEvents = ref(null);
-export const strapiFestivals = ref(null);
-export const strapiPages = ref(null);
+// TODO: Expose the functionality
+
+// export const filterFeature = (item) =>
+//   item.priority && typeof item.priority === "number";
+
+// export const sortFeature = (a, b) => {
+//   return a.priority - b.priority;
+// };
+
+export const strapiEvents = ref([]);
+export const strapiFestivals = ref([]);
+export const strapiPages = ref([]);
+
+// TODO: Expose the functionality
+
+// export const strapiFeatures = computed(() => {
+//   return [...strapiEvents.value, ...strapiFestivals.value]
+//     .filter(filterFeature)
+//     .sort(sortFeature);
+// });
 
 export const getStrapi = () => {
   strapi
     .get("events?_limit=-1")
     .json()
-    .then(
-      (results) =>
-        (strapiEvents.value = results.map(processEvents).sort(sortNewerFirst))
-    );
+    .then((results) => {
+      strapiEvents.value = results.map(processEvents).sort(sortNewerFirst);
+    });
 
   strapi
     .get("festivals?_limit=-1")
     .json()
     .then((results) => {
-      strapiFestivals.value = results
-        .map(processFestivals)
-        .sort(sortNewerCreatedFirst);
+      strapiFestivals.value = results.map(processFestivals);
     });
 
   strapi
