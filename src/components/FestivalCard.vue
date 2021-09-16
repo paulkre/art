@@ -12,7 +12,7 @@ const festivalRoute = computed(() =>
 const bgImageStyle = computed(() => {
   return props.festival?.images[0]
     ? {
-        backgroundImage: `url(${props.festival?.images?.[0].formats.small.url})`,
+        backgroundImage: `url(${props.festival?.images?.[0]?.formats?.small?.url})`,
       }
     : null;
 });
