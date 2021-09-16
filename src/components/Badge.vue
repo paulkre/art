@@ -9,7 +9,6 @@
       font-size: 0.75em;
       text-transform: uppercase;
       transform: translateY(-0.2em);
-      font-weight: bold;
     "
   >
     <slot />

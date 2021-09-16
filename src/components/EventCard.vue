@@ -32,7 +32,7 @@ const imageUrl = computed(() => {
     <div style="height: 8px" />
     <router-link :to="eventRoute">
       <badge v-if="event.urgency === 'now'">live</badge>
-      <h2 style="font-size: 1.4rem" v-html="event.title" />
+      <h2 v-html="event.title" />
     </router-link>
     <event-data :festival="festival" :event="event" />
   </vertical>

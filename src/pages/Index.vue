@@ -15,7 +15,7 @@ const upcomingEvents = computed(() =>
 
 <template>
   <horizontal
-    style="padding: var(--page-padding); --cols: auto auto 1fr; gap: 48px"
+    style="padding: var(--page-padding); --cols: auto auto 1fr; gap: 72px"
   >
     <vertical>
       <logo />
@@ -25,16 +25,16 @@ const upcomingEvents = computed(() =>
       <page-card v-for="(page, i) in strapiPages" :key="i" :page="page" />
     </vertical>
     <vertical>
-      <horizontal style="--cols: 1fr 1fr; gap: 24px" v-if="strapiFestivals">
+      <!-- <pre>{{ strapiFestivals }}</pre> -->
+      <horizontal style="--cols: 1fr 1fr; gap: 16px" v-if="strapiFestivals">
         <festival-card
-          v-for="(festival, i) in strapiFestivals.reverse()"
+          v-for="(festival, i) in strapiFestivals"
           :key="i"
           :festival="festival"
         />
       </horizontal>
     </vertical>
     <vertical style="gap: 32px" v-if="upcomingEvents.length">
-      <h3 class="subtitle">Event calendar</h3>
       <event-card
         v-for="(event, i) in upcomingEvents"
         :key="i"
