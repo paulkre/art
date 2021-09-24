@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 const eventRoute = computed(
-  () => `/${props.festival.slug}/${props.event.slug}`
+  () => `/${props.festival?.slug}/${props.event.slug}`
 );
 
 const imageUrl = computed(() => {
@@ -35,5 +35,6 @@ const imageUrl = computed(() => {
       <h2 v-html="event.title" />
     </router-link>
     <event-data :festival="festival" :event="event" />
+    <Tag v-for="tag in event.tags" :key="tag.id">{{ tag.title }}</Tag>
   </vertical>
 </template>

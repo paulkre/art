@@ -25,13 +25,18 @@ const bgImageStyle = computed(() => {
     style="background-size: cover; width: 100%; border-radius2"
     :style="bgImageStyle"
   >
-    <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival?.title" />
+    <vertical style="gap: 8px">
+      <h2 :style="{ opacity: bgImageStyle ? 0 : 1 }" v-html="festival?.title" />
+      <Tag v-for="(tag, i) in festival.tags" :key="i">{{ tag.title }}</Tag>
+    </vertical>
   </router-link>
 </template>
 
 <style scoped>
 .strapi-festival {
   display: grid;
+  grid-auto-rows: min-content;
+  align-content: center;
   background: var(--bglight);
   min-width: 280px;
   max-width: 280px;

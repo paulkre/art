@@ -21,6 +21,10 @@ const routes = [
     component: () => import(`./pages/Fienta.vue`),
   },
   {
+    path: "/tag",
+    component: () => import(`./pages/Tag.vue`),
+  },
+  {
     path: "/stream/:streamkey",
     component: () => import(`./pages/Stream.vue`),
   },
