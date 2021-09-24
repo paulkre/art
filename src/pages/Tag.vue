@@ -36,7 +36,7 @@ strapi
         style="font-size: 80px; line-height: 1em"
         v-html="'Tag: ' + tag?.title"
       />
-      <h3 class="subtitle">Events</h3>
+      <h3 class="subtitle">Festivals</h3>
       <FestivalCard
         v-for="(festival, i) in festivals"
         :key="i"
