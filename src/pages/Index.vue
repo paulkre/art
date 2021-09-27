@@ -18,13 +18,6 @@ const upcomingEvents = computed(() =>
     style="padding: var(--page-padding); --cols: auto auto 1fr; gap: 72px"
   >
     <vertical>
-      <logo />
-      <div />
-      <social />
-      <div />
-      <page-card v-for="(page, i) in strapiPages" :key="i" :page="page" />
-    </vertical>
-    <vertical>
       <!-- <pre>{{ strapiFestivals }}</pre> -->
       <horizontal style="--cols: 1fr 1fr; gap: 16px" v-if="strapiFestivals">
         <festival-card
