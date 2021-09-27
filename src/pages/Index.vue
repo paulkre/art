@@ -14,35 +14,13 @@ const upcomingEvents = computed(() =>
 </script>
 
 <template>
-  <horizontal
-    style="padding: var(--page-padding); --cols: auto auto 1fr; gap: 72px"
-  >
-    <vertical>
-      <!-- <pre>{{ strapiFestivals }}</pre> -->
-      <horizontal style="--cols: 1fr 1fr; gap: 16px" v-if="strapiFestivals">
-        <festival-card
-          v-for="(festival, i) in strapiFestivals"
-          :key="i"
-          :festival="festival"
-        />
-      </horizontal>
-    </vertical>
-    <vertical style="gap: 32px" v-if="upcomingEvents.length">
-      <event-card
-        v-for="(event, i) in upcomingEvents"
-        :key="i"
-        :event="event"
-        :festival="event.festival"
-      />
-    </vertical>
-    <users />
-    <layout>
-      <template #top-right>
-        <theme-button />
-      </template>
-      <template #bottom-left>
-        <users-button />
-      </template>
-    </layout>
-  </horizontal>
+  <users />
+  <layout>
+    <template #top-right>
+      <theme-button />
+    </template>
+    <template #bottom-left>
+      <users-button />
+    </template>
+  </layout>
 </template>
