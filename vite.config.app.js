@@ -21,4 +21,5 @@ export default {
     }),
   ],
   build: { minify: "esbuild", emptyOutDir: true },
+  base: process.env.BASE_PATH,
 };
