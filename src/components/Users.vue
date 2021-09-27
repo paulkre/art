@@ -118,21 +118,21 @@ const colliding = computed(() => {
           </span>
           Let's get together!
         </h3>
-        <small class="mobilehide" style="opacity: 0.5"
-          >Here's the place the audience can hang out together. Move your red
-          dot and write messages to each other.</small
-        >
+        <small class="mobilehide" style="opacity: 0.5">
+          Hier ist der Ort, an dem wir zusammen abhängen können. Bewege deinen
+          roten Punkt und schreibe eine Nachricht.
+        </small>
         <small>
-          <span style="opacity: 0.5">Your name is {{ userName }}</span
+          <span style="opacity: 0.5">Dein Name ist {{ userName }}</span
           >&ensp;
           <span @click="onUserNameChange" style="cursor: pointer"
-            >Change the name</span
+            >Umbenennen</span
           >
         </small>
         <textarea
           ref="textareaRef"
           v-model="userAbout"
-          placeholder="Write here a message"
+          placeholder="Schreibe eine Nachricht"
         />
       </vertical>
     </transition>
