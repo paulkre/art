@@ -1,26 +1,12 @@
-import vue from "@vitejs/plugin-vue";
-import fonts from "vite-plugin-fonts";
 import path from "path";
+
+import appCfg from "./vite.config.app";
 
 /**
  * @type {import('vite').UserConfig}
  */
 export default {
-  resolve: {
-    alias: {
-      vue: "vue/dist/vue.esm-browser.js",
-    },
-  },
-  plugins: [
-    vue(),
-    fonts({
-      google: {
-        families: [
-          { name: "Nunito Sans", weights: "wght@0,400;0,700;1,400;1,700" },
-        ],
-      },
-    }),
-  ],
+  ...appCfg,
   build: {
     sourcemap: true,
     minify: "esbuild",
