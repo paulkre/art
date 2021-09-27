@@ -19,7 +19,6 @@ plausible.enableAutoPageviews();
       </template>
     </layout>
   </div>
-  <h1>Hello World</h1>
 </template>
 
 <style module lang="postcss">
