@@ -1,12 +1,15 @@
 <template>
-  <div class="button-plain"><slot /></div>
+  <button class="button-plain"><slot /></button>
 </template>
 
 <style>
 .button-plain {
+  appearance: none;
   padding: 0;
-  background: none;
+  background: transparent;
   border: none;
   outline: none;
+  color: inherit;
+  cursor: pointer;
 }
 </style>

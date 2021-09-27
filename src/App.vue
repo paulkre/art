@@ -11,18 +11,17 @@ plausible.enableAutoPageviews();
   <div :class="$style.app">
     <users />
     <layout>
-      <template #top-right>
-        <theme-button />
-      </template>
       <template #bottom-left>
         <users-button />
       </template>
     </layout>
   </div>
+  <h1>Hello World</h1>
 </template>
 
 <style module lang="postcss">
 .app {
+  color: var(--fg);
   font-family: "Nunito Sans", sans-serif;
   font-size: 18px;
   line-height: 1.65em;

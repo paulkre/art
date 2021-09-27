@@ -106,7 +106,7 @@ const colliding = computed(() => {
         pointer-events: none;
         transition: opacity 600ms;
       "
-      :style="{ opacity: showMessages ? 0.9 : 0 }"
+      :style="{ opacity: showMessages ? 1 : 0 }"
     />
     <transition name="fade">
       <vertical v-show="showMessages" class="about-panel">

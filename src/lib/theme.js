@@ -24,7 +24,7 @@ const themeValues = [
     fgdark: "#555",
     ticket: "#ffc107",
     accent: "#6c3ec1",
-    overlay: "hsla(0,0%,0%,0.95)",
+    overlay: "#111",
   },
   {
     bgdark: "#ddd",
@@ -35,7 +35,7 @@ const themeValues = [
     fgdark: "#ccc",
     accent: "#6c3ec1",
     ticket: "#f0b400",
-    overlay: "hsla(0,0%,100%,0.95)",
+    overlay: "#fff",
   },
 ];
 

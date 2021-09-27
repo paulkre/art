@@ -16,6 +16,6 @@ const onClick = () => {
     @click="onClick"
   >
     <icon-close v-if="showMessages" />
-    <icon-circles v-if="!showMessages" />
+    <icon-circles v-if="!showMessages" style="color: black" />
   </button-plain>
 </template>
