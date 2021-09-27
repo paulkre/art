@@ -19,5 +19,5 @@ https://remixicon.com
 If you want to integrate this app in another app (e.g. WordPress theme), you can do so by running something like this:
 
 ```
-BASE_PATH=/wp-content/themes/theme-name/path/to/static npm run build
+BASE_PATH=/wp-content/themes/theme-name/path/to/static npm run build:app
 ```

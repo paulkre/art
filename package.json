@@ -3,8 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "vite -c vite.config.app.js",
-    "build": "vite build -c vite.config.app.js && vite build -c vite.config.lib.js --outDir dist/lib",
-    "serve": "vite preview"
+    "build": "npm run build:app && npm run build:lib",
+    "serve": "vite preview",
+    "build:app": "vite build -c vite.config.app.js",
+    "build:lib": "vite build -c vite.config.lib.js --outDir dist/lib"
   },
   "dependencies": {
     "@justinribeiro/lite-youtube": "^0.9.1",
